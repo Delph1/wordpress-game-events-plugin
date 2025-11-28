@@ -1,0 +1,200 @@
+/* Frontend Styles */
+
+.hge-game-summary {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.hge-game-title {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.5em;
+}
+
+.hge-game-score {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #0073aa;
+    margin: 10px 0;
+}
+
+.hge-game-location {
+    color: #666;
+    margin: 10px 0;
+}
+
+.hge-events {
+    margin-top: 20px;
+}
+
+.hge-events h4 {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.hge-events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.hge-event {
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.2s ease;
+}
+
+.hge-event:hover {
+    background-color: #f0f0f0;
+}
+
+.hge-event-header {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #0073aa;
+}
+
+.hge-event-period {
+    background-color: #0073aa;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.hge-event-time {
+    color: #666;
+}
+
+.hge-event-body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.hge-event-type {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #333;
+    font-size: 0.9em;
+}
+
+.hge-event-player {
+    color: #0073aa;
+}
+
+.hge-event-description {
+    margin: 5px 0 0 0;
+    color: #666;
+    font-style: italic;
+}
+
+.hge-game-notes {
+    margin-top: 20px;
+    background-color: #f5f5f5;
+    padding: 15px;
+    border-left: 4px solid #0073aa;
+}
+
+.hge-game-notes h4 {
+    margin-top: 0;
+    color: #333;
+}
+
+/* Player Stats Table */
+
+.hge-player-stats {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.hge-stats-title {
+    margin-top: 0;
+    color: #333;
+    border-bottom: 2px solid #0073aa;
+    padding-bottom: 10px;
+}
+
+.hge-stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.hge-stats-table thead {
+    background-color: #0073aa;
+    color: white;
+}
+
+.hge-stats-table th {
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
+    border: 1px solid #ccc;
+}
+
+.hge-stats-table td {
+    padding: 10px;
+    border: 1px solid #eee;
+}
+
+.hge-stats-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.hge-stats-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.hge-stats-table tbody tr.hge-goalie {
+    background-color: #f0f0f0;
+}
+
+.hge-stats-table tbody tr.hge-skater {
+    background-color: white;
+}
+
+.hge-col-name {
+    font-weight: bold;
+    color: #0073aa;
+}
+
+.hge-col-number,
+.hge-col-gp,
+.hge-col-g,
+.hge-col-a,
+.hge-col-pim,
+.hge-col-sa,
+.hge-col-ga {
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .hge-stats-table {
+        font-size: 0.9em;
+    }
+
+    .hge-stats-table th,
+    .hge-stats-table td {
+        padding: 6px;
+    }
+
+    .hge-event-header {
+        flex-wrap: wrap;
+    }
+}
