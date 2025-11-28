@@ -45,7 +45,7 @@ class HGE_Admin {
             'manage_options',
             'hockey-game-events',
             array( __CLASS__, 'render_main_page' ),
-            'dashicons-sports',
+            'dashicons-tickets',
             25
         );
 
@@ -163,6 +163,14 @@ class HGE_Admin {
         ?>
         <div class="wrap">
             <h1><?php esc_html_e( 'Teams', 'hockey-game-events' ); ?></h1>
+            
+            <!-- Quick Navigation Links -->
+            <div class="hge-quick-nav" style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+            </div>
 
             <div id="hge-team-form-container" class="hge-form-container">
                 <h2><?php esc_html_e( 'Add/Edit Team', 'hockey-game-events' ); ?></h2>
@@ -234,6 +242,14 @@ class HGE_Admin {
         ?>
         <div class="wrap">
             <h1><?php esc_html_e( 'Players', 'hockey-game-events' ); ?></h1>
+            
+            <!-- Quick Navigation Links -->
+            <div class="hge-quick-nav" style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+            </div>
 
             <div id="hge-player-form-container" class="hge-form-container">
                 <h2><?php esc_html_e( 'Add/Edit Player', 'hockey-game-events' ); ?></h2>
@@ -338,10 +354,19 @@ class HGE_Admin {
     public static function render_games_page() {
         $games = HGE_Database::get_all_games();
         $players = HGE_Database::get_all_players();
+        $teams = HGE_Database::get_all_teams();
         $seasons = HGE_Database::get_all_seasons();
         ?>
         <div class="wrap">
             <h1><?php esc_html_e( 'Games', 'hockey-game-events' ); ?></h1>
+            
+            <!-- Quick Navigation Links -->
+            <div class="hge-quick-nav" style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+            </div>
 
             <div id="hge-game-form-container" class="hge-form-container">
                 <h2><?php esc_html_e( 'Add/Edit Game', 'hockey-game-events' ); ?></h2>
@@ -361,8 +386,26 @@ class HGE_Admin {
                                 <td><input type="date" id="hge-game-date" name="game_date" required class="regular-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-opponent"><?php esc_html_e( 'Opponent', 'hockey-game-events' ); ?></label></th>
-                                <td><input type="text" id="hge-game-opponent" name="opponent" required class="regular-text"></td>
+                                <th><label for="hge-game-home-team"><?php esc_html_e( 'Home Team', 'hockey-game-events' ); ?></label></th>
+                                <td>
+                                    <select id="hge-game-home-team" name="home_team" class="regular-text">
+                                        <option value="">Select team...</option>
+                                        <?php foreach ( $teams as $team ) : ?>
+                                            <option value="<?php echo esc_attr( $team->id ); ?>"><?php echo esc_html( $team->name ); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="hge-game-away-team"><?php esc_html_e( 'Away Team', 'hockey-game-events' ); ?></label></th>
+                                <td>
+                                    <select id="hge-game-away-team" name="away_team" class="regular-text">
+                                        <option value="">Select team...</option>
+                                        <?php foreach ( $teams as $team ) : ?>
+                                            <option value="<?php echo esc_attr( $team->id ); ?>"><?php echo esc_html( $team->name ); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <th><label for="hge-game-location"><?php esc_html_e( 'Location', 'hockey-game-events' ); ?></label></th>
@@ -398,7 +441,8 @@ class HGE_Admin {
                             <tr>
                                 <th><?php esc_html_e( 'Season', 'hockey-game-events' ); ?></th>
                                 <th><?php esc_html_e( 'Date', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Opponent', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Home Team', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Away Team', 'hockey-game-events' ); ?></th>
                                 <th><?php esc_html_e( 'Score', 'hockey-game-events' ); ?></th>
                                 <th><?php esc_html_e( 'Location', 'hockey-game-events' ); ?></th>
                                 <th><?php esc_html_e( 'Actions', 'hockey-game-events' ); ?></th>
@@ -409,7 +453,8 @@ class HGE_Admin {
                                 <tr data-game-id="<?php echo intval( $game->id ); ?>">
                                     <td><?php echo esc_html( $game->season ); ?></td>
                                     <td><?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $game->game_date ) ) ); ?></td>
-                                    <td><?php echo esc_html( $game->opponent ); ?></td>
+                                    <td><?php echo esc_html( $game->home_team_name ?: 'N/A' ); ?></td>
+                                    <td><?php echo esc_html( $game->away_team_name ?: 'N/A' ); ?></td>
                                     <td>
                                         <?php
                                         if ( ! is_null( $game->home_score ) && ! is_null( $game->away_score ) ) {
@@ -526,6 +571,14 @@ class HGE_Admin {
         <div class="wrap">
             <h1><?php esc_html_e( 'Player Statistics', 'hockey-game-events' ); ?></h1>
             <p><?php esc_html_e( 'Automatically calculated player statistics based on game events.', 'hockey-game-events' ); ?></p>
+            
+            <!-- Quick Navigation Links -->
+            <div class="hge-quick-nav" style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
+            </div>
 
             <?php if ( ! empty( $seasons ) ) : ?>
                 <div class="hge-season-filter">

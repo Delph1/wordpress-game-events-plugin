@@ -65,7 +65,9 @@ class HGE_Database {
             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
             season VARCHAR(50),
             game_date DATE NOT NULL,
-            opponent VARCHAR(100) NOT NULL,
+            home_team_id BIGINT(20) UNSIGNED,
+            away_team_id BIGINT(20) UNSIGNED,
+            opponent VARCHAR(100),
             home_score INT(3),
             away_score INT(3),
             location VARCHAR(255),
@@ -74,7 +76,11 @@ class HGE_Database {
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             KEY game_date_idx (game_date),
-            KEY season_idx (season)
+            KEY season_idx (season),
+            KEY home_team_id_idx (home_team_id),
+            KEY away_team_id_idx (away_team_id),
+            FOREIGN KEY (home_team_id) REFERENCES $teams_table(id) ON DELETE SET NULL,
+            FOREIGN KEY (away_team_id) REFERENCES $teams_table(id) ON DELETE SET NULL
         ) $charset_collate;";
 
         // Game Events table
@@ -121,6 +127,32 @@ class HGE_Database {
         dbDelta( $games_sql );
         dbDelta( $events_sql );
         dbDelta( $stats_sql );
+
+        // Add team_id column to players table if it doesn't exist (for existing installations)
+        $columns = $wpdb->get_results( "SHOW COLUMNS FROM $players_table" );
+        $column_names = wp_list_pluck( $columns, 'Field' );
+        
+        if ( ! in_array( 'team_id', $column_names, true ) ) {
+            $wpdb->query( "ALTER TABLE $players_table ADD COLUMN team_id BIGINT(20) UNSIGNED AFTER id" );
+            $wpdb->query( "ALTER TABLE $players_table ADD KEY team_id_idx (team_id)" );
+            $wpdb->query( "ALTER TABLE $players_table ADD CONSTRAINT fk_player_team FOREIGN KEY (team_id) REFERENCES $teams_table(id) ON DELETE SET NULL" );
+        }
+
+        // Add home_team_id and away_team_id columns to games table if they don't exist
+        $game_columns = $wpdb->get_results( "SHOW COLUMNS FROM $games_table" );
+        $game_column_names = wp_list_pluck( $game_columns, 'Field' );
+        
+        if ( ! in_array( 'home_team_id', $game_column_names, true ) ) {
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_team_id BIGINT(20) UNSIGNED AFTER season" );
+            $wpdb->query( "ALTER TABLE $games_table ADD KEY home_team_id_idx (home_team_id)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD CONSTRAINT fk_game_home_team FOREIGN KEY (home_team_id) REFERENCES $teams_table(id) ON DELETE SET NULL" );
+        }
+        
+        if ( ! in_array( 'away_team_id', $game_column_names, true ) ) {
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_team_id BIGINT(20) UNSIGNED AFTER home_team_id" );
+            $wpdb->query( "ALTER TABLE $games_table ADD KEY away_team_id_idx (away_team_id)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD CONSTRAINT fk_game_away_team FOREIGN KEY (away_team_id) REFERENCES $teams_table(id) ON DELETE SET NULL" );
+        }
     }
 
     // ===== TEAMS METHODS =====
@@ -324,6 +356,7 @@ class HGE_Database {
     public static function get_all_games( $args = array() ) {
         global $wpdb;
         $games_table = $wpdb->prefix . 'hge_games';
+        $teams_table = $wpdb->prefix . 'hge_teams';
         
         $limit = ! empty( $args['limit'] ) ? intval( $args['limit'] ) : -1;
         $offset = ! empty( $args['offset'] ) ? intval( $args['offset'] ) : 0;
@@ -331,13 +364,18 @@ class HGE_Database {
         $order = ! empty( $args['order'] ) ? strtoupper( $args['order'] ) : 'DESC';
         $season = ! empty( $args['season'] ) ? sanitize_text_field( $args['season'] ) : '';
 
-        $query = "SELECT * FROM $games_table";
+        $query = "SELECT g.*, 
+                         ht.name as home_team_name, 
+                         at.name as away_team_name 
+                  FROM $games_table g
+                  LEFT JOIN $teams_table ht ON g.home_team_id = ht.id
+                  LEFT JOIN $teams_table at ON g.away_team_id = at.id";
         
         if ( ! empty( $season ) ) {
-            $query .= $wpdb->prepare( " WHERE season = %s", $season );
+            $query .= $wpdb->prepare( " WHERE g.season = %s", $season );
         }
         
-        $query .= " ORDER BY $orderby $order";
+        $query .= " ORDER BY g.$orderby $order";
         
         if ( $limit > 0 ) {
             $query .= $wpdb->prepare( " LIMIT %d OFFSET %d", $limit, $offset );
@@ -373,16 +411,18 @@ class HGE_Database {
             return $wpdb->update(
                 $games_table,
                 array(
-                    'season'     => sanitize_text_field( $data['season'] ?? '' ),
-                    'game_date'  => sanitize_text_field( $data['game_date'] ),
-                    'opponent'   => sanitize_text_field( $data['opponent'] ),
-                    'home_score' => ! empty( $data['home_score'] ) ? intval( $data['home_score'] ) : null,
-                    'away_score' => ! empty( $data['away_score'] ) ? intval( $data['away_score'] ) : null,
-                    'location'   => sanitize_text_field( $data['location'] ?? '' ),
-                    'notes'      => wp_kses_post( $data['notes'] ?? '' ),
+                    'season'       => sanitize_text_field( $data['season'] ?? '' ),
+                    'game_date'    => sanitize_text_field( $data['game_date'] ),
+                    'home_team_id' => ! empty( $data['home_team'] ) ? intval( $data['home_team'] ) : null,
+                    'away_team_id' => ! empty( $data['away_team'] ) ? intval( $data['away_team'] ) : null,
+                    'opponent'     => sanitize_text_field( $data['opponent'] ?? '' ),
+                    'home_score'   => ! empty( $data['home_score'] ) ? intval( $data['home_score'] ) : null,
+                    'away_score'   => ! empty( $data['away_score'] ) ? intval( $data['away_score'] ) : null,
+                    'location'     => sanitize_text_field( $data['location'] ?? '' ),
+                    'notes'        => wp_kses_post( $data['notes'] ?? '' ),
                 ),
                 array( 'id' => $data['id'] ),
-                array( '%s', '%s', '%s', '%d', '%d', '%s', '%s' ),
+                array( '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%s' ),
                 array( '%d' )
             );
         } else {
@@ -390,15 +430,17 @@ class HGE_Database {
             $wpdb->insert(
                 $games_table,
                 array(
-                    'season'     => sanitize_text_field( $data['season'] ?? '' ),
-                    'game_date'  => sanitize_text_field( $data['game_date'] ),
-                    'opponent'   => sanitize_text_field( $data['opponent'] ),
-                    'home_score' => ! empty( $data['home_score'] ) ? intval( $data['home_score'] ) : null,
-                    'away_score' => ! empty( $data['away_score'] ) ? intval( $data['away_score'] ) : null,
-                    'location'   => sanitize_text_field( $data['location'] ?? '' ),
-                    'notes'      => wp_kses_post( $data['notes'] ?? '' ),
+                    'season'       => sanitize_text_field( $data['season'] ?? '' ),
+                    'game_date'    => sanitize_text_field( $data['game_date'] ),
+                    'home_team_id' => ! empty( $data['home_team'] ) ? intval( $data['home_team'] ) : null,
+                    'away_team_id' => ! empty( $data['away_team'] ) ? intval( $data['away_team'] ) : null,
+                    'opponent'     => sanitize_text_field( $data['opponent'] ?? '' ),
+                    'home_score'   => ! empty( $data['home_score'] ) ? intval( $data['home_score'] ) : null,
+                    'away_score'   => ! empty( $data['away_score'] ) ? intval( $data['away_score'] ) : null,
+                    'location'     => sanitize_text_field( $data['location'] ?? '' ),
+                    'notes'        => wp_kses_post( $data['notes'] ?? '' ),
                 ),
-                array( '%s', '%s', '%s', '%d', '%d', '%s', '%s' )
+                array( '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%s' )
             );
             return $wpdb->insert_id;
         }
