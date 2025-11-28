@@ -14,15 +14,15 @@ msgstr ""
 
 #: includes/class-hge-admin.php:46
 msgid "Hockey Events"
-msgstr "Bunkersnack Spelhanterare"
+msgstr "Bunkersnack Matchhanterare"
 
 #: includes/class-hge-admin.php:135
 msgid "Hockey Game Events"
-msgstr "Bunkersnack Spelhanterare"
+msgstr "Bunkersnack Matchhanterare"
 
 #: includes/class-hge-admin.php:136
 msgid "Welcome to the Hockey Game Events plugin. Use the menu to manage teams, players, games, and events."
-msgstr "Välkommen till Bunkersnack Spelhanterare. Använd menyn för att hantera lag, spelare, matcher och händelser."
+msgstr "Välkommen till Bunkersnack Matchhanterare. Använd menyn för att hantera lag, spelare, matcher och händelser."
 
 #: includes/class-hge-admin.php:139
 msgid "Seasons"
