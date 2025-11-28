@@ -21,6 +21,9 @@ class HGE_Admin {
     public static function init() {
         add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ) );
         add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
+        add_action( 'wp_ajax_hge_save_season', array( __CLASS__, 'ajax_save_season' ) );
+        add_action( 'wp_ajax_hge_delete_season', array( __CLASS__, 'ajax_delete_season' ) );
+        add_action( 'wp_ajax_hge_get_season', array( __CLASS__, 'ajax_get_season' ) );
         add_action( 'wp_ajax_hge_save_team', array( __CLASS__, 'ajax_save_team' ) );
         add_action( 'wp_ajax_hge_delete_team', array( __CLASS__, 'ajax_delete_team' ) );
         add_action( 'wp_ajax_hge_get_team', array( __CLASS__, 'ajax_get_team' ) );
@@ -47,6 +50,15 @@ class HGE_Admin {
             array( __CLASS__, 'render_main_page' ),
             'dashicons-tickets',
             25
+        );
+
+        add_submenu_page(
+            'hockey-game-events',
+            __( 'Seasons', 'hockey-game-events' ),
+            __( 'Seasons', 'hockey-game-events' ),
+            'manage_options',
+            'hockey-game-events-seasons',
+            array( __CLASS__, 'render_seasons_page' )
         );
 
         add_submenu_page(
@@ -123,6 +135,13 @@ class HGE_Admin {
             <p><?php esc_html_e( 'Welcome to the Hockey Game Events plugin. Use the menu to manage teams, players, games, and events.', 'hockey-game-events' ); ?></p>
             <div class="hge-dashboard">
                 <div class="hge-dashboard-card">
+                    <h3><?php esc_html_e( 'Seasons', 'hockey-game-events' ); ?></h3>
+                    <p><?php esc_html_e( 'Manage hockey seasons and leagues.', 'hockey-game-events' ); ?></p>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-seasons' ) ); ?>" class="button button-primary">
+                        <?php esc_html_e( 'Manage Seasons', 'hockey-game-events' ); ?>
+                    </a>
+                </div>
+                <div class="hge-dashboard-card">
                     <h3><?php esc_html_e( 'Teams', 'hockey-game-events' ); ?></h3>
                     <p><?php esc_html_e( 'Manage your hockey teams.', 'hockey-game-events' ); ?></p>
                     <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button button-primary">
@@ -150,6 +169,85 @@ class HGE_Admin {
                         <?php esc_html_e( 'View Statistics', 'hockey-game-events' ); ?>
                     </a>
                 </div>
+            </div>
+        </div>
+        <?php
+    }
+
+    /**
+     * Render seasons admin page
+     */
+    public static function render_seasons_page() {
+        $seasons = HGE_Database::get_all_seasons_list();
+        ?>
+        <div class="wrap">
+            <h1><?php esc_html_e( 'Seasons', 'hockey-game-events' ); ?></h1>
+            
+            <!-- Quick Navigation Links -->
+            <div class="hge-quick-nav" style="margin-bottom: 20px;">
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+            </div>
+
+            <div id="hge-season-form-container" class="hge-form-container">
+                <h2><?php esc_html_e( 'Add/Edit Season', 'hockey-game-events' ); ?></h2>
+                <form id="hge-season-form">
+                    <input type="hidden" id="hge-season-id" name="id" value="0">
+                    
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th><label for="hge-season-name"><?php esc_html_e( 'Season Name', 'hockey-game-events' ); ?></label></th>
+                                <td><input type="text" id="hge-season-name" name="name" required class="regular-text" placeholder="<?php esc_attr_e( 'e.g., Elitserien 76/77', 'hockey-game-events' ); ?>"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="hge-season-description"><?php esc_html_e( 'Description', 'hockey-game-events' ); ?></label></th>
+                                <td><textarea id="hge-season-description" name="description" class="large-text" rows="4"></textarea></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="submit">
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Season', 'hockey-game-events' ); ?></button>
+                        <button type="button" id="hge-season-reset" class="button"><?php esc_html_e( 'Clear Form', 'hockey-game-events' ); ?></button>
+                    </p>
+                </form>
+            </div>
+
+            <div class="hge-list-container">
+                <h2><?php esc_html_e( 'All Seasons', 'hockey-game-events' ); ?></h2>
+                <?php if ( ! empty( $seasons ) ) : ?>
+                    <table class="wp-list-table widefat striped">
+                        <thead>
+                            <tr>
+                                <th><?php esc_html_e( 'Season Name', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Description', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Actions', 'hockey-game-events' ); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ( $seasons as $season ) : ?>
+                                <tr data-season-id="<?php echo intval( $season->id ); ?>">
+                                    <td><?php echo esc_html( $season->name ); ?></td>
+                                    <td><?php echo wp_kses_post( wp_trim_words( $season->description, 20 ) ); ?></td>
+                                    <td>
+                                        <button type="button" class="button hge-edit-season" data-season-id="<?php echo intval( $season->id ); ?>">
+                                            <?php esc_html_e( 'Edit', 'hockey-game-events' ); ?>
+                                        </button>
+                                        <button type="button" class="button button-link-delete hge-delete-season" data-season-id="<?php echo intval( $season->id ); ?>">
+                                            <?php esc_html_e( 'Delete', 'hockey-game-events' ); ?>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else : ?>
+                    <p><?php esc_html_e( 'No seasons found. Create one using the form above.', 'hockey-game-events' ); ?></p>
+                <?php endif; ?>
             </div>
         </div>
         <?php
@@ -355,7 +453,7 @@ class HGE_Admin {
         $games = HGE_Database::get_all_games();
         $players = HGE_Database::get_all_players();
         $teams = HGE_Database::get_all_teams();
-        $seasons = HGE_Database::get_all_seasons();
+        $seasons_list = HGE_Database::get_all_seasons_list();
         ?>
         <div class="wrap">
             <h1><?php esc_html_e( 'Games', 'hockey-game-events' ); ?></h1>
@@ -363,6 +461,7 @@ class HGE_Admin {
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-seasons' ) ); ?>" class="button">Seasons</a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
@@ -378,7 +477,12 @@ class HGE_Admin {
                             <tr>
                                 <th><label for="hge-game-season"><?php esc_html_e( 'Season', 'hockey-game-events' ); ?></label></th>
                                 <td>
-                                    <input type="text" id="hge-game-season" name="season" class="regular-text" placeholder="<?php esc_attr_e( 'e.g., Elitserien 76/77', 'hockey-game-events' ); ?>">
+                                    <select id="hge-game-season" name="season" class="regular-text">
+                                        <option value="">-- Select Season --</option>
+                                        <?php foreach ( $seasons_list as $season ) : ?>
+                                            <option value="<?php echo esc_attr( $season->name ); ?>"><?php echo esc_html( $season->name ); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>
@@ -660,6 +764,65 @@ class HGE_Admin {
             wp_send_json_success( array( 'id' => $player_id ) );
         } else {
             wp_send_json_error( __( 'Failed to save player', 'hockey-game-events' ) );
+        }
+    }
+
+    // ===== SEASON AJAX HANDLERS =====
+
+    /**
+     * AJAX: Save season
+     */
+    public static function ajax_save_season() {
+        check_ajax_referer( 'hge_admin_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+        }
+
+        $season_id = HGE_Database::save_season( $_POST );
+
+        if ( $season_id ) {
+            wp_send_json_success( array( 'id' => $season_id ) );
+        } else {
+            wp_send_json_error( __( 'Failed to save season', 'hockey-game-events' ) );
+        }
+    }
+
+    /**
+     * AJAX: Delete season
+     */
+    public static function ajax_delete_season() {
+        check_ajax_referer( 'hge_admin_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+        }
+
+        $result = HGE_Database::delete_season( intval( $_POST['id'] ) );
+
+        if ( $result ) {
+            wp_send_json_success();
+        } else {
+            wp_send_json_error( __( 'Failed to delete season', 'hockey-game-events' ) );
+        }
+    }
+
+    /**
+     * AJAX: Get season
+     */
+    public static function ajax_get_season() {
+        check_ajax_referer( 'hge_admin_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+        }
+
+        $season = HGE_Database::get_season( intval( $_POST['id'] ) );
+
+        if ( $season ) {
+            wp_send_json_success( $season );
+        } else {
+            wp_send_json_error( __( 'Season not found', 'hockey-game-events' ) );
         }
     }
 

@@ -29,6 +29,18 @@ class HGE_Database {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
 
+        // Seasons table
+        $seasons_table = $wpdb->prefix . 'hge_seasons';
+        $seasons_sql = "CREATE TABLE IF NOT EXISTS $seasons_table (
+            id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(100) NOT NULL,
+            description LONGTEXT,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            UNIQUE KEY name_idx (name)
+        ) $charset_collate;";
+
         // Teams table
         $teams_table = $wpdb->prefix . 'hge_teams';
         $teams_sql = "CREATE TABLE IF NOT EXISTS $teams_table (
@@ -122,6 +134,7 @@ class HGE_Database {
         ) $charset_collate;";
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        dbDelta( $seasons_sql );
         dbDelta( $teams_sql );
         dbDelta( $players_sql );
         dbDelta( $games_sql );
@@ -153,6 +166,88 @@ class HGE_Database {
             $wpdb->query( "ALTER TABLE $games_table ADD KEY away_team_id_idx (away_team_id)" );
             $wpdb->query( "ALTER TABLE $games_table ADD CONSTRAINT fk_game_away_team FOREIGN KEY (away_team_id) REFERENCES $teams_table(id) ON DELETE SET NULL" );
         }
+    }
+
+    // ===== SEASONS METHODS =====
+
+    /**
+     * Get all seasons
+     *
+     * @return array
+     */
+    public static function get_all_seasons_list() {
+        global $wpdb;
+        $seasons_table = $wpdb->prefix . 'hge_seasons';
+        return $wpdb->get_results( "SELECT * FROM $seasons_table ORDER BY name DESC" );
+    }
+
+    /**
+     * Get a season by ID
+     *
+     * @param int $season_id Season ID
+     * @return object|null
+     */
+    public static function get_season( $season_id ) {
+        global $wpdb;
+        $seasons_table = $wpdb->prefix . 'hge_seasons';
+        return $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM $seasons_table WHERE id = %d",
+                $season_id
+            )
+        );
+    }
+
+    /**
+     * Create or update a season
+     *
+     * @param array $data Season data
+     * @return int|false Season ID or false
+     */
+    public static function save_season( $data ) {
+        global $wpdb;
+        $seasons_table = $wpdb->prefix . 'hge_seasons';
+
+        if ( isset( $data['id'] ) && $data['id'] > 0 ) {
+            // Update
+            return $wpdb->update(
+                $seasons_table,
+                array(
+                    'name'        => sanitize_text_field( $data['name'] ),
+                    'description' => wp_kses_post( $data['description'] ?? '' ),
+                ),
+                array( 'id' => $data['id'] ),
+                array( '%s', '%s' ),
+                array( '%d' )
+            );
+        } else {
+            // Insert
+            $wpdb->insert(
+                $seasons_table,
+                array(
+                    'name'        => sanitize_text_field( $data['name'] ),
+                    'description' => wp_kses_post( $data['description'] ?? '' ),
+                ),
+                array( '%s', '%s' )
+            );
+            return $wpdb->insert_id;
+        }
+    }
+
+    /**
+     * Delete a season
+     *
+     * @param int $season_id Season ID
+     * @return int|false
+     */
+    public static function delete_season( $season_id ) {
+        global $wpdb;
+        $seasons_table = $wpdb->prefix . 'hge_seasons';
+        return $wpdb->delete(
+            $seasons_table,
+            array( 'id' => $season_id ),
+            array( '%d' )
+        );
     }
 
     // ===== TEAMS METHODS =====

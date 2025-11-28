@@ -4,6 +4,24 @@
 
 (function ($) {
     $(document).ready(function () {
+        // Season Management
+        $("#hge-season-form").on("submit", function (e) {
+            e.preventDefault();
+            saveSeason();
+        });
+
+        $("#hge-season-reset").on("click", function () {
+            resetSeasonForm();
+        });
+
+        $(".hge-edit-season").on("click", function () {
+            editSeason($(this).data("season-id"));
+        });
+
+        $(".hge-delete-season").on("click", function () {
+            deleteSeason($(this).data("season-id"), $(this).closest("tr"));
+        });
+
         // Team Management
         $("#hge-team-form").on("submit", function (e) {
             e.preventDefault();
@@ -84,6 +102,49 @@
             }
         });
     });
+
+    // Season Functions
+    function saveSeason() {
+        const form = $("#hge-season-form");
+        const data = form.serialize() + "&action=hge_save_season&nonce=" + hgeAdmin.nonce;
+
+        $.post(hgeAdmin.ajaxUrl, data, function (response) {
+            if (response.success) {
+                location.reload();
+            } else {
+                alert(response.data.message || "Error saving season");
+            }
+        });
+    }
+
+    function editSeason(seasonId) {
+        $.post(hgeAdmin.ajaxUrl, { action: "hge_get_season", id: seasonId, nonce: hgeAdmin.nonce }, function (response) {
+            if (response.success) {
+                const season = response.data;
+                $("#hge-season-id").val(season.id);
+                $("#hge-season-name").val(season.name);
+                $("#hge-season-description").val(season.description);
+                $("html, body").animate({ scrollTop: 0 }, "fast");
+            }
+        });
+    }
+
+    function deleteSeason(seasonId, row) {
+        if (confirm("Are you sure you want to delete this season?")) {
+            $.post(hgeAdmin.ajaxUrl, { action: "hge_delete_season", id: seasonId, nonce: hgeAdmin.nonce }, function (response) {
+                if (response.success) {
+                    row.remove();
+                } else {
+                    alert("Error deleting season");
+                }
+            });
+        }
+    }
+
+    function resetSeasonForm() {
+        $("#hge-season-form")[0].reset();
+        $("#hge-season-id").val("0");
+    }
 
     // Team Functions
     function saveTeam() {
