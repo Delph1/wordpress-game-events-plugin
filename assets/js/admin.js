@@ -112,8 +112,11 @@
             if (response.success) {
                 location.reload();
             } else {
-                alert(response.data.message || "Error saving season");
+                alert(response.data || "Error saving season");
             }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX Error:", textStatus, errorThrown);
+            alert("Error saving season: " + textStatus);
         });
     }
 

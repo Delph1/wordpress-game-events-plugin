@@ -43,12 +43,12 @@ class HGE_Shortcodes {
         $game_id = intval( $atts['game_id'] );
 
         if ( $game_id <= 0 ) {
-            return '<p>' . esc_html__( 'Invalid game ID', 'hockey-game-events' ) . '</p>';
+            return '<p>' . esc_html__( 'Invalid game ID', 'bunkersnack-game-manager' ) . '</p>';
         }
 
         $game = HGE_Database::get_game( $game_id );
         if ( ! $game ) {
-            return '<p>' . esc_html__( 'Game not found', 'hockey-game-events' ) . '</p>';
+            return '<p>' . esc_html__( 'Game not found', 'bunkersnack-game-manager' ) . '</p>';
         }
 
         $events = HGE_Database::get_game_events( $game_id );
@@ -65,7 +65,7 @@ class HGE_Shortcodes {
         if ( ! is_null( $game->home_score ) && ! is_null( $game->away_score ) ) {
             $html .= '<p class="hge-game-score">';
             $html .= sprintf(
-                esc_html__( 'Final Score: %d - %d', 'hockey-game-events' ),
+                esc_html__( 'Final Score: %d - %d', 'bunkersnack-game-manager' ),
                 intval( $game->home_score ),
                 intval( $game->away_score )
             );
@@ -75,7 +75,7 @@ class HGE_Shortcodes {
         // Location
         if ( ! empty( $game->location ) ) {
             $html .= '<p class="hge-game-location">';
-            $html .= '<strong>' . esc_html__( 'Location:', 'hockey-game-events' ) . '</strong> ';
+            $html .= '<strong>' . esc_html__( 'Location:', 'bunkersnack-game-manager' ) . '</strong> ';
             $html .= esc_html( $game->location );
             $html .= '</p>';
         }
@@ -83,7 +83,7 @@ class HGE_Shortcodes {
         // Events
         if ( ! empty( $events ) ) {
             $html .= '<div class="hge-events">';
-            $html .= '<h4>' . esc_html__( 'Game Events', 'hockey-game-events' ) . '</h4>';
+            $html .= '<h4>' . esc_html__( 'Game Events', 'bunkersnack-game-manager' ) . '</h4>';
             $html .= '<div class="hge-events-list">';
 
             foreach ( $events as $event ) {
@@ -91,7 +91,7 @@ class HGE_Shortcodes {
                 $html .= '<div class="hge-event-header">';
                 $html .= '<span class="hge-event-period">';
                 $html .= sprintf(
-                    esc_html__( 'P%d', 'hockey-game-events' ),
+                    esc_html__( 'P%d', 'bunkersnack-game-manager' ),
                     intval( $event->period )
                 );
                 $html .= '</span>';
@@ -121,7 +121,7 @@ class HGE_Shortcodes {
         // Notes
         if ( ! empty( $game->notes ) ) {
             $html .= '<div class="hge-game-notes">';
-            $html .= '<h4>' . esc_html__( 'Notes', 'hockey-game-events' ) . '</h4>';
+            $html .= '<h4>' . esc_html__( 'Notes', 'bunkersnack-game-manager' ) . '</h4>';
             $html .= wp_kses_post( $game->notes );
             $html .= '</div>';
         }
@@ -157,7 +157,7 @@ class HGE_Shortcodes {
         if ( is_null( $atts['season'] ) || empty( $atts['season'] ) ) {
             $seasons = HGE_Database::get_all_seasons();
             if ( empty( $seasons ) ) {
-                return '<p>' . esc_html__( 'No seasons available.', 'hockey-game-events' ) . '</p>';
+                return '<p>' . esc_html__( 'No seasons available.', 'bunkersnack-game-manager' ) . '</p>';
             }
             $season = $seasons[0]; // Most recent season
         } else {
@@ -187,29 +187,29 @@ class HGE_Shortcodes {
         );
 
         if ( empty( $stats ) ) {
-            return '<p>' . esc_html__( 'No player statistics available for this season.', 'hockey-game-events' ) . '</p>';
+            return '<p>' . esc_html__( 'No player statistics available for this season.', 'bunkersnack-game-manager' ) . '</p>';
         }
 
         $html = '';
 
         $html .= '<div class="hge-player-stats">';
         $html .= '<h3 class="hge-stats-title">';
-        $html .= sprintf( esc_html__( 'Player Statistics - %s', 'hockey-game-events' ), esc_html( $season ) );
+        $html .= sprintf( esc_html__( 'Player Statistics - %s', 'bunkersnack-game-manager' ), esc_html( $season ) );
         $html .= '</h3>';
 
         $html .= '<table class="hge-stats-table" data-sortable="true">';
         $html .= '<thead>';
         $html .= '<tr>';
-        $html .= '<th class="hge-col-team">' . esc_html__( 'Team', 'hockey-game-events' ) . '</th>';
-        $html .= '<th class="hge-col-name">' . esc_html__( 'Player', 'hockey-game-events' ) . '</th>';
+        $html .= '<th class="hge-col-team">' . esc_html__( 'Team', 'bunkersnack-game-manager' ) . '</th>';
+        $html .= '<th class="hge-col-name">' . esc_html__( 'Player', 'bunkersnack-game-manager' ) . '</th>';
         $html .= '<th class="hge-col-number">#</th>';
-        $html .= '<th class="hge-col-position">' . esc_html__( 'Position', 'hockey-game-events' ) . '</th>';
-        $html .= '<th class="hge-col-gp">' . esc_html__( 'GP', 'hockey-game-events' ) . '</th>';
-        $html .= '<th class="hge-col-g">' . esc_html__( 'G', 'hockey-game-events' ) . '</th>';
-        $html .= '<th class="hge-col-a">' . esc_html__( 'A', 'hockey-game-events' ) . '</th>';
-        $html .= '<th class="hge-col-pim">' . esc_html__( 'PIM', 'hockey-game-events' ) . '</th>';
-        $html .= '<th class="hge-col-sa">' . esc_html__( 'SA', 'hockey-game-events' ) . '</th>';
-        $html .= '<th class="hge-col-ga">' . esc_html__( 'GA', 'hockey-game-events' ) . '</th>';
+        $html .= '<th class="hge-col-position">' . esc_html__( 'Position', 'bunkersnack-game-manager' ) . '</th>';
+        $html .= '<th class="hge-col-gp">' . esc_html__( 'GP', 'bunkersnack-game-manager' ) . '</th>';
+        $html .= '<th class="hge-col-g">' . esc_html__( 'G', 'bunkersnack-game-manager' ) . '</th>';
+        $html .= '<th class="hge-col-a">' . esc_html__( 'A', 'bunkersnack-game-manager' ) . '</th>';
+        $html .= '<th class="hge-col-pim">' . esc_html__( 'PIM', 'bunkersnack-game-manager' ) . '</th>';
+        $html .= '<th class="hge-col-sa">' . esc_html__( 'SA', 'bunkersnack-game-manager' ) . '</th>';
+        $html .= '<th class="hge-col-ga">' . esc_html__( 'GA', 'bunkersnack-game-manager' ) . '</th>';
         $html .= '</tr>';
         $html .= '</thead>';
         $html .= '<tbody>';

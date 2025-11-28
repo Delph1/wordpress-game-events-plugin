@@ -1,17 +1,17 @@
 <?php
 /**
- * Plugin Name: Hockey Game Events
- * Plugin URI: https://github.com/delph1/wordpress-game-events-plugin
- * Description: A WordPress plugin for tracking hockey game events, player statistics, and displaying game summaries and player stats tables
+ * Plugin Name: Bunkersnack Game Manager
+ * Plugin URI: https://github.com/delph1/bunkersnack-game-manager
+ * Description: A WordPress plugin for tracking game events, player statistics, and displaying game summaries and player stats tables
  * Version: 1.0.0
  * Author: Andreas Galistel
- * Author URI: 
+ * Author URI: https://bunkersnack.se
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain: hockey-game-events
+ * Text Domain: bunkersnack-game-manager
  * Domain Path: /languages
  *
- * @package HockeyGameEvents
+ * @package BunkersnackGameManager
  */
 
 // Exit if accessed directly
@@ -86,7 +86,7 @@ class Hockey_Game_Events {
      */
     public function init() {
         // Load text domain for translations
-        load_plugin_textdomain( 'hockey-game-events', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+        load_plugin_textdomain( 'bunkersnack-game-manager', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
         // Initialize classes
         HGE_Database::init();

@@ -1,0 +1,409 @@
+# Swedish translation for Bunkersnack Game Manager
+# Copyright (C) 2025 Andreas Galistel
+# This file is distributed under the same license as the Bunkersnack Game Manager package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Bunkersnack Game Manager 1.0.0\n"
+"POT-Creation-Date: 2025-11-28\n"
+"PO-Revision-Date: 2025-11-28\n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/class-hge-admin.php:46
+msgid "Hockey Events"
+msgstr "Bunkersnack Spelhanterare"
+
+#: includes/class-hge-admin.php:135
+msgid "Hockey Game Events"
+msgstr "Bunkersnack Spelhanterare"
+
+#: includes/class-hge-admin.php:136
+msgid "Welcome to the Hockey Game Events plugin. Use the menu to manage teams, players, games, and events."
+msgstr "Välkommen till Bunkersnack Spelhanterare. Använd menyn för att hantera lag, spelare, matcher och händelser."
+
+#: includes/class-hge-admin.php:139
+msgid "Seasons"
+msgstr "Säsonger"
+
+#: includes/class-hge-admin.php:140
+msgid "Manage hockey seasons and leagues."
+msgstr "Hantera säsonger och serier."
+
+#: includes/class-hge-admin.php:145
+msgid "Manage Seasons"
+msgstr "Hantera säsonger"
+
+#: includes/class-hge-admin.php:151
+msgid "Teams"
+msgstr "Lag"
+
+#: includes/class-hge-admin.php:152
+msgid "Manage your hockey teams."
+msgstr "Hantera dina lag."
+
+#: includes/class-hge-admin.php:157
+msgid "Manage Teams"
+msgstr "Hantera lag"
+
+#: includes/class-hge-admin.php:163
+msgid "Players"
+msgstr "Spelare"
+
+#: includes/class-hge-admin.php:164
+msgid "Manage team players and their information."
+msgstr "Hantera spelare och deras information."
+
+#: includes/class-hge-admin.php:169
+msgid "Manage Players"
+msgstr "Hantera spelare"
+
+#: includes/class-hge-admin.php:175
+msgid "Games"
+msgstr "Matcher"
+
+#: includes/class-hge-admin.php:176
+msgid "Create and manage games and game events."
+msgstr "Skapa och hantera matcher och matcher-händelser."
+
+#: includes/class-hge-admin.php:181
+msgid "Manage Games"
+msgstr "Hantera matcher"
+
+#: includes/class-hge-admin.php:187
+msgid "Player Statistics"
+msgstr "Spelarstatistik"
+
+#: includes/class-hge-admin.php:188
+msgid "View calculated player statistics for the season."
+msgstr "Visa beräknad spelarstatistik för säsongen."
+
+#: includes/class-hge-admin.php:193
+msgid "View Statistics"
+msgstr "Visa statistik"
+
+#: includes/class-hge-admin.php:198
+msgid "Add/Edit Season"
+msgstr "Lägg till/Redigera säsong"
+
+#: includes/class-hge-admin.php:207
+msgid "Season Name"
+msgstr "Säsongnamn"
+
+#: includes/class-hge-admin.php:208
+msgid "e.g., Elitserien 76/77"
+msgstr "t.ex. Elitserien 76/77"
+
+#: includes/class-hge-admin.php:211
+msgid "Description"
+msgstr "Beskrivning"
+
+#: includes/class-hge-admin.php:218
+msgid "Save Season"
+msgstr "Spara säsong"
+
+#: includes/class-hge-admin.php:219
+msgid "Clear Form"
+msgstr "Rensa formulär"
+
+#: includes/class-hge-admin.php:226
+msgid "All Seasons"
+msgstr "Alla säsonger"
+
+#: includes/class-hge-admin.php:230
+msgid "Edit"
+msgstr "Redigera"
+
+#: includes/class-hge-admin.php:234
+msgid "Delete"
+msgstr "Ta bort"
+
+#: includes/class-hge-admin.php:242
+msgid "No seasons found. Create one using the form above."
+msgstr "Ingen säsong hittad. Skapa en med formuläret ovan."
+
+#: includes/class-hge-admin.php:250
+msgid "Add/Edit Team"
+msgstr "Lägg till/Redigera lag"
+
+#: includes/class-hge-admin.php:259
+msgid "Team Name"
+msgstr "Lagnamn"
+
+#: includes/class-hge-admin.php:260
+msgid "Team Shortcode"
+msgstr "Lagforkortning"
+
+#: includes/class-hge-admin.php:267
+msgid "Save Team"
+msgstr "Spara lag"
+
+#: includes/class-hge-admin.php:274
+msgid "All Teams"
+msgstr "Alla lag"
+
+#: includes/class-hge-admin.php:278
+msgid "Shortcode"
+msgstr "Kortnamn"
+
+#: includes/class-hge-admin.php:281
+msgid "Actions"
+msgstr "Åtgärder"
+
+#: includes/class-hge-admin.php:291
+msgid "No teams found. Create one using the form above."
+msgstr "Inget lag hittades. Skapa ett med formuläret ovan."
+
+#: includes/class-hge-admin.php:300
+msgid "Add/Edit Player"
+msgstr "Lägg till/Redigera spelare"
+
+#: includes/class-hge-admin.php:309
+msgid "Team"
+msgstr "Lag"
+
+#: includes/class-hge-admin.php:311
+msgid "-- Select Team --"
+msgstr "-- Välj lag --"
+
+#: includes/class-hge-admin.php:320
+msgid "Name"
+msgstr "Namn"
+
+#: includes/class-hge-admin.php:323
+msgid "Jersey Number"
+msgstr "Tröjnummer"
+
+#: includes/class-hge-admin.php:327
+msgid "Position"
+msgstr "Position"
+
+#: includes/class-hge-admin.php:329
+msgid "-- Select --"
+msgstr "-- Välj --"
+
+#: includes/class-hge-admin.php:330
+msgid "Center"
+msgstr "Center"
+
+#: includes/class-hge-admin.php:331
+msgid "Left Wing"
+msgstr "Vänsterforward"
+
+#: includes/class-hge-admin.php:332
+msgid "Right Wing"
+msgstr "Högerforward"
+
+#: includes/class-hge-admin.php:333
+msgid "Defenseman"
+msgstr "Back"
+
+#: includes/class-hge-admin.php:334
+msgid "Goalie"
+msgstr "Målvakt"
+
+#: includes/class-hge-admin.php:339
+msgid "Goalie"
+msgstr "Målvakt"
+
+#: includes/class-hge-admin.php:345
+msgid "Save Player"
+msgstr "Spara spelare"
+
+#: includes/class-hge-admin.php:352
+msgid "All Players"
+msgstr "Alla spelare"
+
+#: includes/class-hge-admin.php:358
+msgid "Player"
+msgstr "Spelare"
+
+#: includes/class-hge-admin.php:365
+msgid "No players found. Create one using the form above."
+msgstr "Ingen spelare hittad. Skapa en med formuläret ovan."
+
+#: includes/class-hge-admin.php:374
+msgid "Dashboard"
+msgstr "Instrumentbräda"
+
+#: includes/class-hge-admin.php:375
+msgid "Seasons"
+msgstr "Säsonger"
+
+#: includes/class-hge-admin.php:376
+msgid "Teams"
+msgstr "Lag"
+
+#: includes/class-hge-admin.php:377
+msgid "Players"
+msgstr "Spelare"
+
+#: includes/class-hge-admin.php:378
+msgid "Games"
+msgstr "Matcher"
+
+#: includes/class-hge-admin.php:379
+msgid "Statistics"
+msgstr "Statistik"
+
+#: includes/class-hge-admin.php:391
+msgid "Add/Edit Game"
+msgstr "Lägg till/Redigera match"
+
+#: includes/class-hge-admin.php:400
+msgid "Season"
+msgstr "Säsong"
+
+#: includes/class-hge-admin.php:402
+msgid "-- Select Season --"
+msgstr "-- Välj säsong --"
+
+#: includes/class-hge-admin.php:410
+msgid "Date"
+msgstr "Datum"
+
+#: includes/class-hge-admin.php:413
+msgid "Home Team"
+msgstr "Hemmalag"
+
+#: includes/class-hge-admin.php:415
+msgid "Select team..."
+msgstr "Välj lag..."
+
+#: includes/class-hge-admin.php:422
+msgid "Away Team"
+msgstr "Bortalag"
+
+#: includes/class-hge-admin.php:430
+msgid "Location"
+msgstr "Plats"
+
+#: includes/class-hge-admin.php:433
+msgid "Home Score"
+msgstr "Hemmalag mål"
+
+#: includes/class-hge-admin.php:437
+msgid "Away Score"
+msgstr "Bortalag mål"
+
+#: includes/class-hge-admin.php:441
+msgid "Notes"
+msgstr "Anteckningar"
+
+#: includes/class-hge-admin.php:447
+msgid "Save Game"
+msgstr "Spara match"
+
+#: includes/class-hge-admin.php:452
+msgid "All Games"
+msgstr "Alla matcher"
+
+#: includes/class-hge-admin.php:456
+msgid "Score"
+msgstr "Resultat"
+
+#: includes/class-hge-admin.php:464
+msgid "Events"
+msgstr "Händelser"
+
+#: includes/class-hge-shortcodes.php:46
+msgid "Invalid game ID"
+msgstr "Ogiltigt match-ID"
+
+#: includes/class-hge-shortcodes.php:51
+msgid "Game not found"
+msgstr "Match ej hittad"
+
+#: includes/class-hge-shortcodes.php:68
+msgid "Final Score: %d - %d"
+msgstr "Slutresultat: %d - %d"
+
+#: includes/class-hge-shortcodes.php:78
+msgid "Location:"
+msgstr "Plats:"
+
+#: includes/class-hge-shortcodes.php:86
+msgid "Game Events"
+msgstr "Match-händelser"
+
+#: includes/class-hge-shortcodes.php:94
+msgid "P%d"
+msgstr "P%d"
+
+#: includes/class-hge-shortcodes.php:124
+msgid "Notes"
+msgstr "Anteckningar"
+
+#: includes/class-hge-shortcodes.php:160
+msgid "No seasons available."
+msgstr "Ingen säsong tillgänglig."
+
+#: includes/class-hge-shortcodes.php:190
+msgid "No player statistics available for this season."
+msgstr "Ingen spelarstatistik tillgänglig för denna säsong."
+
+#: includes/class-hge-shortcodes.php:197
+msgid "Player Statistics - %s"
+msgstr "Spelarstatistik - %s"
+
+#: includes/class-hge-shortcodes.php:203
+msgid "Team"
+msgstr "Lag"
+
+#: includes/class-hge-shortcodes.php:204
+msgid "Player"
+msgstr "Spelare"
+
+#: includes/class-hge-shortcodes.php:206
+msgid "Position"
+msgstr "Position"
+
+#: includes/class-hge-shortcodes.php:207
+msgid "GP"
+msgstr "GP"
+
+#: includes/class-hge-shortcodes.php:208
+msgid "G"
+msgstr "M"
+
+#: includes/class-hge-shortcodes.php:209
+msgid "A"
+msgstr "Assist"
+
+#: includes/class-hge-shortcodes.php:210
+msgid "PIM"
+msgstr "SM"
+
+#: includes/class-hge-shortcodes.php:211
+msgid "SA"
+msgstr "SÖ"
+
+#: includes/class-hge-shortcodes.php:212
+msgid "GA"
+msgstr "MÖ"
+
+#: includes/class-hge-admin.php:775
+msgid "Are you sure you want to delete this season?"
+msgstr "Är du säker på att du vill ta bort denna säsong?"
+
+#: includes/class-hge-admin.php:780
+msgid "Error deleting season"
+msgstr "Fel vid borttagning av säsong"
+
+#: includes/class-hge-admin.php:850
+msgid "Unauthorized"
+msgstr "Obehörig"
+
+#: includes/class-hge-admin.php:855
+msgid "Failed to save season"
+msgstr "Misslyckades att spara säsong"
+
+#: includes/class-hge-admin.php:875
+msgid "Failed to delete season"
+msgstr "Misslyckades att ta bort säsong"
+
+#: includes/class-hge-admin.php:895
+msgid "Season not found"
+msgstr "Säsong ej hittad"

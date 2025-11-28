@@ -43,57 +43,57 @@ class HGE_Admin {
      */
     public static function add_admin_menu() {
         add_menu_page(
-            __( 'Hockey Events', 'hockey-game-events' ),
-            __( 'Hockey Events', 'hockey-game-events' ),
+            __( 'Hockey Events', 'bunkersnack-game-manager' ),
+            __( 'Hockey Events', 'bunkersnack-game-manager' ),
             'manage_options',
-            'hockey-game-events',
+            'bunkersnack-game-manager',
             array( __CLASS__, 'render_main_page' ),
             'dashicons-tickets',
             25
         );
 
         add_submenu_page(
-            'hockey-game-events',
-            __( 'Seasons', 'hockey-game-events' ),
-            __( 'Seasons', 'hockey-game-events' ),
+            'bunkersnack-game-manager',
+            __( 'Seasons', 'bunkersnack-game-manager' ),
+            __( 'Seasons', 'bunkersnack-game-manager' ),
             'manage_options',
-            'hockey-game-events-seasons',
+            'bunkersnack-game-manager-seasons',
             array( __CLASS__, 'render_seasons_page' )
         );
 
         add_submenu_page(
-            'hockey-game-events',
-            __( 'Teams', 'hockey-game-events' ),
-            __( 'Teams', 'hockey-game-events' ),
+            'bunkersnack-game-manager',
+            __( 'Teams', 'bunkersnack-game-manager' ),
+            __( 'Teams', 'bunkersnack-game-manager' ),
             'manage_options',
-            'hockey-game-events-teams',
+            'bunkersnack-game-manager-teams',
             array( __CLASS__, 'render_teams_page' )
         );
 
         add_submenu_page(
-            'hockey-game-events',
-            __( 'Players', 'hockey-game-events' ),
-            __( 'Players', 'hockey-game-events' ),
+            'bunkersnack-game-manager',
+            __( 'Players', 'bunkersnack-game-manager' ),
+            __( 'Players', 'bunkersnack-game-manager' ),
             'manage_options',
-            'hockey-game-events-players',
+            'bunkersnack-game-manager-players',
             array( __CLASS__, 'render_players_page' )
         );
 
         add_submenu_page(
-            'hockey-game-events',
-            __( 'Games', 'hockey-game-events' ),
-            __( 'Games', 'hockey-game-events' ),
+            'bunkersnack-game-manager',
+            __( 'Games', 'bunkersnack-game-manager' ),
+            __( 'Games', 'bunkersnack-game-manager' ),
             'manage_options',
-            'hockey-game-events-games',
+            'bunkersnack-game-manager-games',
             array( __CLASS__, 'render_games_page' )
         );
 
         add_submenu_page(
-            'hockey-game-events',
-            __( 'Player Stats', 'hockey-game-events' ),
-            __( 'Player Stats', 'hockey-game-events' ),
+            'bunkersnack-game-manager',
+            __( 'Player Stats', 'bunkersnack-game-manager' ),
+            __( 'Player Stats', 'bunkersnack-game-manager' ),
             'manage_options',
-            'hockey-game-events-stats',
+            'bunkersnack-game-manager-stats',
             array( __CLASS__, 'render_stats_page' )
         );
     }
@@ -102,7 +102,7 @@ class HGE_Admin {
      * Enqueue admin scripts and styles
      */
     public static function enqueue_admin_scripts( $hook_suffix ) {
-        if ( strpos( $hook_suffix, 'hockey-game-events' ) === false ) {
+        if ( strpos( $hook_suffix, 'bunkersnack-game-manager' ) === false ) {
             return;
         }
 
@@ -113,13 +113,14 @@ class HGE_Admin {
             'hge-admin',
             'hgeAdmin',
             array(
+                'ajaxUrl' => admin_url( 'admin-ajax.php' ),
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
                 'nonce'    => wp_create_nonce( 'hge_admin_nonce' ),
                 'strings'  => array(
-                    'confirm_delete' => __( 'Are you sure you want to delete this item?', 'hockey-game-events' ),
-                    'saving'         => __( 'Saving...', 'hockey-game-events' ),
-                    'saved'          => __( 'Saved successfully!', 'hockey-game-events' ),
-                    'error'          => __( 'An error occurred.', 'hockey-game-events' ),
+                    'confirm_delete' => __( 'Are you sure you want to delete this item?', 'bunkersnack-game-manager' ),
+                    'saving'         => __( 'Saving...', 'bunkersnack-game-manager' ),
+                    'saved'          => __( 'Saved successfully!', 'bunkersnack-game-manager' ),
+                    'error'          => __( 'An error occurred.', 'bunkersnack-game-manager' ),
                 ),
             )
         );
@@ -131,42 +132,42 @@ class HGE_Admin {
     public static function render_main_page() {
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e( 'Hockey Game Events', 'hockey-game-events' ); ?></h1>
-            <p><?php esc_html_e( 'Welcome to the Hockey Game Events plugin. Use the menu to manage teams, players, games, and events.', 'hockey-game-events' ); ?></p>
+            <h1><?php esc_html_e( 'Hockey Game Events', 'bunkersnack-game-manager' ); ?></h1>
+            <p><?php esc_html_e( 'Welcome to the Hockey Game Events plugin. Use the menu to manage teams, players, games, and events.', 'bunkersnack-game-manager' ); ?></p>
             <div class="hge-dashboard">
                 <div class="hge-dashboard-card">
-                    <h3><?php esc_html_e( 'Seasons', 'hockey-game-events' ); ?></h3>
-                    <p><?php esc_html_e( 'Manage hockey seasons and leagues.', 'hockey-game-events' ); ?></p>
-                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-seasons' ) ); ?>" class="button button-primary">
-                        <?php esc_html_e( 'Manage Seasons', 'hockey-game-events' ); ?>
+                    <h3><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></h3>
+                    <p><?php esc_html_e( 'Manage hockey seasons and leagues.', 'bunkersnack-game-manager' ); ?></p>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button button-primary">
+                        <?php esc_html_e( 'Manage Seasons', 'bunkersnack-game-manager' ); ?>
                     </a>
                 </div>
                 <div class="hge-dashboard-card">
-                    <h3><?php esc_html_e( 'Teams', 'hockey-game-events' ); ?></h3>
-                    <p><?php esc_html_e( 'Manage your hockey teams.', 'hockey-game-events' ); ?></p>
-                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button button-primary">
-                        <?php esc_html_e( 'Manage Teams', 'hockey-game-events' ); ?>
+                    <h3><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></h3>
+                    <p><?php esc_html_e( 'Manage your hockey teams.', 'bunkersnack-game-manager' ); ?></p>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button button-primary">
+                        <?php esc_html_e( 'Manage Teams', 'bunkersnack-game-manager' ); ?>
                     </a>
                 </div>
                 <div class="hge-dashboard-card">
-                    <h3><?php esc_html_e( 'Players', 'hockey-game-events' ); ?></h3>
-                    <p><?php esc_html_e( 'Manage team players and their information.', 'hockey-game-events' ); ?></p>
-                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button button-primary">
-                        <?php esc_html_e( 'Manage Players', 'hockey-game-events' ); ?>
+                    <h3><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></h3>
+                    <p><?php esc_html_e( 'Manage team players and their information.', 'bunkersnack-game-manager' ); ?></p>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button button-primary">
+                        <?php esc_html_e( 'Manage Players', 'bunkersnack-game-manager' ); ?>
                     </a>
                 </div>
                 <div class="hge-dashboard-card">
-                    <h3><?php esc_html_e( 'Games', 'hockey-game-events' ); ?></h3>
-                    <p><?php esc_html_e( 'Create and manage games and game events.', 'hockey-game-events' ); ?></p>
-                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button button-primary">
-                        <?php esc_html_e( 'Manage Games', 'hockey-game-events' ); ?>
+                    <h3><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></h3>
+                    <p><?php esc_html_e( 'Create and manage games and game events.', 'bunkersnack-game-manager' ); ?></p>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button button-primary">
+                        <?php esc_html_e( 'Manage Games', 'bunkersnack-game-manager' ); ?>
                     </a>
                 </div>
                 <div class="hge-dashboard-card">
-                    <h3><?php esc_html_e( 'Player Statistics', 'hockey-game-events' ); ?></h3>
-                    <p><?php esc_html_e( 'View calculated player statistics for the season.', 'hockey-game-events' ); ?></p>
-                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button button-primary">
-                        <?php esc_html_e( 'View Statistics', 'hockey-game-events' ); ?>
+                    <h3><?php esc_html_e( 'Player Statistics', 'bunkersnack-game-manager' ); ?></h3>
+                    <p><?php esc_html_e( 'View calculated player statistics for the season.', 'bunkersnack-game-manager' ); ?></p>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button button-primary">
+                        <?php esc_html_e( 'View Statistics', 'bunkersnack-game-manager' ); ?>
                     </a>
                 </div>
             </div>
@@ -181,51 +182,51 @@ class HGE_Admin {
         $seasons = HGE_Database::get_all_seasons_list();
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e( 'Seasons', 'hockey-game-events' ); ?></h1>
+            <h1><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></h1>
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
             </div>
 
             <div id="hge-season-form-container" class="hge-form-container">
-                <h2><?php esc_html_e( 'Add/Edit Season', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'Add/Edit Season', 'bunkersnack-game-manager' ); ?></h2>
                 <form id="hge-season-form">
                     <input type="hidden" id="hge-season-id" name="id" value="0">
                     
                     <table class="form-table">
                         <tbody>
                             <tr>
-                                <th><label for="hge-season-name"><?php esc_html_e( 'Season Name', 'hockey-game-events' ); ?></label></th>
-                                <td><input type="text" id="hge-season-name" name="name" required class="regular-text" placeholder="<?php esc_attr_e( 'e.g., Elitserien 76/77', 'hockey-game-events' ); ?>"></td>
+                                <th><label for="hge-season-name"><?php esc_html_e( 'Season Name', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-season-name" name="name" required class="regular-text" placeholder="<?php esc_attr_e( 'e.g., Elitserien 76/77', 'bunkersnack-game-manager' ); ?>"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-season-description"><?php esc_html_e( 'Description', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-season-description"><?php esc_html_e( 'Description', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><textarea id="hge-season-description" name="description" class="large-text" rows="4"></textarea></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <p class="submit">
-                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Season', 'hockey-game-events' ); ?></button>
-                        <button type="button" id="hge-season-reset" class="button"><?php esc_html_e( 'Clear Form', 'hockey-game-events' ); ?></button>
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Season', 'bunkersnack-game-manager' ); ?></button>
+                        <button type="button" id="hge-season-reset" class="button"><?php esc_html_e( 'Clear Form', 'bunkersnack-game-manager' ); ?></button>
                     </p>
                 </form>
             </div>
 
             <div class="hge-list-container">
-                <h2><?php esc_html_e( 'All Seasons', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'All Seasons', 'bunkersnack-game-manager' ); ?></h2>
                 <?php if ( ! empty( $seasons ) ) : ?>
                     <table class="wp-list-table widefat striped">
                         <thead>
                             <tr>
-                                <th><?php esc_html_e( 'Season Name', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Description', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Actions', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Season Name', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Description', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Actions', 'bunkersnack-game-manager' ); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -235,10 +236,10 @@ class HGE_Admin {
                                     <td><?php echo wp_kses_post( wp_trim_words( $season->description, 20 ) ); ?></td>
                                     <td>
                                         <button type="button" class="button hge-edit-season" data-season-id="<?php echo intval( $season->id ); ?>">
-                                            <?php esc_html_e( 'Edit', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Edit', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                         <button type="button" class="button button-link-delete hge-delete-season" data-season-id="<?php echo intval( $season->id ); ?>">
-                                            <?php esc_html_e( 'Delete', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Delete', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                     </td>
                                 </tr>
@@ -246,7 +247,7 @@ class HGE_Admin {
                         </tbody>
                     </table>
                 <?php else : ?>
-                    <p><?php esc_html_e( 'No seasons found. Create one using the form above.', 'hockey-game-events' ); ?></p>
+                    <p><?php esc_html_e( 'No seasons found. Create one using the form above.', 'bunkersnack-game-manager' ); ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -260,50 +261,50 @@ class HGE_Admin {
         $teams = HGE_Database::get_all_teams();
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e( 'Teams', 'hockey-game-events' ); ?></h1>
+            <h1><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></h1>
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
             </div>
 
             <div id="hge-team-form-container" class="hge-form-container">
-                <h2><?php esc_html_e( 'Add/Edit Team', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'Add/Edit Team', 'bunkersnack-game-manager' ); ?></h2>
                 <form id="hge-team-form">
                     <input type="hidden" id="hge-team-id" name="id" value="0">
                     
                     <table class="form-table">
                         <tbody>
                             <tr>
-                                <th><label for="hge-team-name"><?php esc_html_e( 'Team Name', 'hockey-game-events' ); ?></label></th>
-                                <td><input type="text" id="hge-team-name" name="name" required class="regular-text" placeholder="<?php esc_attr_e( 'e.g., Örebro Ishockeyklubb', 'hockey-game-events' ); ?>"></td>
+                                <th><label for="hge-team-name"><?php esc_html_e( 'Team Name', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-team-name" name="name" required class="regular-text" placeholder="<?php esc_attr_e( 'e.g., Örebro Ishockeyklubb', 'bunkersnack-game-manager' ); ?>"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-team-shortcode"><?php esc_html_e( 'Team Shortcode', 'hockey-game-events' ); ?></label></th>
-                                <td><input type="text" id="hge-team-shortcode" name="shortcode" class="regular-text" placeholder="<?php esc_attr_e( 'e.g., ÖIK', 'hockey-game-events' ); ?>"></td>
+                                <th><label for="hge-team-shortcode"><?php esc_html_e( 'Team Shortcode', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-team-shortcode" name="shortcode" class="regular-text" placeholder="<?php esc_attr_e( 'e.g., ÖIK', 'bunkersnack-game-manager' ); ?>"></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <p class="submit">
-                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Team', 'hockey-game-events' ); ?></button>
-                        <button type="button" id="hge-team-reset" class="button"><?php esc_html_e( 'Clear Form', 'hockey-game-events' ); ?></button>
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Team', 'bunkersnack-game-manager' ); ?></button>
+                        <button type="button" id="hge-team-reset" class="button"><?php esc_html_e( 'Clear Form', 'bunkersnack-game-manager' ); ?></button>
                     </p>
                 </form>
             </div>
 
             <div class="hge-list-container">
-                <h2><?php esc_html_e( 'All Teams', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'All Teams', 'bunkersnack-game-manager' ); ?></h2>
                 <?php if ( ! empty( $teams ) ) : ?>
                     <table class="wp-list-table widefat striped">
                         <thead>
                             <tr>
-                                <th><?php esc_html_e( 'Team Name', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Shortcode', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Actions', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Team Name', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Shortcode', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Actions', 'bunkersnack-game-manager' ); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -313,10 +314,10 @@ class HGE_Admin {
                                     <td><?php echo esc_html( $team->shortcode ); ?></td>
                                     <td>
                                         <button type="button" class="button hge-edit-team" data-team-id="<?php echo intval( $team->id ); ?>">
-                                            <?php esc_html_e( 'Edit', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Edit', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                         <button type="button" class="button button-link-delete hge-delete-team" data-team-id="<?php echo intval( $team->id ); ?>">
-                                            <?php esc_html_e( 'Delete', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Delete', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                     </td>
                                 </tr>
@@ -324,7 +325,7 @@ class HGE_Admin {
                         </tbody>
                     </table>
                 <?php else : ?>
-                    <p><?php esc_html_e( 'No teams found. Create one using the form above.', 'hockey-game-events' ); ?></p>
+                    <p><?php esc_html_e( 'No teams found. Create one using the form above.', 'bunkersnack-game-manager' ); ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -339,25 +340,25 @@ class HGE_Admin {
         $teams = HGE_Database::get_all_teams();
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e( 'Players', 'hockey-game-events' ); ?></h1>
+            <h1><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></h1>
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
             </div>
 
             <div id="hge-player-form-container" class="hge-form-container">
-                <h2><?php esc_html_e( 'Add/Edit Player', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'Add/Edit Player', 'bunkersnack-game-manager' ); ?></h2>
                 <form id="hge-player-form">
                     <input type="hidden" id="hge-player-id" name="id" value="0">
                     
                     <table class="form-table">
                         <tbody>
                             <tr>
-                                <th><label for="hge-player-team"><?php esc_html_e( 'Team', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-player-team"><?php esc_html_e( 'Team', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-player-team" name="team_id" class="regular-text">
                                         <option value="">-- Select Team --</option>
@@ -370,52 +371,52 @@ class HGE_Admin {
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-player-name"><?php esc_html_e( 'Name', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-player-name"><?php esc_html_e( 'Name', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="text" id="hge-player-name" name="name" required class="regular-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-player-number"><?php esc_html_e( 'Jersey Number', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-player-number"><?php esc_html_e( 'Jersey Number', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-player-number" name="number" class="small-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-player-position"><?php esc_html_e( 'Position', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-player-position"><?php esc_html_e( 'Position', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-player-position" name="position" class="regular-text">
                                         <option value="">-- Select --</option>
-                                        <option value="C"><?php esc_html_e( 'Center', 'hockey-game-events' ); ?></option>
-                                        <option value="LW"><?php esc_html_e( 'Left Wing', 'hockey-game-events' ); ?></option>
-                                        <option value="RW"><?php esc_html_e( 'Right Wing', 'hockey-game-events' ); ?></option>
-                                        <option value="D"><?php esc_html_e( 'Defenseman', 'hockey-game-events' ); ?></option>
-                                        <option value="G"><?php esc_html_e( 'Goalie', 'hockey-game-events' ); ?></option>
+                                        <option value="C"><?php esc_html_e( 'Center', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="LW"><?php esc_html_e( 'Left Wing', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="RW"><?php esc_html_e( 'Right Wing', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="D"><?php esc_html_e( 'Defenseman', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="G"><?php esc_html_e( 'Goalie', 'bunkersnack-game-manager' ); ?></option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-player-goalie"><?php esc_html_e( 'Goalie', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-player-goalie"><?php esc_html_e( 'Goalie', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="checkbox" id="hge-player-goalie" name="is_goalie" value="1"></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <p class="submit">
-                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Player', 'hockey-game-events' ); ?></button>
-                        <button type="button" id="hge-player-reset" class="button"><?php esc_html_e( 'Clear Form', 'hockey-game-events' ); ?></button>
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Player', 'bunkersnack-game-manager' ); ?></button>
+                        <button type="button" id="hge-player-reset" class="button"><?php esc_html_e( 'Clear Form', 'bunkersnack-game-manager' ); ?></button>
                     </p>
                 </form>
             </div>
 
             <div class="hge-list-container">
-                <h2><?php esc_html_e( 'All Players', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'All Players', 'bunkersnack-game-manager' ); ?></h2>
                 <?php if ( ! empty( $players ) ) : ?>
                     <table class="wp-list-table widefat striped">
                         <thead>
                             <tr>
-                                <th><?php esc_html_e( 'Team', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Name', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Number', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Position', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Type', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Actions', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Team', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Name', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Number', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Position', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Type', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Actions', 'bunkersnack-game-manager' ); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -428,10 +429,10 @@ class HGE_Admin {
                                     <td><?php echo esc_html( $player->is_goalie ? 'Goalie' : 'Skater' ); ?></td>
                                     <td>
                                         <button type="button" class="button hge-edit-player" data-player-id="<?php echo intval( $player->id ); ?>">
-                                            <?php esc_html_e( 'Edit', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Edit', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                         <button type="button" class="button button-link-delete hge-delete-player" data-player-id="<?php echo intval( $player->id ); ?>">
-                                            <?php esc_html_e( 'Delete', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Delete', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                     </td>
                                 </tr>
@@ -439,7 +440,7 @@ class HGE_Admin {
                         </tbody>
                     </table>
                 <?php else : ?>
-                    <p><?php esc_html_e( 'No players found. Create one using the form above.', 'hockey-game-events' ); ?></p>
+                    <p><?php esc_html_e( 'No players found. Create one using the form above.', 'bunkersnack-game-manager' ); ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -456,26 +457,26 @@ class HGE_Admin {
         $seasons_list = HGE_Database::get_all_seasons_list();
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e( 'Games', 'hockey-game-events' ); ?></h1>
+            <h1><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></h1>
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-seasons' ) ); ?>" class="button">Seasons</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button">Seasons</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
             </div>
 
             <div id="hge-game-form-container" class="hge-form-container">
-                <h2><?php esc_html_e( 'Add/Edit Game', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'Add/Edit Game', 'bunkersnack-game-manager' ); ?></h2>
                 <form id="hge-game-form">
                     <input type="hidden" id="hge-game-id" name="id" value="0">
                     
                     <table class="form-table">
                         <tbody>
                             <tr>
-                                <th><label for="hge-game-season"><?php esc_html_e( 'Season', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-season"><?php esc_html_e( 'Season', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-game-season" name="season" class="regular-text">
                                         <option value="">-- Select Season --</option>
@@ -486,11 +487,11 @@ class HGE_Admin {
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-date"><?php esc_html_e( 'Date', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-date"><?php esc_html_e( 'Date', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="date" id="hge-game-date" name="game_date" required class="regular-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-home-team"><?php esc_html_e( 'Home Team', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-home-team"><?php esc_html_e( 'Home Team', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-game-home-team" name="home_team" class="regular-text">
                                         <option value="">Select team...</option>
@@ -501,7 +502,7 @@ class HGE_Admin {
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-away-team"><?php esc_html_e( 'Away Team', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-away-team"><?php esc_html_e( 'Away Team', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-game-away-team" name="away_team" class="regular-text">
                                         <option value="">Select team...</option>
@@ -512,44 +513,44 @@ class HGE_Admin {
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-location"><?php esc_html_e( 'Location', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-location"><?php esc_html_e( 'Location', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="text" id="hge-game-location" name="location" class="regular-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-home-score"><?php esc_html_e( 'Home Score', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-home-score"><?php esc_html_e( 'Home Score', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-game-home-score" name="home_score" min="0" class="small-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-away-score"><?php esc_html_e( 'Away Score', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-away-score"><?php esc_html_e( 'Away Score', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-game-away-score" name="away_score" min="0" class="small-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-notes"><?php esc_html_e( 'Notes', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-game-notes"><?php esc_html_e( 'Notes', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><textarea id="hge-game-notes" name="notes" class="large-text" rows="4"></textarea></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <p class="submit">
-                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Game', 'hockey-game-events' ); ?></button>
-                        <button type="button" id="hge-game-reset" class="button"><?php esc_html_e( 'Clear Form', 'hockey-game-events' ); ?></button>
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Game', 'bunkersnack-game-manager' ); ?></button>
+                        <button type="button" id="hge-game-reset" class="button"><?php esc_html_e( 'Clear Form', 'bunkersnack-game-manager' ); ?></button>
                     </p>
                 </form>
             </div>
 
             <div class="hge-list-container">
-                <h2><?php esc_html_e( 'All Games', 'hockey-game-events' ); ?></h2>
+                <h2><?php esc_html_e( 'All Games', 'bunkersnack-game-manager' ); ?></h2>
                 <?php if ( ! empty( $games ) ) : ?>
                     <table class="wp-list-table widefat striped">
                         <thead>
                             <tr>
-                                <th><?php esc_html_e( 'Season', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Date', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Home Team', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Away Team', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Score', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Location', 'hockey-game-events' ); ?></th>
-                                <th><?php esc_html_e( 'Actions', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Season', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Date', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Home Team', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Away Team', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Score', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Location', 'bunkersnack-game-manager' ); ?></th>
+                                <th><?php esc_html_e( 'Actions', 'bunkersnack-game-manager' ); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -571,13 +572,13 @@ class HGE_Admin {
                                     <td><?php echo esc_html( $game->location ); ?></td>
                                     <td>
                                         <button type="button" class="button hge-edit-game" data-game-id="<?php echo intval( $game->id ); ?>">
-                                            <?php esc_html_e( 'Edit', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Edit', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                         <button type="button" class="button hge-manage-events" data-game-id="<?php echo intval( $game->id ); ?>">
-                                            <?php esc_html_e( 'Events', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Events', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                         <button type="button" class="button button-link-delete hge-delete-game" data-game-id="<?php echo intval( $game->id ); ?>">
-                                            <?php esc_html_e( 'Delete', 'hockey-game-events' ); ?>
+                                            <?php esc_html_e( 'Delete', 'bunkersnack-game-manager' ); ?>
                                         </button>
                                     </td>
                                 </tr>
@@ -585,7 +586,7 @@ class HGE_Admin {
                         </tbody>
                     </table>
                 <?php else : ?>
-                    <p><?php esc_html_e( 'No games found. Create one using the form above.', 'hockey-game-events' ); ?></p>
+                    <p><?php esc_html_e( 'No games found. Create one using the form above.', 'bunkersnack-game-manager' ); ?></p>
                 <?php endif; ?>
             </div>
         </div>
@@ -596,7 +597,7 @@ class HGE_Admin {
                 <span class="hge-close">&times;</span>
                 <h2 id="hge-events-modal-title"></h2>
                 
-                <h3><?php esc_html_e( 'Add Event', 'hockey-game-events' ); ?></h3>
+                <h3><?php esc_html_e( 'Add Event', 'bunkersnack-game-manager' ); ?></h3>
                 <form id="hge-event-form">
                     <input type="hidden" id="hge-event-game-id" name="game_id" value="0">
                     <input type="hidden" id="hge-event-id" name="id" value="0">
@@ -604,20 +605,20 @@ class HGE_Admin {
                     <table class="form-table">
                         <tbody>
                             <tr>
-                                <th><label for="hge-event-type"><?php esc_html_e( 'Event Type', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-event-type"><?php esc_html_e( 'Event Type', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-event-type" name="event_type" required>
                                         <option value="">-- Select --</option>
-                                        <option value="goal"><?php esc_html_e( 'Goal', 'hockey-game-events' ); ?></option>
-                                        <option value="assist"><?php esc_html_e( 'Assist', 'hockey-game-events' ); ?></option>
-                                        <option value="penalty"><?php esc_html_e( 'Penalty', 'hockey-game-events' ); ?></option>
-                                        <option value="shot_against"><?php esc_html_e( 'Shot Against', 'hockey-game-events' ); ?></option>
-                                        <option value="goal_allowed"><?php esc_html_e( 'Goal Allowed', 'hockey-game-events' ); ?></option>
+                                        <option value="goal"><?php esc_html_e( 'Goal', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="assist"><?php esc_html_e( 'Assist', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="penalty"><?php esc_html_e( 'Penalty', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="shot_against"><?php esc_html_e( 'Shot Against', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="goal_allowed"><?php esc_html_e( 'Goal Allowed', 'bunkersnack-game-manager' ); ?></option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-event-player"><?php esc_html_e( 'Player', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-event-player"><?php esc_html_e( 'Player', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-event-player" name="player_id">
                                         <option value="">-- Select Player --</option>
@@ -630,34 +631,34 @@ class HGE_Admin {
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-event-period"><?php esc_html_e( 'Period', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-event-period"><?php esc_html_e( 'Period', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-event-period" name="period" required>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
-                                        <option value="4"><?php esc_html_e( 'OT', 'hockey-game-events' ); ?></option>
+                                        <option value="4"><?php esc_html_e( 'OT', 'bunkersnack-game-manager' ); ?></option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-event-time"><?php esc_html_e( 'Time (minutes)', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-event-time"><?php esc_html_e( 'Time (minutes)', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-event-time" name="event_time" min="0" max="60" class="small-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-event-description"><?php esc_html_e( 'Description', 'hockey-game-events' ); ?></label></th>
+                                <th><label for="hge-event-description"><?php esc_html_e( 'Description', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><textarea id="hge-event-description" name="description" class="large-text" rows="3"></textarea></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <p class="submit">
-                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Event', 'hockey-game-events' ); ?></button>
-                        <button type="button" id="hge-event-reset" class="button"><?php esc_html_e( 'Clear Form', 'hockey-game-events' ); ?></button>
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Event', 'bunkersnack-game-manager' ); ?></button>
+                        <button type="button" id="hge-event-reset" class="button"><?php esc_html_e( 'Clear Form', 'bunkersnack-game-manager' ); ?></button>
                     </p>
                 </form>
 
-                <h3><?php esc_html_e( 'Game Events', 'hockey-game-events' ); ?></h3>
+                <h3><?php esc_html_e( 'Game Events', 'bunkersnack-game-manager' ); ?></h3>
                 <div id="hge-events-list"></div>
             </div>
         </div>
@@ -673,20 +674,20 @@ class HGE_Admin {
         $stats = $current_season ? HGE_Stats::get_season_stats( $current_season, array( 'orderby' => 'goals', 'order' => 'DESC' ) ) : array();
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e( 'Player Statistics', 'hockey-game-events' ); ?></h1>
-            <p><?php esc_html_e( 'Automatically calculated player statistics based on game events.', 'hockey-game-events' ); ?></p>
+            <h1><?php esc_html_e( 'Player Statistics', 'bunkersnack-game-manager' ); ?></h1>
+            <p><?php esc_html_e( 'Automatically calculated player statistics based on game events.', 'bunkersnack-game-manager' ); ?></p>
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-players' ) ); ?>" class="button">Players</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
             </div>
 
             <?php if ( ! empty( $seasons ) ) : ?>
                 <div class="hge-season-filter">
-                    <label for="hge-season-select"><?php esc_html_e( 'Select Season:', 'hockey-game-events' ); ?></label>
+                    <label for="hge-season-select"><?php esc_html_e( 'Select Season:', 'bunkersnack-game-manager' ); ?></label>
                     <select id="hge-season-select">
                         <?php foreach ( $seasons as $season ) : ?>
                             <option value="<?php echo esc_attr( $season ); ?>" <?php selected( $season, $current_season ); ?>>
@@ -699,15 +700,15 @@ class HGE_Admin {
                 <table class="wp-list-table widefat striped" id="hge-stats-table">
                     <thead>
                         <tr>
-                            <th><?php esc_html_e( 'Team', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'Player', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'Position', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'GP', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'Goals', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'Assists', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'PIM', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'Shots Against', 'hockey-game-events' ); ?></th>
-                            <th><?php esc_html_e( 'Goals Allowed', 'hockey-game-events' ); ?></th>
+                            <th><?php esc_html_e( 'Team', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'Player', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'Position', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'GP', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'Goals', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'Assists', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'PIM', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'Shots Against', 'bunkersnack-game-manager' ); ?></th>
+                            <th><?php esc_html_e( 'Goals Allowed', 'bunkersnack-game-manager' ); ?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -727,13 +728,13 @@ class HGE_Admin {
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="9"><?php esc_html_e( 'No statistics available for this season.', 'hockey-game-events' ); ?></td>
+                                <td colspan="9"><?php esc_html_e( 'No statistics available for this season.', 'bunkersnack-game-manager' ); ?></td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
             <?php else : ?>
-                <p><?php esc_html_e( 'No seasons available. Create some games and events first.', 'hockey-game-events' ); ?></p>
+                <p><?php esc_html_e( 'No seasons available. Create some games and events first.', 'bunkersnack-game-manager' ); ?></p>
             <?php endif; ?>
         </div>
 
@@ -755,7 +756,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $player_id = HGE_Database::save_player( $_POST );
@@ -763,7 +764,7 @@ class HGE_Admin {
         if ( $player_id ) {
             wp_send_json_success( array( 'id' => $player_id ) );
         } else {
-            wp_send_json_error( __( 'Failed to save player', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Failed to save player', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -776,7 +777,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $season_id = HGE_Database::save_season( $_POST );
@@ -784,7 +785,7 @@ class HGE_Admin {
         if ( $season_id ) {
             wp_send_json_success( array( 'id' => $season_id ) );
         } else {
-            wp_send_json_error( __( 'Failed to save season', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Failed to save season', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -795,7 +796,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $result = HGE_Database::delete_season( intval( $_POST['id'] ) );
@@ -803,7 +804,7 @@ class HGE_Admin {
         if ( $result ) {
             wp_send_json_success();
         } else {
-            wp_send_json_error( __( 'Failed to delete season', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Failed to delete season', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -814,7 +815,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $season = HGE_Database::get_season( intval( $_POST['id'] ) );
@@ -822,7 +823,7 @@ class HGE_Admin {
         if ( $season ) {
             wp_send_json_success( $season );
         } else {
-            wp_send_json_error( __( 'Season not found', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Season not found', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -835,7 +836,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $team_id = HGE_Database::save_team( $_POST );
@@ -843,7 +844,7 @@ class HGE_Admin {
         if ( $team_id ) {
             wp_send_json_success( array( 'id' => $team_id ) );
         } else {
-            wp_send_json_error( __( 'Failed to save team', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Failed to save team', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -854,7 +855,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $team_id = intval( $_POST['id'] );
@@ -868,7 +869,7 @@ class HGE_Admin {
      */
     public static function ajax_get_team() {
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $team_id = intval( $_GET['id'] );
@@ -877,7 +878,7 @@ class HGE_Admin {
         if ( $team ) {
             wp_send_json_success( $team );
         } else {
-            wp_send_json_error( __( 'Team not found', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Team not found', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -888,7 +889,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $player_id = intval( $_POST['id'] );
@@ -902,7 +903,7 @@ class HGE_Admin {
      */
     public static function ajax_get_player() {
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $player_id = intval( $_GET['id'] );
@@ -911,7 +912,7 @@ class HGE_Admin {
         if ( $player ) {
             wp_send_json_success( $player );
         } else {
-            wp_send_json_error( __( 'Player not found', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Player not found', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -922,7 +923,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $game_id = HGE_Database::save_game( $_POST );
@@ -930,7 +931,7 @@ class HGE_Admin {
         if ( $game_id ) {
             wp_send_json_success( array( 'id' => $game_id ) );
         } else {
-            wp_send_json_error( __( 'Failed to save game', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Failed to save game', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -941,7 +942,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $game_id = intval( $_POST['id'] );
@@ -955,7 +956,7 @@ class HGE_Admin {
      */
     public static function ajax_get_game() {
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $game_id = intval( $_GET['id'] );
@@ -964,7 +965,7 @@ class HGE_Admin {
         if ( $game ) {
             wp_send_json_success( $game );
         } else {
-            wp_send_json_error( __( 'Game not found', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Game not found', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -975,7 +976,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $event_id = HGE_Database::save_event( $_POST );
@@ -987,7 +988,7 @@ class HGE_Admin {
 
             wp_send_json_success( array( 'id' => $event_id ) );
         } else {
-            wp_send_json_error( __( 'Failed to save event', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Failed to save event', 'bunkersnack-game-manager' ) );
         }
     }
 
@@ -998,7 +999,7 @@ class HGE_Admin {
         check_ajax_referer( 'hge_admin_nonce', 'nonce' );
 
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $event_id = intval( $_POST['id'] );
@@ -1020,7 +1021,7 @@ class HGE_Admin {
      */
     public static function ajax_get_game_events() {
         if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
         }
 
         $game_id = intval( $_GET['id'] );

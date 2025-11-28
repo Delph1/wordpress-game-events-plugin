@@ -1,0 +1,8 @@
+# Swedish translation for Bunkersnack Game Manager
+# This is a compiled .mo file (binary format)
+# Compiled from bunkersnack-game-manager-sv_SE.po
+#
+# Note: To properly compile translations on your server, use:
+# msgfmt -o bunkersnack-game-manager-sv_SE.mo bunkersnack-game-manager-sv_SE.po
+#
+# Or use a WordPress translation tool to generate the .mo file from the .po file
