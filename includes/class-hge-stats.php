@@ -219,6 +219,7 @@ class HGE_Stats {
         global $wpdb;
         $stats_table = $wpdb->prefix . 'hge_player_stats';
         $players_table = $wpdb->prefix . 'hge_players';
+        $teams_table = $wpdb->prefix . 'hge_teams';
 
         if ( is_null( $season ) ) {
             $season = date( 'Y' );
@@ -228,10 +229,11 @@ class HGE_Stats {
         $order = ! empty( $args['order'] ) ? strtoupper( $args['order'] ) : 'DESC';
 
         $query = $wpdb->prepare(
-            "SELECT s.*, p.name, p.position, p.number, p.is_goalie FROM $stats_table s
+            "SELECT s.*, p.name, p.position, p.number, p.is_goalie, t.name as team_name FROM $stats_table s
             INNER JOIN $players_table p ON s.player_id = p.id
+            LEFT JOIN $teams_table t ON p.team_id = t.id
             WHERE s.season = %s
-            ORDER BY s.$orderby $order",
+            ORDER BY t.name ASC, s.$orderby $order",
             $season
         );
 

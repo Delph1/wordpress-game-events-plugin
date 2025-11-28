@@ -200,6 +200,7 @@ class HGE_Shortcodes {
         $html .= '<table class="hge-stats-table" data-sortable="true">';
         $html .= '<thead>';
         $html .= '<tr>';
+        $html .= '<th class="hge-col-team">' . esc_html__( 'Team', 'hockey-game-events' ) . '</th>';
         $html .= '<th class="hge-col-name">' . esc_html__( 'Player', 'hockey-game-events' ) . '</th>';
         $html .= '<th class="hge-col-number">#</th>';
         $html .= '<th class="hge-col-position">' . esc_html__( 'Position', 'hockey-game-events' ) . '</th>';
@@ -215,6 +216,7 @@ class HGE_Shortcodes {
 
         foreach ( $stats as $stat ) {
             $html .= '<tr class="' . ( $stat->is_goalie ? 'hge-goalie' : 'hge-skater' ) . '">';
+            $html .= '<td class="hge-col-team">' . esc_html( $stat->team_name ) . '</td>';
             $html .= '<td class="hge-col-name">' . esc_html( $stat->name ) . '</td>';
             $html .= '<td class="hge-col-number">' . esc_html( $stat->number ) . '</td>';
             $html .= '<td class="hge-col-position">' . esc_html( $stat->position ) . '</td>';

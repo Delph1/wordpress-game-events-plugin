@@ -4,6 +4,24 @@
 
 (function ($) {
     $(document).ready(function () {
+        // Team Management
+        $("#hge-team-form").on("submit", function (e) {
+            e.preventDefault();
+            saveTeam();
+        });
+
+        $("#hge-team-reset").on("click", function () {
+            resetTeamForm();
+        });
+
+        $(".hge-edit-team").on("click", function () {
+            editTeam($(this).data("team-id"));
+        });
+
+        $(".hge-delete-team").on("click", function () {
+            deleteTeam($(this).data("team-id"), $(this).closest("tr"));
+        });
+
         // Player Management
         $("#hge-player-form").on("submit", function (e) {
             e.preventDefault();
@@ -66,6 +84,77 @@
             }
         });
     });
+
+    // Team Functions
+    function saveTeam() {
+        const form = $("#hge-team-form");
+        const data = form.serialize() + "&action=hge_save_team&nonce=" + hgeAdmin.nonce;
+
+        $.ajax({
+            type: "POST",
+            url: hgeAdmin.ajax_url,
+            data: data,
+            success: function (response) {
+                if (response.success) {
+                    alert(hgeAdmin.strings.saved);
+                    resetTeamForm();
+                    location.reload();
+                } else {
+                    alert(response.data || hgeAdmin.strings.error);
+                }
+            },
+            error: function () {
+                alert(hgeAdmin.strings.error);
+            },
+        });
+    }
+
+    function editTeam(teamId) {
+        $.ajax({
+            type: "GET",
+            url: hgeAdmin.ajax_url + "?action=hge_get_team&id=" + teamId,
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    const team = response.data;
+                    $("#hge-team-id").val(team.id);
+                    $("#hge-team-name").val(team.name);
+                    $("#hge-team-shortcode").val(team.shortcode);
+                    $("#hge-team-form-container").scrollIntoView();
+                } else {
+                    alert(hgeAdmin.strings.error);
+                }
+            },
+        });
+    }
+
+    function deleteTeam(teamId, row) {
+        if (confirm(hgeAdmin.strings.confirm_delete)) {
+            $.ajax({
+                type: "POST",
+                url: hgeAdmin.ajax_url,
+                data: {
+                    action: "hge_delete_team",
+                    id: teamId,
+                    nonce: hgeAdmin.nonce,
+                },
+                success: function (response) {
+                    if (response.success) {
+                        row.fadeOut(300, function () {
+                            $(this).remove();
+                        });
+                    } else {
+                        alert(hgeAdmin.strings.error);
+                    }
+                },
+            });
+        }
+    }
+
+    function resetTeamForm() {
+        $("#hge-team-form")[0].reset();
+        $("#hge-team-id").val(0);
+    }
 
     // Player Functions
     function savePlayer() {

@@ -29,10 +29,24 @@ class HGE_Database {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
 
+        // Teams table
+        $teams_table = $wpdb->prefix . 'hge_teams';
+        $teams_sql = "CREATE TABLE IF NOT EXISTS $teams_table (
+            id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            name VARCHAR(255) NOT NULL,
+            shortcode VARCHAR(50),
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            KEY name_idx (name),
+            UNIQUE KEY shortcode_idx (shortcode)
+        ) $charset_collate;";
+
         // Players table
         $players_table = $wpdb->prefix . 'hge_players';
         $players_sql = "CREATE TABLE IF NOT EXISTS $players_table (
             id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+            team_id BIGINT(20) UNSIGNED,
             name VARCHAR(100) NOT NULL,
             number INT(3),
             position VARCHAR(50),
@@ -40,7 +54,9 @@ class HGE_Database {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
-            KEY name_idx (name)
+            KEY name_idx (name),
+            KEY team_id_idx (team_id),
+            FOREIGN KEY (team_id) REFERENCES $teams_table(id) ON DELETE SET NULL
         ) $charset_collate;";
 
         // Games table
@@ -100,14 +116,99 @@ class HGE_Database {
         ) $charset_collate;";
 
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        dbDelta( $teams_sql );
         dbDelta( $players_sql );
         dbDelta( $games_sql );
         dbDelta( $events_sql );
         dbDelta( $stats_sql );
     }
 
+    // ===== TEAMS METHODS =====
+
     /**
-     * Get a player by ID
+     * Get all teams
+     *
+     * @return array
+     */
+    public static function get_all_teams() {
+        global $wpdb;
+        $teams_table = $wpdb->prefix . 'hge_teams';
+        return $wpdb->get_results( "SELECT * FROM $teams_table ORDER BY name ASC" );
+    }
+
+    /**
+     * Get a team by ID
+     *
+     * @param int $team_id Team ID
+     * @return object|null
+     */
+    public static function get_team( $team_id ) {
+        global $wpdb;
+        $teams_table = $wpdb->prefix . 'hge_teams';
+        return $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT * FROM $teams_table WHERE id = %d",
+                $team_id
+            )
+        );
+    }
+
+    /**
+     * Create or update a team
+     *
+     * @param array $data Team data
+     * @return int|false Team ID or false
+     */
+    public static function save_team( $data ) {
+        global $wpdb;
+        $teams_table = $wpdb->prefix . 'hge_teams';
+
+        if ( isset( $data['id'] ) && $data['id'] > 0 ) {
+            // Update
+            return $wpdb->update(
+                $teams_table,
+                array(
+                    'name'      => sanitize_text_field( $data['name'] ),
+                    'shortcode' => sanitize_text_field( $data['shortcode'] ?? '' ),
+                ),
+                array( 'id' => $data['id'] ),
+                array( '%s', '%s' ),
+                array( '%d' )
+            );
+        } else {
+            // Insert
+            $wpdb->insert(
+                $teams_table,
+                array(
+                    'name'      => sanitize_text_field( $data['name'] ),
+                    'shortcode' => sanitize_text_field( $data['shortcode'] ?? '' ),
+                ),
+                array( '%s', '%s' )
+            );
+            return $wpdb->insert_id;
+        }
+    }
+
+    /**
+     * Delete a team
+     *
+     * @param int $team_id Team ID
+     * @return int|false
+     */
+    public static function delete_team( $team_id ) {
+        global $wpdb;
+        $teams_table = $wpdb->prefix . 'hge_teams';
+        return $wpdb->delete(
+            $teams_table,
+            array( 'id' => $team_id ),
+            array( '%d' )
+        );
+    }
+
+    // ===== PLAYERS METHODS =====
+
+    /**
+     * Get a single player
      *
      * @param int $player_id Player ID
      * @return object|null
@@ -131,7 +232,12 @@ class HGE_Database {
     public static function get_all_players() {
         global $wpdb;
         $players_table = $wpdb->prefix . 'hge_players';
-        return $wpdb->get_results( "SELECT * FROM $players_table ORDER BY name ASC" );
+        $teams_table = $wpdb->prefix . 'hge_teams';
+        return $wpdb->get_results( 
+            "SELECT p.*, t.name as team_name FROM $players_table p
+            LEFT JOIN $teams_table t ON p.team_id = t.id
+            ORDER BY t.name ASC, p.name ASC" 
+        );
     }
 
     /**
@@ -149,13 +255,14 @@ class HGE_Database {
             return $wpdb->update(
                 $players_table,
                 array(
+                    'team_id'    => ! empty( $data['team_id'] ) ? intval( $data['team_id'] ) : null,
                     'name'       => sanitize_text_field( $data['name'] ),
                     'number'     => ! empty( $data['number'] ) ? intval( $data['number'] ) : null,
                     'position'   => sanitize_text_field( $data['position'] ?? '' ),
                     'is_goalie'  => isset( $data['is_goalie'] ) ? 1 : 0,
                 ),
                 array( 'id' => $data['id'] ),
-                array( '%s', '%d', '%s', '%d' ),
+                array( '%d', '%s', '%d', '%s', '%d' ),
                 array( '%d' )
             );
         } else {
@@ -163,12 +270,13 @@ class HGE_Database {
             $wpdb->insert(
                 $players_table,
                 array(
+                    'team_id'    => ! empty( $data['team_id'] ) ? intval( $data['team_id'] ) : null,
                     'name'       => sanitize_text_field( $data['name'] ),
                     'number'     => ! empty( $data['number'] ) ? intval( $data['number'] ) : null,
                     'position'   => sanitize_text_field( $data['position'] ?? '' ),
                     'is_goalie'  => isset( $data['is_goalie'] ) ? 1 : 0,
                 ),
-                array( '%s', '%d', '%s', '%d' )
+                array( '%d', '%s', '%d', '%s', '%d' )
             );
             return $wpdb->insert_id;
         }

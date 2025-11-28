@@ -21,6 +21,9 @@ class HGE_Admin {
     public static function init() {
         add_action( 'admin_menu', array( __CLASS__, 'add_admin_menu' ) );
         add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_admin_scripts' ) );
+        add_action( 'wp_ajax_hge_save_team', array( __CLASS__, 'ajax_save_team' ) );
+        add_action( 'wp_ajax_hge_delete_team', array( __CLASS__, 'ajax_delete_team' ) );
+        add_action( 'wp_ajax_hge_get_team', array( __CLASS__, 'ajax_get_team' ) );
         add_action( 'wp_ajax_hge_save_player', array( __CLASS__, 'ajax_save_player' ) );
         add_action( 'wp_ajax_hge_delete_player', array( __CLASS__, 'ajax_delete_player' ) );
         add_action( 'wp_ajax_hge_get_player', array( __CLASS__, 'ajax_get_player' ) );
@@ -44,6 +47,15 @@ class HGE_Admin {
             array( __CLASS__, 'render_main_page' ),
             'dashicons-sports',
             25
+        );
+
+        add_submenu_page(
+            'hockey-game-events',
+            __( 'Teams', 'hockey-game-events' ),
+            __( 'Teams', 'hockey-game-events' ),
+            'manage_options',
+            'hockey-game-events-teams',
+            array( __CLASS__, 'render_teams_page' )
         );
 
         add_submenu_page(
@@ -108,8 +120,15 @@ class HGE_Admin {
         ?>
         <div class="wrap">
             <h1><?php esc_html_e( 'Hockey Game Events', 'hockey-game-events' ); ?></h1>
-            <p><?php esc_html_e( 'Welcome to the Hockey Game Events plugin. Use the menu to manage players, games, and events.', 'hockey-game-events' ); ?></p>
+            <p><?php esc_html_e( 'Welcome to the Hockey Game Events plugin. Use the menu to manage teams, players, games, and events.', 'hockey-game-events' ); ?></p>
             <div class="hge-dashboard">
+                <div class="hge-dashboard-card">
+                    <h3><?php esc_html_e( 'Teams', 'hockey-game-events' ); ?></h3>
+                    <p><?php esc_html_e( 'Manage your hockey teams.', 'hockey-game-events' ); ?></p>
+                    <a href="<?php echo esc_url( admin_url( 'admin.php?page=hockey-game-events-teams' ) ); ?>" class="button button-primary">
+                        <?php esc_html_e( 'Manage Teams', 'hockey-game-events' ); ?>
+                    </a>
+                </div>
                 <div class="hge-dashboard-card">
                     <h3><?php esc_html_e( 'Players', 'hockey-game-events' ); ?></h3>
                     <p><?php esc_html_e( 'Manage team players and their information.', 'hockey-game-events' ); ?></p>
@@ -137,10 +156,81 @@ class HGE_Admin {
     }
 
     /**
+     * Render teams admin page
+     */
+    public static function render_teams_page() {
+        $teams = HGE_Database::get_all_teams();
+        ?>
+        <div class="wrap">
+            <h1><?php esc_html_e( 'Teams', 'hockey-game-events' ); ?></h1>
+
+            <div id="hge-team-form-container" class="hge-form-container">
+                <h2><?php esc_html_e( 'Add/Edit Team', 'hockey-game-events' ); ?></h2>
+                <form id="hge-team-form">
+                    <input type="hidden" id="hge-team-id" name="id" value="0">
+                    
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th><label for="hge-team-name"><?php esc_html_e( 'Team Name', 'hockey-game-events' ); ?></label></th>
+                                <td><input type="text" id="hge-team-name" name="name" required class="regular-text" placeholder="<?php esc_attr_e( 'e.g., Örebro Ishockeyklubb', 'hockey-game-events' ); ?>"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="hge-team-shortcode"><?php esc_html_e( 'Team Shortcode', 'hockey-game-events' ); ?></label></th>
+                                <td><input type="text" id="hge-team-shortcode" name="shortcode" class="regular-text" placeholder="<?php esc_attr_e( 'e.g., ÖIK', 'hockey-game-events' ); ?>"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <p class="submit">
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Team', 'hockey-game-events' ); ?></button>
+                        <button type="button" id="hge-team-reset" class="button"><?php esc_html_e( 'Clear Form', 'hockey-game-events' ); ?></button>
+                    </p>
+                </form>
+            </div>
+
+            <div class="hge-list-container">
+                <h2><?php esc_html_e( 'All Teams', 'hockey-game-events' ); ?></h2>
+                <?php if ( ! empty( $teams ) ) : ?>
+                    <table class="wp-list-table widefat striped">
+                        <thead>
+                            <tr>
+                                <th><?php esc_html_e( 'Team Name', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Shortcode', 'hockey-game-events' ); ?></th>
+                                <th><?php esc_html_e( 'Actions', 'hockey-game-events' ); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ( $teams as $team ) : ?>
+                                <tr data-team-id="<?php echo intval( $team->id ); ?>">
+                                    <td><?php echo esc_html( $team->name ); ?></td>
+                                    <td><?php echo esc_html( $team->shortcode ); ?></td>
+                                    <td>
+                                        <button type="button" class="button hge-edit-team" data-team-id="<?php echo intval( $team->id ); ?>">
+                                            <?php esc_html_e( 'Edit', 'hockey-game-events' ); ?>
+                                        </button>
+                                        <button type="button" class="button button-link-delete hge-delete-team" data-team-id="<?php echo intval( $team->id ); ?>">
+                                            <?php esc_html_e( 'Delete', 'hockey-game-events' ); ?>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else : ?>
+                    <p><?php esc_html_e( 'No teams found. Create one using the form above.', 'hockey-game-events' ); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
+        <?php
+    }
+
+    /**
      * Render players admin page
      */
     public static function render_players_page() {
         $players = HGE_Database::get_all_players();
+        $teams = HGE_Database::get_all_teams();
         ?>
         <div class="wrap">
             <h1><?php esc_html_e( 'Players', 'hockey-game-events' ); ?></h1>
@@ -152,6 +242,19 @@ class HGE_Admin {
                     
                     <table class="form-table">
                         <tbody>
+                            <tr>
+                                <th><label for="hge-player-team"><?php esc_html_e( 'Team', 'hockey-game-events' ); ?></label></th>
+                                <td>
+                                    <select id="hge-player-team" name="team_id" class="regular-text">
+                                        <option value="">-- Select Team --</option>
+                                        <?php foreach ( $teams as $team ) : ?>
+                                            <option value="<?php echo intval( $team->id ); ?>">
+                                                <?php echo esc_html( $team->name ); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+                            </tr>
                             <tr>
                                 <th><label for="hge-player-name"><?php esc_html_e( 'Name', 'hockey-game-events' ); ?></label></th>
                                 <td><input type="text" id="hge-player-name" name="name" required class="regular-text"></td>
@@ -193,6 +296,7 @@ class HGE_Admin {
                     <table class="wp-list-table widefat striped">
                         <thead>
                             <tr>
+                                <th><?php esc_html_e( 'Team', 'hockey-game-events' ); ?></th>
                                 <th><?php esc_html_e( 'Name', 'hockey-game-events' ); ?></th>
                                 <th><?php esc_html_e( 'Number', 'hockey-game-events' ); ?></th>
                                 <th><?php esc_html_e( 'Position', 'hockey-game-events' ); ?></th>
@@ -203,6 +307,7 @@ class HGE_Admin {
                         <tbody>
                             <?php foreach ( $players as $player ) : ?>
                                 <tr data-player-id="<?php echo intval( $player->id ); ?>">
+                                    <td><?php echo esc_html( $player->team_name ); ?></td>
                                     <td><?php echo esc_html( $player->name ); ?></td>
                                     <td><?php echo esc_html( $player->number ); ?></td>
                                     <td><?php echo esc_html( $player->position ); ?></td>
@@ -437,6 +542,7 @@ class HGE_Admin {
                 <table class="wp-list-table widefat striped" id="hge-stats-table">
                     <thead>
                         <tr>
+                            <th><?php esc_html_e( 'Team', 'hockey-game-events' ); ?></th>
                             <th><?php esc_html_e( 'Player', 'hockey-game-events' ); ?></th>
                             <th><?php esc_html_e( 'Position', 'hockey-game-events' ); ?></th>
                             <th><?php esc_html_e( 'GP', 'hockey-game-events' ); ?></th>
@@ -451,6 +557,7 @@ class HGE_Admin {
                         <?php if ( ! empty( $stats ) ) : ?>
                             <?php foreach ( $stats as $stat ) : ?>
                                 <tr class="<?php echo esc_attr( $stat->is_goalie ? 'hge-goalie' : 'hge-skater' ); ?>">
+                                    <td><?php echo esc_html( $stat->team_name ?: '(No Team)' ); ?></td>
                                     <td><?php echo esc_html( $stat->name . ' #' . $stat->number ); ?></td>
                                     <td><?php echo esc_html( $stat->position ); ?></td>
                                     <td><?php echo intval( $stat->games_played ); ?></td>
@@ -463,7 +570,7 @@ class HGE_Admin {
                             <?php endforeach; ?>
                         <?php else : ?>
                             <tr>
-                                <td colspan="8"><?php esc_html_e( 'No statistics available for this season.', 'hockey-game-events' ); ?></td>
+                                <td colspan="9"><?php esc_html_e( 'No statistics available for this season.', 'hockey-game-events' ); ?></td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -500,6 +607,61 @@ class HGE_Admin {
             wp_send_json_success( array( 'id' => $player_id ) );
         } else {
             wp_send_json_error( __( 'Failed to save player', 'hockey-game-events' ) );
+        }
+    }
+
+    // ===== TEAM AJAX HANDLERS =====
+
+    /**
+     * AJAX: Save team
+     */
+    public static function ajax_save_team() {
+        check_ajax_referer( 'hge_admin_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+        }
+
+        $team_id = HGE_Database::save_team( $_POST );
+
+        if ( $team_id ) {
+            wp_send_json_success( array( 'id' => $team_id ) );
+        } else {
+            wp_send_json_error( __( 'Failed to save team', 'hockey-game-events' ) );
+        }
+    }
+
+    /**
+     * AJAX: Delete team
+     */
+    public static function ajax_delete_team() {
+        check_ajax_referer( 'hge_admin_nonce', 'nonce' );
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+        }
+
+        $team_id = intval( $_POST['id'] );
+        HGE_Database::delete_team( $team_id );
+
+        wp_send_json_success();
+    }
+
+    /**
+     * AJAX: Get team
+     */
+    public static function ajax_get_team() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'hockey-game-events' ) );
+        }
+
+        $team_id = intval( $_GET['id'] );
+        $team = HGE_Database::get_team( $team_id );
+
+        if ( $team ) {
+            wp_send_json_success( $team );
+        } else {
+            wp_send_json_error( __( 'Team not found', 'hockey-game-events' ) );
         }
     }
 
