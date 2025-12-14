@@ -595,6 +595,7 @@ class HGE_Admin {
                     <table class="wp-list-table widefat striped">
                         <thead>
                             <tr>
+                                <th><?php esc_html_e( 'ID', 'bunkersnack-game-manager' ); ?></th>
                                 <th><?php esc_html_e( 'Season', 'bunkersnack-game-manager' ); ?></th>
                                 <th><?php esc_html_e( 'Date', 'bunkersnack-game-manager' ); ?></th>
                                 <th><?php esc_html_e( 'Home Team', 'bunkersnack-game-manager' ); ?></th>
@@ -607,6 +608,7 @@ class HGE_Admin {
                         <tbody>
                             <?php foreach ( $games as $game ) : ?>
                                 <tr data-game-id="<?php echo intval( $game->id ); ?>">
+                                    <td><strong><?php echo intval( $game->id ); ?></strong></td>
                                     <td><?php echo esc_html( $game->season ); ?></td>
                                     <td><?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $game->game_date ) ) ); ?></td>
                                     <td><?php echo esc_html( $game->home_team_name ?: 'N/A' ); ?></td>
