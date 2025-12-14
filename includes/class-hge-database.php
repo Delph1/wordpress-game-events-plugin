@@ -83,6 +83,27 @@ class HGE_Database {
             home_score INT(3),
             away_score INT(3),
             location VARCHAR(255),
+            attendance INT(5),
+            home_shots_p1 INT(3),
+            home_shots_p2 INT(3),
+            home_shots_p3 INT(3),
+            home_shots_ot INT(3),
+            home_shots_ps INT(3),
+            away_shots_p1 INT(3),
+            away_shots_p2 INT(3),
+            away_shots_p3 INT(3),
+            away_shots_ot INT(3),
+            away_shots_ps INT(3),
+            home_goals_p1 INT(3),
+            home_goals_p2 INT(3),
+            home_goals_p3 INT(3),
+            home_goals_ot INT(3),
+            home_goals_ps INT(3),
+            away_goals_p1 INT(3),
+            away_goals_p2 INT(3),
+            away_goals_p3 INT(3),
+            away_goals_ot INT(3),
+            away_goals_ps INT(3),
             notes LONGTEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -178,6 +199,31 @@ class HGE_Database {
             $wpdb->query( "ALTER TABLE $events_table ADD COLUMN parent_event_id BIGINT(20) UNSIGNED AFTER game_id" );
             $wpdb->query( "ALTER TABLE $events_table ADD KEY parent_event_id_idx (parent_event_id)" );
             $wpdb->query( "ALTER TABLE $events_table ADD CONSTRAINT fk_event_parent_event FOREIGN KEY (parent_event_id) REFERENCES $events_table(id) ON DELETE CASCADE" );
+        }
+
+        // Add game statistics columns (shots and goals per period, attendance) if they don't exist
+        if ( ! in_array( 'attendance', $game_column_names, true ) ) {
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN attendance INT(5) AFTER location" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_shots_p1 INT(3) AFTER attendance" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_shots_p2 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_shots_p3 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_shots_ot INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_shots_ps INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_shots_p1 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_shots_p2 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_shots_p3 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_shots_ot INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_shots_ps INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_goals_p1 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_goals_p2 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_goals_p3 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_goals_ot INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN home_goals_ps INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_p1 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_p2 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_p3 INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_ot INT(3)" );
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_ps INT(3)" );
         }
     }
 
@@ -519,41 +565,48 @@ class HGE_Database {
         global $wpdb;
         $games_table = $wpdb->prefix . 'hge_games';
 
+        // Prepare base game data
+        $game_data = array(
+            'season'       => sanitize_text_field( $data['season'] ?? '' ),
+            'game_date'    => sanitize_text_field( $data['game_date'] ),
+            'home_team_id' => ! empty( $data['home_team'] ) ? intval( $data['home_team'] ) : null,
+            'away_team_id' => ! empty( $data['away_team'] ) ? intval( $data['away_team'] ) : null,
+            'opponent'     => sanitize_text_field( $data['opponent'] ?? '' ),
+            'home_score'   => ! empty( $data['home_score'] ) ? intval( $data['home_score'] ) : null,
+            'away_score'   => ! empty( $data['away_score'] ) ? intval( $data['away_score'] ) : null,
+            'location'     => sanitize_text_field( $data['location'] ?? '' ),
+            'attendance'   => ! empty( $data['attendance'] ) ? intval( $data['attendance'] ) : null,
+            'notes'        => wp_kses_post( $data['notes'] ?? '' ),
+        );
+
+        // Add shot statistics
+        $shot_periods = array( 'p1', 'p2', 'p3', 'ot', 'ps' );
+        foreach ( $shot_periods as $period ) {
+            $game_data[ "home_shots_$period" ] = ! empty( $data[ "home_shots_$period" ] ) ? intval( $data[ "home_shots_$period" ] ) : null;
+            $game_data[ "away_shots_$period" ] = ! empty( $data[ "away_shots_$period" ] ) ? intval( $data[ "away_shots_$period" ] ) : null;
+        }
+
+        // Add goal statistics
+        foreach ( $shot_periods as $period ) {
+            $game_data[ "home_goals_$period" ] = ! empty( $data[ "home_goals_$period" ] ) ? intval( $data[ "home_goals_$period" ] ) : null;
+            $game_data[ "away_goals_$period" ] = ! empty( $data[ "away_goals_$period" ] ) ? intval( $data[ "away_goals_$period" ] ) : null;
+        }
+
         if ( isset( $data['id'] ) && $data['id'] > 0 ) {
             // Update
             return $wpdb->update(
                 $games_table,
-                array(
-                    'season'       => sanitize_text_field( $data['season'] ?? '' ),
-                    'game_date'    => sanitize_text_field( $data['game_date'] ),
-                    'home_team_id' => ! empty( $data['home_team'] ) ? intval( $data['home_team'] ) : null,
-                    'away_team_id' => ! empty( $data['away_team'] ) ? intval( $data['away_team'] ) : null,
-                    'opponent'     => sanitize_text_field( $data['opponent'] ?? '' ),
-                    'home_score'   => ! empty( $data['home_score'] ) ? intval( $data['home_score'] ) : null,
-                    'away_score'   => ! empty( $data['away_score'] ) ? intval( $data['away_score'] ) : null,
-                    'location'     => sanitize_text_field( $data['location'] ?? '' ),
-                    'notes'        => wp_kses_post( $data['notes'] ?? '' ),
-                ),
+                $game_data,
                 array( 'id' => $data['id'] ),
-                array( '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%s' ),
+                array_fill( 0, count( $game_data ), '%d' ),
                 array( '%d' )
             );
         } else {
             // Insert
             $wpdb->insert(
                 $games_table,
-                array(
-                    'season'       => sanitize_text_field( $data['season'] ?? '' ),
-                    'game_date'    => sanitize_text_field( $data['game_date'] ),
-                    'home_team_id' => ! empty( $data['home_team'] ) ? intval( $data['home_team'] ) : null,
-                    'away_team_id' => ! empty( $data['away_team'] ) ? intval( $data['away_team'] ) : null,
-                    'opponent'     => sanitize_text_field( $data['opponent'] ?? '' ),
-                    'home_score'   => ! empty( $data['home_score'] ) ? intval( $data['home_score'] ) : null,
-                    'away_score'   => ! empty( $data['away_score'] ) ? intval( $data['away_score'] ) : null,
-                    'location'     => sanitize_text_field( $data['location'] ?? '' ),
-                    'notes'        => wp_kses_post( $data['notes'] ?? '' ),
-                ),
-                array( '%s', '%s', '%d', '%d', '%s', '%d', '%d', '%s', '%s' )
+                $game_data,
+                array_fill( 0, count( $game_data ), '%d' )
             );
             return $wpdb->insert_id;
         }
