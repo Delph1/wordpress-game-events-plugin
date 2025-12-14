@@ -379,7 +379,7 @@
                     $('input[name="away_goals_ps"]').val(game.away_goals_ps || "");
                     
                     $("#hge-game-notes").val(game.notes);
-                    $("#hge-game-form-container").scrollIntoView();
+                    document.getElementById("hge-game-form-container").scrollIntoView();
                 } else {
                     alert(hgeAdmin.strings.error);
                 }

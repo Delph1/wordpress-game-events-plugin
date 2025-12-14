@@ -592,13 +592,25 @@ class HGE_Database {
             $game_data[ "away_goals_$period" ] = ! empty( $data[ "away_goals_$period" ] ) ? intval( $data[ "away_goals_$period" ] ) : null;
         }
 
+        // Build format specifiers array
+        $format_specifiers = array();
+        foreach ( $game_data as $key => $value ) {
+            // String fields
+            if ( in_array( $key, array( 'season', 'game_date', 'opponent', 'location', 'notes' ) ) ) {
+                $format_specifiers[] = '%s';
+            } else {
+                // Numeric fields
+                $format_specifiers[] = '%d';
+            }
+        }
+
         if ( isset( $data['id'] ) && $data['id'] > 0 ) {
             // Update
             return $wpdb->update(
                 $games_table,
                 $game_data,
                 array( 'id' => $data['id'] ),
-                array_fill( 0, count( $game_data ), '%d' ),
+                $format_specifiers,
                 array( '%d' )
             );
         } else {
@@ -606,7 +618,7 @@ class HGE_Database {
             $wpdb->insert(
                 $games_table,
                 $game_data,
-                array_fill( 0, count( $game_data ), '%d' )
+                $format_specifiers
             );
             return $wpdb->insert_id;
         }

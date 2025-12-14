@@ -57,7 +57,7 @@ class HGE_Shortcodes {
         // Game header
         $html .= '<div class="hge-game-summary">';
         $html .= '<h3 class="hge-game-title">';
-        $html .= esc_html( date_i18n( get_option( 'date_format' ), strtotime( $game->game_date ) ) );
+        $html .= esc_html( date_i18n( 'Y-m-d', strtotime( $game->game_date ) ) );
         $html .= ' vs ' . esc_html( $game->opponent );
         $html .= '</h3>';
 

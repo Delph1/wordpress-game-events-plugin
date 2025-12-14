@@ -660,7 +660,7 @@ class HGE_Admin {
                                 <tr data-game-id="<?php echo intval( $game->id ); ?>">
                                     <td><strong><?php echo intval( $game->id ); ?></strong></td>
                                     <td><?php echo esc_html( $game->season ); ?></td>
-                                    <td><?php echo esc_html( date_i18n( get_option( 'date_format' ), strtotime( $game->game_date ) ) ); ?></td>
+                                    <td><?php echo esc_html( date_i18n( 'Y-m-d', strtotime( $game->game_date ) ) ); ?></td>
                                     <td><?php echo esc_html( $game->home_team_name ?: 'N/A' ); ?></td>
                                     <td><?php echo esc_html( $game->away_team_name ?: 'N/A' ); ?></td>
                                     <td>
