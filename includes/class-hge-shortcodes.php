@@ -95,7 +95,20 @@ class HGE_Shortcodes {
                     intval( $event->period )
                 );
                 $html .= '</span>';
-                $html .= '<span class="hge-event-time">' . esc_html( $event->event_time ) . ':00</span>';
+                
+                // Format event time - handle both seconds and minutes format
+                $event_time_value = intval( $event->event_time );
+                if ( $event_time_value > 120 ) {
+                    // Assume it's in seconds (new format)
+                    $minutes = intdiv( $event_time_value, 60 );
+                    $seconds = $event_time_value % 60;
+                    $time_display = $minutes . ':' . str_pad( $seconds, 2, '0', STR_PAD_LEFT );
+                } else {
+                    // Assume it's in minutes (old format)
+                    $time_display = $event_time_value . ':00';
+                }
+                
+                $html .= '<span class="hge-event-time">' . esc_html( $time_display ) . '</span>';
                 $html .= '</div>';
 
                 $html .= '<div class="hge-event-body">';

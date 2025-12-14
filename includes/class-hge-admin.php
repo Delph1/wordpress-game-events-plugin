@@ -864,8 +864,12 @@ class HGE_Admin {
                                 let timeDisplay = "0:00";
                                 if (event.event_time) {
                                     const totalSeconds = parseInt(event.event_time, 10);
-                                    const minutes = Math.floor(totalSeconds / 60);
-                                    const seconds = totalSeconds % 60;
+                                    // If the value is greater than 120, assume it's already in seconds
+                                    // Otherwise, assume it's in minutes (old format)
+                                    const isSeconds = totalSeconds > 120;
+                                    const secondsToUse = isSeconds ? totalSeconds : (totalSeconds * 60);
+                                    const minutes = Math.floor(secondsToUse / 60);
+                                    const seconds = secondsToUse % 60;
                                     timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
                                 }
                                 
