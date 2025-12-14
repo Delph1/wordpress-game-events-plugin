@@ -4,6 +4,7 @@
 
 (function ($) {
     $(document).ready(function () {
+        
         // Season Management
         $("#hge-season-form").on("submit", function (e) {
             e.preventDefault();
@@ -88,6 +89,23 @@
 
         $("#hge-event-reset").on("click", function () {
             resetEventForm();
+        });
+
+        // Toggle assists field based on event type
+        console.log("About to bind change event to #hge-event-type");
+        console.log("Element exists: ", $("#hge-event-type").length);
+        $(document).on("change", "#hge-event-type", function () {
+            const eventType = $(this).val();
+            console.log("Event type changed to: " + eventType);
+            const assistsRow = $("#hge-assists-row");
+            console.log("Assists row element: ", assistsRow);
+            if (eventType === "goal") {
+                assistsRow.css("display", "table-row");
+                console.log("Showing assists row - display set to table-row");
+            } else {
+                assistsRow.css("display", "none");
+                console.log("Hiding assists row - display set to none");
+            }
         });
 
         // Modal close
@@ -370,7 +388,9 @@
 
     // Event Functions
     function openEventsModal(gameId) {
+        console.log("openEventsModal called with gameId: ", gameId);
         $("#hge-event-game-id").val(gameId);
+        resetEventForm();
         $("#hge-events-modal").show();
         loadGameEvents(gameId);
         loadGameDetails(gameId);
@@ -387,12 +407,25 @@
             url: hgeAdmin.ajax_url + "?action=hge_get_game&id=" + gameId,
             dataType: "json",
             success: function (response) {
+                console.log("loadGameDetails response: ", response);
                 if (response.success) {
                     const game = response.data;
-                    const title = game.game_date + " vs " + game.opponent;
+                    console.log("Game data: ", game);
+                    console.log("Home team name: ", game.home_team_name);
+                    console.log("Away team name: ", game.away_team_name);
+                    const homeTeam = game.home_team_name || 'Home Team';
+                    const awayTeam = game.away_team_name || 'Away Team';
+                    const title = game.game_date + " " + homeTeam + " vs " + awayTeam;
+                    console.log("Setting title to: ", title);
                     $("#hge-events-modal-title").text(title);
+                } else {
+                    console.log("Response was not successful");
                 }
             },
+            error: function(xhr, status, error) {
+                console.log("AJAX error: ", error);
+                console.log("Response: ", xhr.responseText);
+            }
         });
     }
 
@@ -405,23 +438,39 @@
                 if (response.success && response.data) {
                     const events = response.data;
                     let html = "<ul>";
+                    
+                    // Group assists by their parent goal event
+                    const assistsByGoal = {};
+                    
                     events.forEach(function (event) {
-                        html +=
-                            "<li>";
-                        html +=
-                            "P" +
-                            event.period +
-                            " " +
-                            event.event_time +
-                            ":00 - " +
-                            event.event_type;
+                        if (event.event_type === 'assist' && event.parent_event_id) {
+                            if (!assistsByGoal[event.parent_event_id]) {
+                                assistsByGoal[event.parent_event_id] = [];
+                            }
+                            assistsByGoal[event.parent_event_id].push(event.name);
+                        }
+                    });
+                    
+                    // Display only main events (goals, penalties, etc) - assists will be shown as part of goal
+                    events.forEach(function (event) {
+                        // Skip assist events as they'll be shown with the goal
+                        if (event.event_type === 'assist') {
+                            return;
+                        }
+                        
+                        html += "<li>";
+                        html += "P" + event.period + " " + event.event_time + ":00 - " + event.event_type;
+                        
                         if (event.name) {
                             html += " (" + event.name + ")";
                         }
-                        html +=
-                            ' <button class="button button-link-delete hge-delete-single-event" data-event-id="' +
-                            event.id +
-                            '">Delete</button>';
+                        
+                        // Show assists if this is a goal with assists
+                        if (event.event_type === 'goal' && assistsByGoal[event.id] && assistsByGoal[event.id].length > 0) {
+                            html += " - Assists: " + assistsByGoal[event.id].join(", ");
+                        }
+                        
+                        html += ' <button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
                         html += "</li>";
                     });
                     html += "</ul>";
@@ -487,5 +536,8 @@
     function resetEventForm() {
         $("#hge-event-form")[0].reset();
         $("#hge-event-id").val(0);
+        $("#hge-assists-row").css("display", "none");
+        $("#hge-event-assists").val(null);
+        $("#hge-event-type").val("");
     }
 })(jQuery);

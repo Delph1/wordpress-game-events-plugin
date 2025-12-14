@@ -132,8 +132,9 @@ class HGE_Admin {
     public static function render_main_page() {
         ?>
         <div class="wrap">
-            <h1><?php esc_html_e( 'Hockey Game Events', 'bunkersnack-game-manager' ); ?></h1>
-            <p><?php esc_html_e( 'Welcome to the Hockey Game Events plugin. Use the menu to manage teams, players, games, and events.', 'bunkersnack-game-manager' ); ?></p>
+            <h1><?php esc_html_e( 'Bunkersnack Game Manager', 'bunkersnack-game-manager' ); ?></h1>
+            <p><?php esc_html_e( 'Welcome to the Bunkersnack Game Manager plugin. Use the menu to manage teams, players, games, and events.', 'bunkersnack-game-manager' ); ?></p>
+            
             <div class="hge-dashboard">
                 <div class="hge-dashboard-card">
                     <h3><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></h3>
@@ -169,6 +170,54 @@ class HGE_Admin {
                     <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button button-primary">
                         <?php esc_html_e( 'View Statistics', 'bunkersnack-game-manager' ); ?>
                     </a>
+                </div>
+            </div>
+
+            <!-- Shortcodes Documentation -->
+            <div style="margin-top: 40px;">
+                <h2><?php esc_html_e( 'Using Shortcodes', 'bunkersnack-game-manager' ); ?></h2>
+                <p><?php esc_html_e( 'Display game information and player statistics on your pages and posts using these shortcodes:', 'bunkersnack-game-manager' ); ?></p>
+
+                <div class="hge-form-container">
+                    <h3><?php esc_html_e( 'Game Summary Shortcode', 'bunkersnack-game-manager' ); ?></h3>
+                    <p><?php esc_html_e( 'Display a summary of a specific game with all events.', 'bunkersnack-game-manager' ); ?></p>
+                    
+                    <h4><?php esc_html_e( 'Usage:', 'bunkersnack-game-manager' ); ?></h4>
+                    <pre style="background: #f5f5f5; padding: 10px; border-left: 3px solid #0073aa;"><code>[hge_game_summary game_id="1"]</code></pre>
+                    
+                    <h4><?php esc_html_e( 'Parameters:', 'bunkersnack-game-manager' ); ?></h4>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>game_id</strong> (required) - <?php esc_html_e( 'The ID of the game to display', 'bunkersnack-game-manager' ); ?></li>
+                    </ul>
+
+                    <h4><?php esc_html_e( 'Example:', 'bunkersnack-game-manager' ); ?></h4>
+                    <p><?php esc_html_e( 'To find a game ID, go to Games page and check the game ID in the table.', 'bunkersnack-game-manager' ); ?></p>
+                </div>
+
+                <div class="hge-form-container">
+                    <h3><?php esc_html_e( 'Player Statistics Shortcode', 'bunkersnack-game-manager' ); ?></h3>
+                    <p><?php esc_html_e( 'Display player statistics table for a specific season.', 'bunkersnack-game-manager' ); ?></p>
+                    
+                    <h4><?php esc_html_e( 'Usage:', 'bunkersnack-game-manager' ); ?></h4>
+                    <pre style="background: #f5f5f5; padding: 10px; border-left: 3px solid #0073aa;"><code>[hge_player_stats season="2024"]</code></pre>
+                    
+                    <h4><?php esc_html_e( 'Parameters:', 'bunkersnack-game-manager' ); ?></h4>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>season</strong> (optional) - <?php esc_html_e( 'The season year (e.g., "2024"). If not specified, shows the first season.', 'bunkersnack-game-manager' ); ?></li>
+                    </ul>
+
+                    <h4><?php esc_html_e( 'Example:', 'bunkersnack-game-manager' ); ?></h4>
+                    <pre style="background: #f5f5f5; padding: 10px; border-left: 3px solid #0073aa;"><code>[hge_player_stats season="2024"]</code></pre>
+                </div>
+
+                <div class="hge-form-container" style="background: #f0f7ff; border-left: 3px solid #0073aa;">
+                    <h3><?php esc_html_e( 'Tips', 'bunkersnack-game-manager' ); ?></h3>
+                    <ul style="margin-left: 20px;">
+                        <li><?php esc_html_e( 'Game summaries show all events (goals, assists, penalties) organized by period', 'bunkersnack-game-manager' ); ?></li>
+                        <li><?php esc_html_e( 'Player statistics are automatically calculated from game events', 'bunkersnack-game-manager' ); ?></li>
+                        <li><?php esc_html_e( 'You can add these shortcodes to any page or post', 'bunkersnack-game-manager' ); ?></li>
+                        <li><?php esc_html_e( 'Statistics update automatically when you add or modify game events', 'bunkersnack-game-manager' ); ?></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -499,6 +548,7 @@ class HGE_Admin {
                                             <option value="<?php echo esc_attr( $team->id ); ?>"><?php echo esc_html( $team->name ); ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <button type="button" class="button hge-quick-add-team" data-target="hge-game-home-team">+ <?php esc_html_e( 'New Team', 'bunkersnack-game-manager' ); ?></button>
                                 </td>
                             </tr>
                             <tr>
@@ -510,6 +560,7 @@ class HGE_Admin {
                                             <option value="<?php echo esc_attr( $team->id ); ?>"><?php echo esc_html( $team->name ); ?></option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <button type="button" class="button hge-quick-add-team" data-target="hge-game-away-team">+ <?php esc_html_e( 'New Team', 'bunkersnack-game-manager' ); ?></button>
                                 </td>
                             </tr>
                             <tr>
@@ -628,6 +679,21 @@ class HGE_Admin {
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                    <button type="button" class="button hge-quick-add-player" data-target="hge-event-player">+ <?php esc_html_e( 'New Player', 'bunkersnack-game-manager' ); ?></button>
+                                </td>
+                            </tr>
+                            <tr id="hge-assists-row" style="display:none;">
+                                <th><label for="hge-event-assists"><?php esc_html_e( 'Assists', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td>
+                                    <select id="hge-event-assists" name="assists[]" multiple>
+                                        <option value="">-- Select Players --</option>
+                                        <?php foreach ( $players as $player ) : ?>
+                                            <option value="<?php echo intval( $player->id ); ?>">
+                                                <?php echo esc_html( $player->name . ' #' . $player->number ); ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <p class="description"><?php esc_html_e( 'Hold Ctrl/Cmd to select multiple players', 'bunkersnack-game-manager' ); ?></p>
                                 </td>
                             </tr>
                             <tr>
@@ -662,6 +728,315 @@ class HGE_Admin {
                 <div id="hge-events-list"></div>
             </div>
         </div>
+
+        <script>
+        console.log("Inline script test - this should always appear");
+        
+        // Direct event listener for assists field
+        jQuery(document).ready(function($) {
+            console.log("jQuery ready in inline script");
+            
+            // Handle manage events button click
+            $(document).on("click", ".hge-manage-events", function() {
+                const gameId = $(this).data("game-id");
+                console.log("Manage events clicked for game: " + gameId);
+                openEventsModal(gameId);
+            });
+            
+            $(document).on("change", "#hge-event-type", function() {
+                if ($(this).val() === "goal") {
+                    $("#hge-assists-row").css("display", "table-row");
+                } else {
+                    $("#hge-assists-row").css("display", "none");
+                }
+            });
+            
+            // Load game details when modal opens
+            function loadGameDetails(gameId) {
+                $.ajax({
+                    type: "GET",
+                    url: hgeAdmin.ajax_url + "?action=hge_get_game&id=" + gameId,
+                    dataType: "json",
+                    success: function (response) {
+                        console.log("Game data response: ", response);
+                        if (response.success) {
+                            const game = response.data;
+                            console.log("game object:", game);
+                            console.log("home_team_name:", game.home_team_name);
+                            console.log("away_team_name:", game.away_team_name);
+                            console.log("game_date:", game.game_date);
+                            
+                            const homeTeam = game.home_team_name || 'Home Team';
+                            const awayTeam = game.away_team_name || 'Away Team';
+                            const title = game.game_date + " " + homeTeam + " vs " + awayTeam;
+                            
+                            console.log("Setting title to: " + title);
+                            console.log("Modal title element: ", $("#hge-events-modal-title"));
+                            
+                            $("#hge-events-modal-title").text(title);
+                            
+                            console.log("Title after set: ", $("#hge-events-modal-title").text());
+                        }
+                    }
+                });
+            }
+            
+            // Load game events list
+            function loadGameEvents(gameId) {
+                $.ajax({
+                    type: "GET",
+                    url: hgeAdmin.ajax_url + "?action=hge_get_game_events&id=" + gameId,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success && response.data) {
+                            const events = response.data;
+                            let html = "<ul>";
+                            const assistsByGoal = {};
+                            
+                            events.forEach(function (event) {
+                                if (event.event_type === 'assist' && event.parent_event_id) {
+                                    if (!assistsByGoal[event.parent_event_id]) {
+                                        assistsByGoal[event.parent_event_id] = [];
+                                    }
+                                    assistsByGoal[event.parent_event_id].push(event.name);
+                                }
+                            });
+                            
+                            events.forEach(function (event) {
+                                if (event.event_type === 'assist') {
+                                    return;
+                                }
+                                html += "<li>";
+                                html += "P" + event.period + " " + event.event_time + ":00 - " + event.event_type;
+                                if (event.name) {
+                                    html += " (" + event.name + ")";
+                                }
+                                if (event.event_type === 'goal' && assistsByGoal[event.id] && assistsByGoal[event.id].length > 0) {
+                                    html += " - Assists: " + assistsByGoal[event.id].join(", ");
+                                }
+                                html += ' <button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
+                                html += "</li>";
+                            });
+                            html += "</ul>";
+                            $("#hge-events-list").html(html);
+                            
+                            $(".hge-delete-single-event").on("click", function () {
+                                deleteSingleEvent($(this).data("event-id"), gameId);
+                            });
+                        } else {
+                            $("#hge-events-list").html("<p>No events yet.</p>");
+                        }
+                    }
+                });
+            }
+            
+            function deleteSingleEvent(eventId, gameId) {
+                if (confirm("Are you sure?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: hgeAdmin.ajax_url,
+                        data: {
+                            action: "hge_delete_event",
+                            id: eventId,
+                            nonce: hgeAdmin.nonce,
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                loadGameEvents(gameId);
+                            }
+                        },
+                    });
+                }
+            }
+            
+            function openEventsModal(gameId) {
+                console.log("openEventsModal called with gameId: " + gameId);
+                $("#hge-event-game-id").val(gameId);
+                $("#hge-events-modal").show();
+                loadGameEvents(gameId);
+                loadGameDetails(gameId);
+            }
+        });
+        </script>
+
+        <!-- Quick Add Team Modal -->
+        <div id="hge-quick-add-team-modal" class="hge-modal" style="display:none;">
+            <div class="hge-modal-content">
+                <span class="hge-close">&times;</span>
+                <h2><?php esc_html_e( 'Quick Add Team', 'bunkersnack-game-manager' ); ?></h2>
+                <form id="hge-quick-team-form">
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th><label for="hge-quick-team-name"><?php esc_html_e( 'Team Name', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-quick-team-name" name="name" required class="regular-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="hge-quick-team-shortcode"><?php esc_html_e( 'Shortcode', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-quick-team-shortcode" name="shortcode" class="regular-text"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="submit">
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Team', 'bunkersnack-game-manager' ); ?></button>
+                        <button type="button" class="button hge-close-modal"><?php esc_html_e( 'Cancel', 'bunkersnack-game-manager' ); ?></button>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Quick Add Player Modal -->
+        <div id="hge-quick-add-player-modal" class="hge-modal" style="display:none;">
+            <div class="hge-modal-content">
+                <span class="hge-close">&times;</span>
+                <h2><?php esc_html_e( 'Quick Add Player', 'bunkersnack-game-manager' ); ?></h2>
+                <form id="hge-quick-player-form">
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th><label for="hge-quick-player-name"><?php esc_html_e( 'Player Name', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-quick-player-name" name="name" required class="regular-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="hge-quick-player-number"><?php esc_html_e( 'Number', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="number" id="hge-quick-player-number" name="number" min="1" max="99" class="small-text"></td>
+                            </tr>
+                            <tr>
+                                <th><label for="hge-quick-player-position"><?php esc_html_e( 'Position', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td>
+                                    <select id="hge-quick-player-position" name="position">
+                                        <option value="">-- Select Position --</option>
+                                        <option value="Center"><?php esc_html_e( 'Center', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="Left Wing"><?php esc_html_e( 'Left Wing', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="Right Wing"><?php esc_html_e( 'Right Wing', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="Defenseman"><?php esc_html_e( 'Defenseman', 'bunkersnack-game-manager' ); ?></option>
+                                        <option value="Goalie"><?php esc_html_e( 'Goalie', 'bunkersnack-game-manager' ); ?></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label for="hge-quick-player-team"><?php esc_html_e( 'Team', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td>
+                                    <select id="hge-quick-player-team" name="team_id">
+                                        <option value="">-- Select Team --</option>
+                                        <?php foreach ( $teams as $team ) : ?>
+                                            <option value="<?php echo esc_attr( $team->id ); ?>"><?php echo esc_html( $team->name ); ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="submit">
+                        <button type="submit" class="button button-primary"><?php esc_html_e( 'Save Player', 'bunkersnack-game-manager' ); ?></button>
+                        <button type="button" class="button hge-close-modal"><?php esc_html_e( 'Cancel', 'bunkersnack-game-manager' ); ?></button>
+                    </p>
+                </form>
+            </div>
+        </div>
+
+        <script>
+        // Quick add functionality
+        jQuery(document).ready(function($) {
+            let currentTargetSelect = null;
+            
+            // Quick add team button
+            $(document).on("click", ".hge-quick-add-team", function(e) {
+                e.preventDefault();
+                currentTargetSelect = $(this).data("target");
+                $("#hge-quick-add-team-modal").show();
+            });
+            
+            // Quick add player button
+            $(document).on("click", ".hge-quick-add-player", function(e) {
+                e.preventDefault();
+                currentTargetSelect = $(this).data("target");
+                $("#hge-quick-add-player-modal").show();
+            });
+            
+            // Close modals
+            $(document).on("click", ".hge-close-modal, #hge-quick-add-team-modal .hge-close, #hge-quick-add-player-modal .hge-close", function() {
+                $("#hge-quick-add-team-modal").hide();
+                $("#hge-quick-add-player-modal").hide();
+            });
+            
+            // Save quick team
+            $("#hge-quick-team-form").on("submit", function(e) {
+                e.preventDefault();
+                const name = $("#hge-quick-team-name").val();
+                const shortcode = $("#hge-quick-team-shortcode").val();
+                
+                $.ajax({
+                    type: "POST",
+                    url: hgeAdmin.ajax_url,
+                    data: {
+                        action: "hge_save_team",
+                        name: name,
+                        shortcode: shortcode,
+                        nonce: hgeAdmin.nonce,
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            const teamId = response.data.id;
+                            const teamName = response.data.name;
+                            
+                            // Add option to target select
+                            if (currentTargetSelect) {
+                                $("#" + currentTargetSelect).append(
+                                    $("<option></option>").attr("value", teamId).text(teamName)
+                                ).val(teamId);
+                            }
+                            
+                            // Reset and close
+                            $("#hge-quick-team-form")[0].reset();
+                            $("#hge-quick-add-team-modal").hide();
+                            alert("Team created successfully!");
+                        }
+                    }
+                });
+            });
+            
+            // Save quick player
+            $("#hge-quick-player-form").on("submit", function(e) {
+                e.preventDefault();
+                const name = $("#hge-quick-player-name").val();
+                const number = $("#hge-quick-player-number").val();
+                const position = $("#hge-quick-player-position").val();
+                const teamId = $("#hge-quick-player-team").val();
+                
+                $.ajax({
+                    type: "POST",
+                    url: hgeAdmin.ajax_url,
+                    data: {
+                        action: "hge_save_player",
+                        name: name,
+                        number: number,
+                        position: position,
+                        team_id: teamId,
+                        nonce: hgeAdmin.nonce,
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            const playerId = response.data.id;
+                            const playerDisplay = name + (number ? " #" + number : "");
+                            
+                            // Add option to target select
+                            if (currentTargetSelect) {
+                                $("#" + currentTargetSelect).append(
+                                    $("<option></option>").attr("value", playerId).text(playerDisplay)
+                                ).val(playerId);
+                            }
+                            
+                            // Reset and close
+                            $("#hge-quick-player-form")[0].reset();
+                            $("#hge-quick-add-player-modal").hide();
+                            alert("Player created successfully!");
+                        }
+                    }
+                });
+            });
+        });
+        </script>
         <?php
     }
 

@@ -3,7 +3,7 @@
  * Plugin Name: Bunkersnack Game Manager
  * Plugin URI: https://github.com/delph1/bunkersnack-game-manager
  * Description: A WordPress plugin for tracking game events, player statistics, and displaying game summaries and player stats tables
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Andreas Galistel
  * Author URI: https://bunkersnack.se
  * License: GPL-2.0+

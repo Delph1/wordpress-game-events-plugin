@@ -104,14 +104,17 @@ class HGE_Database {
             event_type VARCHAR(50) NOT NULL,
             event_time INT(3),
             period INT(2),
+            parent_event_id BIGINT(20) UNSIGNED,
             description LONGTEXT,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (id),
             KEY game_id_idx (game_id),
             KEY player_id_idx (player_id),
+            KEY parent_event_id_idx (parent_event_id),
             FOREIGN KEY (game_id) REFERENCES $games_table(id) ON DELETE CASCADE,
-            FOREIGN KEY (player_id) REFERENCES $players_table(id) ON DELETE SET NULL
+            FOREIGN KEY (player_id) REFERENCES $players_table(id) ON DELETE SET NULL,
+            FOREIGN KEY (parent_event_id) REFERENCES $events_table(id) ON DELETE CASCADE
         ) $charset_collate;";
 
         // Player Stats Cache table
@@ -165,6 +168,16 @@ class HGE_Database {
             $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_team_id BIGINT(20) UNSIGNED AFTER home_team_id" );
             $wpdb->query( "ALTER TABLE $games_table ADD KEY away_team_id_idx (away_team_id)" );
             $wpdb->query( "ALTER TABLE $games_table ADD CONSTRAINT fk_game_away_team FOREIGN KEY (away_team_id) REFERENCES $teams_table(id) ON DELETE SET NULL" );
+        }
+
+        // Add parent_event_id column to game_events table if it doesn't exist (for assist tracking)
+        $event_columns = $wpdb->get_results( "SHOW COLUMNS FROM $events_table" );
+        $event_column_names = wp_list_pluck( $event_columns, 'Field' );
+        
+        if ( ! in_array( 'parent_event_id', $event_column_names, true ) ) {
+            $wpdb->query( "ALTER TABLE $events_table ADD COLUMN parent_event_id BIGINT(20) UNSIGNED AFTER game_id" );
+            $wpdb->query( "ALTER TABLE $events_table ADD KEY parent_event_id_idx (parent_event_id)" );
+            $wpdb->query( "ALTER TABLE $events_table ADD CONSTRAINT fk_event_parent_event FOREIGN KEY (parent_event_id) REFERENCES $events_table(id) ON DELETE CASCADE" );
         }
     }
 
@@ -434,9 +447,14 @@ class HGE_Database {
     public static function get_game( $game_id ) {
         global $wpdb;
         $games_table = $wpdb->prefix . 'hge_games';
+        $teams_table = $wpdb->prefix . 'hge_teams';
         return $wpdb->get_row(
             $wpdb->prepare(
-                "SELECT * FROM $games_table WHERE id = %d",
+                "SELECT g.*, ht.name as home_team_name, at.name as away_team_name 
+                FROM $games_table g
+                LEFT JOIN $teams_table ht ON g.home_team_id = ht.id
+                LEFT JOIN $teams_table at ON g.away_team_id = at.id
+                WHERE g.id = %d",
                 $game_id
             )
         );
@@ -591,7 +609,7 @@ class HGE_Database {
 
         if ( isset( $data['id'] ) && $data['id'] > 0 ) {
             // Update
-            return $wpdb->update(
+            $result = $wpdb->update(
                 $events_table,
                 array(
                     'game_id'      => intval( $data['game_id'] ),
@@ -605,6 +623,13 @@ class HGE_Database {
                 array( '%d', '%d', '%s', '%d', '%d', '%s' ),
                 array( '%d' )
             );
+
+            // Handle assists for goals
+            if ( $result && 'goal' === sanitize_text_field( $data['event_type'] ) ) {
+                self::save_goal_assists( intval( $data['id'] ), $data['assists'] ?? array() );
+            }
+
+            return $result;
         } else {
             // Insert
             $wpdb->insert(
@@ -619,7 +644,68 @@ class HGE_Database {
                 ),
                 array( '%d', '%d', '%s', '%d', '%d', '%s' )
             );
-            return $wpdb->insert_id;
+
+            $event_id = $wpdb->insert_id;
+
+            // Handle assists for goals
+            if ( $event_id && 'goal' === sanitize_text_field( $data['event_type'] ) ) {
+                self::save_goal_assists( $event_id, $data['assists'] ?? array() );
+            }
+
+            return $event_id;
+        }
+    }
+
+    /**
+     * Save assists for a goal
+     *
+     * @param int   $event_id Event ID (the goal)
+     * @param array $assists  Array of player IDs who assisted
+     */
+    public static function save_goal_assists( $event_id, $assists = array() ) {
+        global $wpdb;
+        $events_table = $wpdb->prefix . 'hge_game_events';
+
+        // Delete existing assists for this goal
+        $wpdb->delete(
+            $events_table,
+            array(
+                'parent_event_id' => intval( $event_id ),
+                'event_type'      => 'assist',
+            ),
+            array( '%d', '%s' )
+        );
+
+        // Insert new assists
+        if ( is_array( $assists ) && ! empty( $assists ) ) {
+            foreach ( $assists as $assist_player_id ) {
+                $assist_player_id = intval( $assist_player_id );
+                if ( $assist_player_id > 0 ) {
+                    // Get the goal event details
+                    $goal_event = $wpdb->get_row(
+                        $wpdb->prepare(
+                            "SELECT game_id, period, event_time FROM $events_table WHERE id = %d",
+                            intval( $event_id )
+                        )
+                    );
+
+                    if ( $goal_event ) {
+                        $wpdb->insert(
+                            $events_table,
+                            array(
+                                'game_id'          => intval( $goal_event->game_id ),
+                                'player_id'        => $assist_player_id,
+                                'event_type'       => 'assist',
+                                'event_time'       => intval( $goal_event->event_time ),
+                                'period'           => intval( $goal_event->period ),
+                                'parent_event_id'  => intval( $event_id ),
+                                'description'      => '',
+                            ),
+                            array( '%d', '%d', '%s', '%d', '%d', '%d', '%s' )
+                        );
+                    }
+                }
+            }
         }
     }
 
