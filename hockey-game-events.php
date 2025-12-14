@@ -3,7 +3,7 @@
  * Plugin Name: Bunkersnack Game Manager
  * Plugin URI: https://github.com/delph1/bunkersnack-game-manager
  * Description: A WordPress plugin for tracking game events, player statistics, and displaying game summaries and player stats tables
- * Version: 1.2.0
+ * Version: 1.2.1
  * Author: Andreas Galistel
  * Author URI: https://bunkersnack.se
  * License: GPL-2.0+
@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Define plugin constants
 define( 'HGE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'HGE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'HGE_PLUGIN_VERSION', '1.0.0' );
+define( 'HGE_PLUGIN_VERSION', '1.2.1' );
 
 // Include core files
 require_once HGE_PLUGIN_DIR . 'includes/class-hge-database.php';

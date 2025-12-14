@@ -344,11 +344,40 @@
                 if (response.success) {
                     const game = response.data;
                     $("#hge-game-id").val(game.id);
+                    $("#hge-game-season").val(game.season);
                     $("#hge-game-date").val(game.game_date);
+                    $("#hge-game-home-team").val(game.home_team_id);
+                    $("#hge-game-away-team").val(game.away_team_id);
                     $("#hge-game-opponent").val(game.opponent);
                     $("#hge-game-location").val(game.location);
+                    $("#hge-game-attendance").val(game.attendance);
                     $("#hge-game-home-score").val(game.home_score);
                     $("#hge-game-away-score").val(game.away_score);
+                    
+                    // Populate shot statistics
+                    $('input[name="home_shots_p1"]').val(game.home_shots_p1 || "");
+                    $('input[name="home_shots_p2"]').val(game.home_shots_p2 || "");
+                    $('input[name="home_shots_p3"]').val(game.home_shots_p3 || "");
+                    $('input[name="home_shots_ot"]').val(game.home_shots_ot || "");
+                    $('input[name="home_shots_ps"]').val(game.home_shots_ps || "");
+                    $('input[name="away_shots_p1"]').val(game.away_shots_p1 || "");
+                    $('input[name="away_shots_p2"]').val(game.away_shots_p2 || "");
+                    $('input[name="away_shots_p3"]').val(game.away_shots_p3 || "");
+                    $('input[name="away_shots_ot"]').val(game.away_shots_ot || "");
+                    $('input[name="away_shots_ps"]').val(game.away_shots_ps || "");
+                    
+                    // Populate goal statistics
+                    $('input[name="home_goals_p1"]').val(game.home_goals_p1 || "");
+                    $('input[name="home_goals_p2"]').val(game.home_goals_p2 || "");
+                    $('input[name="home_goals_p3"]').val(game.home_goals_p3 || "");
+                    $('input[name="home_goals_ot"]').val(game.home_goals_ot || "");
+                    $('input[name="home_goals_ps"]').val(game.home_goals_ps || "");
+                    $('input[name="away_goals_p1"]').val(game.away_goals_p1 || "");
+                    $('input[name="away_goals_p2"]').val(game.away_goals_p2 || "");
+                    $('input[name="away_goals_p3"]').val(game.away_goals_p3 || "");
+                    $('input[name="away_goals_ot"]').val(game.away_goals_ot || "");
+                    $('input[name="away_goals_ps"]').val(game.away_goals_ps || "");
+                    
                     $("#hge-game-notes").val(game.notes);
                     $("#hge-game-form-container").scrollIntoView();
                 } else {

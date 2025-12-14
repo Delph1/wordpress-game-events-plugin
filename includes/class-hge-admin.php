@@ -568,6 +568,10 @@ class HGE_Admin {
                                 <td><input type="text" id="hge-game-location" name="location" class="regular-text"></td>
                             </tr>
                             <tr>
+                                <th><label for="hge-game-attendance"><?php esc_html_e( 'Attendance', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="number" id="hge-game-attendance" name="attendance" min="0" class="small-text"></td>
+                            </tr>
+                            <tr>
                                 <th><label for="hge-game-home-score"><?php esc_html_e( 'Home Score', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-game-home-score" name="home_score" min="0" class="small-text"></td>
                             </tr>
@@ -575,6 +579,52 @@ class HGE_Admin {
                                 <th><label for="hge-game-away-score"><?php esc_html_e( 'Away Score', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-game-away-score" name="away_score" min="0" class="small-text"></td>
                             </tr>
+
+                            <!-- Shot and Goal Statistics -->
+                            <tr>
+                                <th colspan="2"><strong><?php esc_html_e( 'Shot & Goal Statistics', 'bunkersnack-game-manager' ); ?></strong></th>
+                            </tr>
+                            <tr>
+                                <th><label><?php esc_html_e( 'Home Shots by Period', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td>
+                                    <label>P1: <input type="number" name="home_shots_p1" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P2: <input type="number" name="home_shots_p2" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P3: <input type="number" name="home_shots_p3" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>OT: <input type="number" name="home_shots_ot" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>PS: <input type="number" name="home_shots_ps" min="0" class="small-text" style="width: 60px;"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label><?php esc_html_e( 'Away Shots by Period', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td>
+                                    <label>P1: <input type="number" name="away_shots_p1" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P2: <input type="number" name="away_shots_p2" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P3: <input type="number" name="away_shots_p3" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>OT: <input type="number" name="away_shots_ot" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>PS: <input type="number" name="away_shots_ps" min="0" class="small-text" style="width: 60px;"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label><?php esc_html_e( 'Home Goals by Period', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td>
+                                    <label>P1: <input type="number" name="home_goals_p1" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P2: <input type="number" name="home_goals_p2" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P3: <input type="number" name="home_goals_p3" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>OT: <input type="number" name="home_goals_ot" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>PS: <input type="number" name="home_goals_ps" min="0" class="small-text" style="width: 60px;"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><label><?php esc_html_e( 'Away Goals by Period', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td>
+                                    <label>P1: <input type="number" name="away_goals_p1" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P2: <input type="number" name="away_goals_p2" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>P3: <input type="number" name="away_goals_p3" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>OT: <input type="number" name="away_goals_ot" min="0" class="small-text" style="width: 60px;"></label>
+                                    <label>PS: <input type="number" name="away_goals_ps" min="0" class="small-text" style="width: 60px;"></label>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <th><label for="hge-game-notes"><?php esc_html_e( 'Notes', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><textarea id="hge-game-notes" name="notes" class="large-text" rows="4"></textarea></td>
