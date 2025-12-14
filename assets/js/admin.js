@@ -202,7 +202,7 @@
                     $("#hge-team-id").val(team.id);
                     $("#hge-team-name").val(team.name);
                     $("#hge-team-shortcode").val(team.shortcode);
-                    $("#hge-team-form-container").scrollIntoView();
+                    document.getElementById("hge-team-form-container").scrollIntoView();
                 } else {
                     alert(hgeAdmin.strings.error);
                 }
@@ -274,8 +274,9 @@
                     $("#hge-player-name").val(player.name);
                     $("#hge-player-number").val(player.number);
                     $("#hge-player-position").val(player.position);
+                    $("#hge-player-team").val(player.team_id);
                     $("#hge-player-goalie").prop("checked", player.is_goalie == 1);
-                    $("#hge-player-form-container").scrollIntoView();
+                    document.getElementById("hge-player-form-container").scrollIntoView();
                 } else {
                     alert(hgeAdmin.strings.error);
                 }
@@ -519,13 +520,33 @@
 
     function saveEvent() {
         const form = $("#hge-event-form");
-        const data = form.serialize() + "&action=hge_save_event&nonce=" + hgeAdmin.nonce;
+        let formData = new FormData(form[0]);
         const gameId = $("#hge-event-game-id").val();
+        
+        // Convert mm:ss time format to seconds
+        const timeInput = $("#hge-event-time").val();
+        if (timeInput) {
+            const timeParts = timeInput.split(':');
+            if (timeParts.length === 2) {
+                const minutes = parseInt(timeParts[0], 10);
+                const seconds = parseInt(timeParts[1], 10);
+                const totalSeconds = minutes * 60 + seconds;
+                formData.set('event_time', totalSeconds);
+            } else {
+                // If just a number, assume it's minutes
+                formData.set('event_time', parseInt(timeInput, 10) * 60);
+            }
+        }
+        
+        formData.append('action', 'hge_save_event');
+        formData.append('nonce', hgeAdmin.nonce);
 
         $.ajax({
             type: "POST",
             url: hgeAdmin.ajax_url,
-            data: data,
+            data: formData,
+            processData: false,
+            contentType: false,
             success: function (response) {
                 if (response.success) {
                     alert(hgeAdmin.strings.saved);

@@ -760,8 +760,8 @@ class HGE_Admin {
                                 </td>
                             </tr>
                             <tr>
-                                <th><label for="hge-event-time"><?php esc_html_e( 'Time (minutes)', 'bunkersnack-game-manager' ); ?></label></th>
-                                <td><input type="number" id="hge-event-time" name="event_time" min="0" max="60" class="small-text"></td>
+                                <th><label for="hge-event-time"><?php esc_html_e( 'Time (mm:ss)', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-event-time" name="event_time" placeholder="mm:ss" class="small-text" style="width: 80px;"></td>
                             </tr>
                             <tr>
                                 <th><label for="hge-event-description"><?php esc_html_e( 'Description', 'bunkersnack-game-manager' ); ?></label></th>
@@ -859,7 +859,17 @@ class HGE_Admin {
                                     return;
                                 }
                                 html += "<li>";
-                                html += "P" + event.period + " " + event.event_time + ":00 - " + event.event_type;
+                                
+                                // Convert seconds to mm:ss format
+                                let timeDisplay = "0:00";
+                                if (event.event_time) {
+                                    const totalSeconds = parseInt(event.event_time, 10);
+                                    const minutes = Math.floor(totalSeconds / 60);
+                                    const seconds = totalSeconds % 60;
+                                    timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                                }
+                                
+                                html += "P" + event.period + " " + timeDisplay + " - " + event.event_type;
                                 if (event.name) {
                                     html += " (" + event.name + ")";
                                 }
