@@ -813,21 +813,14 @@ class HGE_Admin {
                         console.log("Game data response: ", response);
                         if (response.success) {
                             const game = response.data;
-                            console.log("game object:", game);
-                            console.log("home_team_name:", game.home_team_name);
-                            console.log("away_team_name:", game.away_team_name);
-                            console.log("game_date:", game.game_date);
                             
                             const homeTeam = game.home_team_name || 'Home Team';
                             const awayTeam = game.away_team_name || 'Away Team';
                             const title = game.game_date + " " + homeTeam + " vs " + awayTeam;
                             
-                            console.log("Setting title to: " + title);
-                            console.log("Modal title element: ", $("#hge-events-modal-title"));
                             
                             $("#hge-events-modal-title").text(title);
                             
-                            console.log("Title after set: ", $("#hge-events-modal-title").text());
                         }
                     }
                 });
