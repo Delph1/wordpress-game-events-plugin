@@ -2,28 +2,28 @@
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: Bunkersnack Game Manager 1.4.2\n"
+"Project-Id-Version: Bunkersnack Game Manager 1.5.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wordpress-game-events-plugin\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-12-15T14:08:05+01:00\n"
+"POT-Creation-Date: 2025-12-15T23:15:00+01:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: bunkersnack-game-manager\n"
 
 #. Plugin Name of the plugin
 #: hockey-game-events.php
-#: includes/class-hge-admin.php:136
+#: includes/class-hge-admin.php:137
 msgid "Bunkersnack Game Manager"
-msgstr "Bunkersnack Matchhändelser"
+msgstr ""
 
 #. Plugin URI of the plugin
 #: hockey-game-events.php
 msgid "https://github.com/delph1/bunkersnack-game-manager"
-msgstr "https://github.com/delph1/bunkersnack-game-manager"
+msgstr ""
 
 #. Description of the plugin
 #: hockey-game-events.php
@@ -47,29 +47,39 @@ msgstr ""
 
 #: includes/class-hge-admin.php:58
 #: includes/class-hge-admin.php:59
-#: includes/class-hge-admin.php:141
-#: includes/class-hge-admin.php:235
+#: includes/class-hge-admin.php:142
+#: includes/class-hge-admin.php:236
+#: includes/class-hge-admin.php:516
 msgid "Seasons"
 msgstr ""
 
 #: includes/class-hge-admin.php:67
 #: includes/class-hge-admin.php:68
-#: includes/class-hge-admin.php:148
-#: includes/class-hge-admin.php:314
+#: includes/class-hge-admin.php:149
+#: includes/class-hge-admin.php:241
+#: includes/class-hge-admin.php:315
+#: includes/class-hge-admin.php:399
+#: includes/class-hge-admin.php:517
 msgid "Teams"
 msgstr ""
 
 #: includes/class-hge-admin.php:76
 #: includes/class-hge-admin.php:77
-#: includes/class-hge-admin.php:155
-#: includes/class-hge-admin.php:393
+#: includes/class-hge-admin.php:156
+#: includes/class-hge-admin.php:242
+#: includes/class-hge-admin.php:320
+#: includes/class-hge-admin.php:394
+#: includes/class-hge-admin.php:518
 msgid "Players"
 msgstr ""
 
 #: includes/class-hge-admin.php:85
 #: includes/class-hge-admin.php:86
-#: includes/class-hge-admin.php:162
-#: includes/class-hge-admin.php:510
+#: includes/class-hge-admin.php:163
+#: includes/class-hge-admin.php:243
+#: includes/class-hge-admin.php:321
+#: includes/class-hge-admin.php:400
+#: includes/class-hge-admin.php:511
 msgid "Games"
 msgstr ""
 
@@ -83,595 +93,631 @@ msgid "Are you sure you want to delete this item?"
 msgstr ""
 
 #: includes/class-hge-admin.php:122
-msgid "Saving..."
+msgid "Are you sure?"
 msgstr ""
 
 #: includes/class-hge-admin.php:123
-msgid "Saved successfully!"
+msgid "Saving..."
 msgstr ""
 
 #: includes/class-hge-admin.php:124
+msgid "Saved successfully!"
+msgstr ""
+
+#: includes/class-hge-admin.php:125
 msgid "An error occurred."
 msgstr ""
 
-#: includes/class-hge-admin.php:137
+#: includes/class-hge-admin.php:138
 msgid "Welcome to the Bunkersnack Game Manager plugin. Use the menu to manage teams, players, games, and events."
 msgstr ""
 
-#: includes/class-hge-admin.php:142
+#: includes/class-hge-admin.php:143
 msgid "Manage hockey seasons and leagues."
 msgstr ""
 
-#: includes/class-hge-admin.php:144
+#: includes/class-hge-admin.php:145
 msgid "Manage Seasons"
 msgstr ""
 
-#: includes/class-hge-admin.php:149
+#: includes/class-hge-admin.php:150
 msgid "Manage your hockey teams."
 msgstr ""
 
-#: includes/class-hge-admin.php:151
+#: includes/class-hge-admin.php:152
 msgid "Manage Teams"
 msgstr ""
 
-#: includes/class-hge-admin.php:156
+#: includes/class-hge-admin.php:157
 msgid "Manage team players and their information."
 msgstr ""
 
-#: includes/class-hge-admin.php:158
+#: includes/class-hge-admin.php:159
 msgid "Manage Players"
 msgstr ""
 
-#: includes/class-hge-admin.php:163
+#: includes/class-hge-admin.php:164
 msgid "Create and manage games and game events."
 msgstr ""
 
-#: includes/class-hge-admin.php:165
+#: includes/class-hge-admin.php:166
 msgid "Manage Games"
 msgstr ""
 
-#: includes/class-hge-admin.php:169
-#: includes/class-hge-admin.php:1156
+#: includes/class-hge-admin.php:170
+#: includes/class-hge-admin.php:1157
 msgid "Player Statistics"
 msgstr ""
 
-#: includes/class-hge-admin.php:170
+#: includes/class-hge-admin.php:171
 msgid "View calculated player statistics for the season."
 msgstr ""
 
-#: includes/class-hge-admin.php:172
+#: includes/class-hge-admin.php:173
 msgid "View Statistics"
 msgstr ""
 
-#: includes/class-hge-admin.php:179
+#: includes/class-hge-admin.php:180
 msgid "Using Shortcodes"
 msgstr ""
 
-#: includes/class-hge-admin.php:180
+#: includes/class-hge-admin.php:181
 msgid "Display game information and player statistics on your pages and posts using these shortcodes:"
 msgstr ""
 
-#: includes/class-hge-admin.php:183
+#: includes/class-hge-admin.php:184
 msgid "Game Summary Shortcode"
 msgstr ""
 
-#: includes/class-hge-admin.php:184
+#: includes/class-hge-admin.php:185
 msgid "Display a summary of a specific game with all events."
 msgstr ""
 
-#: includes/class-hge-admin.php:186
-#: includes/class-hge-admin.php:202
+#: includes/class-hge-admin.php:187
+#: includes/class-hge-admin.php:203
 msgid "Usage:"
 msgstr ""
 
-#: includes/class-hge-admin.php:189
-#: includes/class-hge-admin.php:205
+#: includes/class-hge-admin.php:190
+#: includes/class-hge-admin.php:206
 msgid "Parameters:"
 msgstr ""
 
-#: includes/class-hge-admin.php:191
+#: includes/class-hge-admin.php:192
 msgid "The ID of the game to display"
 msgstr ""
 
-#: includes/class-hge-admin.php:194
-#: includes/class-hge-admin.php:210
+#: includes/class-hge-admin.php:195
+#: includes/class-hge-admin.php:211
 msgid "Example:"
 msgstr ""
 
-#: includes/class-hge-admin.php:195
+#: includes/class-hge-admin.php:196
 msgid "To find a game ID, go to Games page and check the game ID in the table."
 msgstr ""
 
-#: includes/class-hge-admin.php:199
+#: includes/class-hge-admin.php:200
 msgid "Player Statistics Shortcode"
 msgstr ""
 
-#: includes/class-hge-admin.php:200
+#: includes/class-hge-admin.php:201
 msgid "Display player statistics table for a specific season."
 msgstr ""
 
-#: includes/class-hge-admin.php:207
+#: includes/class-hge-admin.php:208
 msgid "The season year (e.g., \"2024\"). If not specified, shows the first season."
 msgstr ""
 
-#: includes/class-hge-admin.php:215
+#: includes/class-hge-admin.php:216
 msgid "Tips"
 msgstr ""
 
-#: includes/class-hge-admin.php:217
+#: includes/class-hge-admin.php:218
 msgid "Game summaries show all events (goals, assists, penalties) organized by period"
 msgstr ""
 
-#: includes/class-hge-admin.php:218
+#: includes/class-hge-admin.php:219
 msgid "Player statistics are automatically calculated from game events"
 msgstr ""
 
-#: includes/class-hge-admin.php:219
+#: includes/class-hge-admin.php:220
 msgid "You can add these shortcodes to any page or post"
 msgstr ""
 
-#: includes/class-hge-admin.php:220
+#: includes/class-hge-admin.php:221
 msgid "Statistics update automatically when you add or modify game events"
 msgstr ""
 
-#: includes/class-hge-admin.php:247
+#: includes/class-hge-admin.php:240
+#: includes/class-hge-admin.php:319
+#: includes/class-hge-admin.php:398
+#: includes/class-hge-admin.php:515
+msgid "Dashboard"
+msgstr ""
+
+#: includes/class-hge-admin.php:244
+#: includes/class-hge-admin.php:322
+#: includes/class-hge-admin.php:401
+#: includes/class-hge-admin.php:519
+msgid "Statistics"
+msgstr ""
+
+#: includes/class-hge-admin.php:248
 msgid "Add/Edit Season"
 msgstr ""
 
-#: includes/class-hge-admin.php:254
-#: includes/class-hge-admin.php:277
+#: includes/class-hge-admin.php:255
+#: includes/class-hge-admin.php:278
 msgid "Season Name"
 msgstr ""
 
-#: includes/class-hge-admin.php:255
+#: includes/class-hge-admin.php:256
 msgid "e.g., Elitserien 76/77"
 msgstr ""
 
-#: includes/class-hge-admin.php:258
-#: includes/class-hge-admin.php:278
-#: includes/class-hge-admin.php:768
+#: includes/class-hge-admin.php:259
+#: includes/class-hge-admin.php:279
+#: includes/class-hge-admin.php:769
 msgid "Description"
 msgstr ""
 
-#: includes/class-hge-admin.php:265
+#: includes/class-hge-admin.php:266
 msgid "Save Season"
 msgstr ""
 
-#: includes/class-hge-admin.php:266
-#: includes/class-hge-admin.php:344
-#: includes/class-hge-admin.php:453
-#: includes/class-hge-admin.php:638
-#: includes/class-hge-admin.php:776
+#: includes/class-hge-admin.php:267
+#: includes/class-hge-admin.php:345
+#: includes/class-hge-admin.php:454
+#: includes/class-hge-admin.php:639
+#: includes/class-hge-admin.php:777
 msgid "Clear Form"
 msgstr ""
 
-#: includes/class-hge-admin.php:272
+#: includes/class-hge-admin.php:273
 msgid "All Seasons"
 msgstr ""
 
-#: includes/class-hge-admin.php:279
-#: includes/class-hge-admin.php:357
-#: includes/class-hge-admin.php:469
-#: includes/class-hge-admin.php:656
+#: includes/class-hge-admin.php:280
+#: includes/class-hge-admin.php:358
+#: includes/class-hge-admin.php:470
+#: includes/class-hge-admin.php:657
 msgid "Actions"
 msgstr ""
 
-#: includes/class-hge-admin.php:289
-#: includes/class-hge-admin.php:367
-#: includes/class-hge-admin.php:482
-#: includes/class-hge-admin.php:679
+#: includes/class-hge-admin.php:290
+#: includes/class-hge-admin.php:368
+#: includes/class-hge-admin.php:483
+#: includes/class-hge-admin.php:680
 msgid "Edit"
 msgstr ""
 
-#: includes/class-hge-admin.php:292
-#: includes/class-hge-admin.php:370
-#: includes/class-hge-admin.php:485
-#: includes/class-hge-admin.php:685
+#: includes/class-hge-admin.php:293
+#: includes/class-hge-admin.php:371
+#: includes/class-hge-admin.php:486
+#: includes/class-hge-admin.php:686
 msgid "Delete"
 msgstr ""
 
-#: includes/class-hge-admin.php:300
+#: includes/class-hge-admin.php:301
 msgid "No seasons found. Create one using the form above."
 msgstr ""
 
-#: includes/class-hge-admin.php:325
+#: includes/class-hge-admin.php:326
 msgid "Add/Edit Team"
 msgstr ""
 
-#: includes/class-hge-admin.php:332
-#: includes/class-hge-admin.php:355
-#: includes/class-hge-admin.php:975
+#: includes/class-hge-admin.php:333
+#: includes/class-hge-admin.php:356
+#: includes/class-hge-admin.php:976
 msgid "Team Name"
 msgstr ""
 
-#: includes/class-hge-admin.php:333
+#: includes/class-hge-admin.php:334
 msgid "e.g., Örebro Ishockeyklubb"
 msgstr ""
 
-#: includes/class-hge-admin.php:336
+#: includes/class-hge-admin.php:337
 msgid "Team Shortcode"
 msgstr ""
 
-#: includes/class-hge-admin.php:337
+#: includes/class-hge-admin.php:338
 msgid "e.g., ÖIK"
 msgstr ""
 
-#: includes/class-hge-admin.php:343
-#: includes/class-hge-admin.php:985
+#: includes/class-hge-admin.php:344
+#: includes/class-hge-admin.php:986
 msgid "Save Team"
 msgstr ""
 
-#: includes/class-hge-admin.php:350
+#: includes/class-hge-admin.php:351
 msgid "All Teams"
 msgstr ""
 
-#: includes/class-hge-admin.php:356
-#: includes/class-hge-admin.php:979
+#: includes/class-hge-admin.php:357
+#: includes/class-hge-admin.php:980
 msgid "Shortcode"
 msgstr ""
 
-#: includes/class-hge-admin.php:378
+#: includes/class-hge-admin.php:379
 msgid "No teams found. Create one using the form above."
 msgstr ""
 
-#: includes/class-hge-admin.php:404
+#: includes/class-hge-admin.php:405
 msgid "Add/Edit Player"
 msgstr ""
 
-#: includes/class-hge-admin.php:411
-#: includes/class-hge-admin.php:464
-#: includes/class-hge-admin.php:1022
-#: includes/class-hge-admin.php:1182
+#: includes/class-hge-admin.php:412
+#: includes/class-hge-admin.php:465
+#: includes/class-hge-admin.php:1023
+#: includes/class-hge-admin.php:1183
+#: includes/class-hge-shortcodes.php:127
 #: includes/class-hge-shortcodes.php:280
 msgid "Team"
 msgstr ""
 
-#: includes/class-hge-admin.php:424
-#: includes/class-hge-admin.php:465
+#: includes/class-hge-admin.php:415
+msgid "Select Team"
+msgstr ""
+
+#: includes/class-hge-admin.php:425
+#: includes/class-hge-admin.php:466
 msgid "Name"
 msgstr ""
 
-#: includes/class-hge-admin.php:428
+#: includes/class-hge-admin.php:429
 msgid "Jersey Number"
 msgstr ""
 
-#: includes/class-hge-admin.php:432
-#: includes/class-hge-admin.php:467
-#: includes/class-hge-admin.php:1009
-#: includes/class-hge-admin.php:1184
+#: includes/class-hge-admin.php:433
+#: includes/class-hge-admin.php:468
+#: includes/class-hge-admin.php:1010
+#: includes/class-hge-admin.php:1185
 #: includes/class-hge-shortcodes.php:283
 msgid "Position"
 msgstr ""
 
 #: includes/class-hge-admin.php:436
-#: includes/class-hge-admin.php:1013
-msgid "Center"
+msgid "Select"
 msgstr ""
 
 #: includes/class-hge-admin.php:437
 #: includes/class-hge-admin.php:1014
-msgid "Left Wing"
+msgid "Center"
 msgstr ""
 
 #: includes/class-hge-admin.php:438
 #: includes/class-hge-admin.php:1015
-msgid "Right Wing"
+msgid "Left Wing"
 msgstr ""
 
 #: includes/class-hge-admin.php:439
 #: includes/class-hge-admin.php:1016
-msgid "Defenseman"
+msgid "Right Wing"
 msgstr ""
 
 #: includes/class-hge-admin.php:440
-#: includes/class-hge-admin.php:445
 #: includes/class-hge-admin.php:1017
+msgid "Defenseman"
+msgstr ""
+
+#: includes/class-hge-admin.php:441
+#: includes/class-hge-admin.php:446
+#: includes/class-hge-admin.php:1018
 msgid "Goalie"
 msgstr ""
 
-#: includes/class-hge-admin.php:452
-#: includes/class-hge-admin.php:1035
+#: includes/class-hge-admin.php:453
+#: includes/class-hge-admin.php:1036
 msgid "Save Player"
 msgstr ""
 
-#: includes/class-hge-admin.php:459
+#: includes/class-hge-admin.php:460
 msgid "All Players"
 msgstr ""
 
-#: includes/class-hge-admin.php:466
-#: includes/class-hge-admin.php:1005
+#: includes/class-hge-admin.php:467
+#: includes/class-hge-admin.php:1006
 msgid "Number"
 msgstr ""
 
-#: includes/class-hge-admin.php:468
+#: includes/class-hge-admin.php:469
 msgid "Type"
 msgstr ""
 
-#: includes/class-hge-admin.php:493
+#: includes/class-hge-admin.php:494
 msgid "No players found. Create one using the form above."
 msgstr ""
 
-#: includes/class-hge-admin.php:522
+#: includes/class-hge-admin.php:523
 msgid "Add/Edit Game"
 msgstr ""
 
-#: includes/class-hge-admin.php:529
-#: includes/class-hge-admin.php:650
+#: includes/class-hge-admin.php:530
+#: includes/class-hge-admin.php:651
 msgid "Season"
 msgstr ""
 
-#: includes/class-hge-admin.php:540
-#: includes/class-hge-admin.php:651
+#: includes/class-hge-admin.php:533
+msgid "Select Season"
+msgstr ""
+
+#: includes/class-hge-admin.php:541
+#: includes/class-hge-admin.php:652
 msgid "Date"
 msgstr ""
 
-#: includes/class-hge-admin.php:544
-#: includes/class-hge-admin.php:652
+#: includes/class-hge-admin.php:545
+#: includes/class-hge-admin.php:653
 #: includes/class-hge-shortcodes.php:66
 msgid "Home Team"
 msgstr ""
 
-#: includes/class-hge-admin.php:552
-#: includes/class-hge-admin.php:564
+#: includes/class-hge-admin.php:548
+#: includes/class-hge-admin.php:560
+msgid "Select team..."
+msgstr ""
+
+#: includes/class-hge-admin.php:553
+#: includes/class-hge-admin.php:565
 msgid "New Team"
 msgstr ""
 
-#: includes/class-hge-admin.php:556
-#: includes/class-hge-admin.php:653
+#: includes/class-hge-admin.php:557
+#: includes/class-hge-admin.php:654
 #: includes/class-hge-shortcodes.php:76
 msgid "Away Team"
 msgstr ""
 
-#: includes/class-hge-admin.php:568
-#: includes/class-hge-admin.php:655
+#: includes/class-hge-admin.php:569
+#: includes/class-hge-admin.php:656
 msgid "Location"
 msgstr ""
 
-#: includes/class-hge-admin.php:572
+#: includes/class-hge-admin.php:573
 msgid "Attendance"
 msgstr ""
 
-#: includes/class-hge-admin.php:576
+#: includes/class-hge-admin.php:577
 msgid "Home Score"
 msgstr ""
 
-#: includes/class-hge-admin.php:580
+#: includes/class-hge-admin.php:581
 msgid "Away Score"
 msgstr ""
 
-#: includes/class-hge-admin.php:586
+#: includes/class-hge-admin.php:587
 msgid "Shot & Goal Statistics"
 msgstr ""
 
-#: includes/class-hge-admin.php:589
+#: includes/class-hge-admin.php:590
 msgid "Home Shots by Period"
 msgstr ""
 
-#: includes/class-hge-admin.php:599
+#: includes/class-hge-admin.php:600
 msgid "Away Shots by Period"
 msgstr ""
 
-#: includes/class-hge-admin.php:609
+#: includes/class-hge-admin.php:610
 msgid "Home Goals by Period"
 msgstr ""
 
-#: includes/class-hge-admin.php:619
+#: includes/class-hge-admin.php:620
 msgid "Away Goals by Period"
 msgstr ""
 
-#: includes/class-hge-admin.php:630
+#: includes/class-hge-admin.php:631
 #: includes/class-hge-shortcodes.php:201
 msgid "Notes"
 msgstr ""
 
-#: includes/class-hge-admin.php:637
+#: includes/class-hge-admin.php:638
 msgid "Save Game"
 msgstr ""
 
-#: includes/class-hge-admin.php:644
+#: includes/class-hge-admin.php:645
 msgid "All Games"
 msgstr ""
 
-#: includes/class-hge-admin.php:649
+#: includes/class-hge-admin.php:650
 msgid "ID"
 msgstr ""
 
-#: includes/class-hge-admin.php:654
+#: includes/class-hge-admin.php:655
 msgid "Score"
 msgstr ""
 
-#: includes/class-hge-admin.php:682
+#: includes/class-hge-admin.php:683
 msgid "Events"
 msgstr ""
 
-#: includes/class-hge-admin.php:693
+#: includes/class-hge-admin.php:694
 msgid "No games found. Create one using the form above."
 msgstr ""
 
-#: includes/class-hge-admin.php:704
+#: includes/class-hge-admin.php:705
 msgid "Add Event"
 msgstr ""
 
-#: includes/class-hge-admin.php:712
+#: includes/class-hge-admin.php:713
 msgid "Event Type"
 msgstr ""
 
-#: includes/class-hge-admin.php:716
+#: includes/class-hge-admin.php:717
 msgid "Goal"
 msgstr ""
 
-#: includes/class-hge-admin.php:717
+#: includes/class-hge-admin.php:718
 msgid "Assist"
 msgstr ""
 
-#: includes/class-hge-admin.php:718
+#: includes/class-hge-admin.php:719
 msgid "Penalty"
 msgstr ""
 
-#: includes/class-hge-admin.php:719
+#: includes/class-hge-admin.php:720
 msgid "Shot Against"
 msgstr ""
 
-#: includes/class-hge-admin.php:720
+#: includes/class-hge-admin.php:721
 msgid "Goal Allowed"
 msgstr ""
 
-#: includes/class-hge-admin.php:725
-#: includes/class-hge-admin.php:1183
+#: includes/class-hge-admin.php:726
+#: includes/class-hge-admin.php:1184
 #: includes/class-hge-shortcodes.php:281
 msgid "Player"
 msgstr ""
 
-#: includes/class-hge-admin.php:735
+#: includes/class-hge-admin.php:736
 msgid "New Player"
 msgstr ""
 
-#: includes/class-hge-admin.php:739
-#: includes/class-hge-admin.php:1187
+#: includes/class-hge-admin.php:740
+#: includes/class-hge-admin.php:1188
 msgid "Assists"
 msgstr ""
 
-#: includes/class-hge-admin.php:749
+#: includes/class-hge-admin.php:750
 msgid "Hold Ctrl/Cmd to select multiple players"
 msgstr ""
 
-#: includes/class-hge-admin.php:753
+#: includes/class-hge-admin.php:754
 msgid "Period"
 msgstr ""
 
-#: includes/class-hge-admin.php:759
+#: includes/class-hge-admin.php:760
 msgid "OT"
 msgstr ""
 
-#: includes/class-hge-admin.php:764
+#: includes/class-hge-admin.php:765
 msgid "Time (mm:ss)"
 msgstr ""
 
-#: includes/class-hge-admin.php:775
+#: includes/class-hge-admin.php:776
 msgid "Save Event"
 msgstr ""
 
-#: includes/class-hge-admin.php:780
+#: includes/class-hge-admin.php:781
 #: includes/class-hge-shortcodes.php:125
 msgid "Game Events"
 msgstr ""
 
-#: includes/class-hge-admin.php:970
+#: includes/class-hge-admin.php:971
 msgid "Quick Add Team"
 msgstr ""
 
-#: includes/class-hge-admin.php:986
-#: includes/class-hge-admin.php:1036
+#: includes/class-hge-admin.php:987
+#: includes/class-hge-admin.php:1037
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-hge-admin.php:996
+#: includes/class-hge-admin.php:997
 msgid "Quick Add Player"
 msgstr ""
 
-#: includes/class-hge-admin.php:1001
+#: includes/class-hge-admin.php:1002
 msgid "Player Name"
 msgstr ""
 
-#: includes/class-hge-admin.php:1157
+#: includes/class-hge-admin.php:1158
 msgid "Automatically calculated player statistics based on game events."
 msgstr ""
 
-#: includes/class-hge-admin.php:1169
+#: includes/class-hge-admin.php:1170
 msgid "Select Season:"
 msgstr ""
 
-#: includes/class-hge-admin.php:1185
+#: includes/class-hge-admin.php:1186
 #: includes/class-hge-shortcodes.php:284
 msgid "GP"
 msgstr ""
 
-#: includes/class-hge-admin.php:1186
+#: includes/class-hge-admin.php:1187
 msgid "Goals"
 msgstr ""
 
-#: includes/class-hge-admin.php:1188
+#: includes/class-hge-admin.php:1189
 #: includes/class-hge-shortcodes.php:287
 msgid "PIM"
 msgstr ""
 
-#: includes/class-hge-admin.php:1189
+#: includes/class-hge-admin.php:1190
 msgid "Shots Against"
 msgstr ""
 
-#: includes/class-hge-admin.php:1190
+#: includes/class-hge-admin.php:1191
 msgid "Goals Allowed"
 msgstr ""
 
-#: includes/class-hge-admin.php:1210
+#: includes/class-hge-admin.php:1211
 msgid "No statistics available for this season."
 msgstr ""
 
-#: includes/class-hge-admin.php:1216
+#: includes/class-hge-admin.php:1217
 msgid "No seasons available. Create some games and events first."
 msgstr ""
 
-#: includes/class-hge-admin.php:1238
-#: includes/class-hge-admin.php:1259
-#: includes/class-hge-admin.php:1278
-#: includes/class-hge-admin.php:1297
-#: includes/class-hge-admin.php:1318
-#: includes/class-hge-admin.php:1337
-#: includes/class-hge-admin.php:1351
-#: includes/class-hge-admin.php:1371
-#: includes/class-hge-admin.php:1385
-#: includes/class-hge-admin.php:1405
-#: includes/class-hge-admin.php:1424
-#: includes/class-hge-admin.php:1438
-#: includes/class-hge-admin.php:1458
-#: includes/class-hge-admin.php:1481
-#: includes/class-hge-admin.php:1503
-#: includes/class-hge-admin.php:1538
+#: includes/class-hge-admin.php:1239
+#: includes/class-hge-admin.php:1260
+#: includes/class-hge-admin.php:1279
+#: includes/class-hge-admin.php:1298
+#: includes/class-hge-admin.php:1319
+#: includes/class-hge-admin.php:1338
+#: includes/class-hge-admin.php:1352
+#: includes/class-hge-admin.php:1372
+#: includes/class-hge-admin.php:1386
+#: includes/class-hge-admin.php:1406
+#: includes/class-hge-admin.php:1425
+#: includes/class-hge-admin.php:1439
+#: includes/class-hge-admin.php:1459
+#: includes/class-hge-admin.php:1482
+#: includes/class-hge-admin.php:1504
+#: includes/class-hge-admin.php:1539
 msgid "Unauthorized"
 msgstr ""
 
-#: includes/class-hge-admin.php:1246
+#: includes/class-hge-admin.php:1247
 msgid "Failed to save player"
 msgstr ""
 
-#: includes/class-hge-admin.php:1267
+#: includes/class-hge-admin.php:1268
 msgid "Failed to save season"
 msgstr ""
 
-#: includes/class-hge-admin.php:1286
+#: includes/class-hge-admin.php:1287
 msgid "Failed to delete season"
 msgstr ""
 
-#: includes/class-hge-admin.php:1305
+#: includes/class-hge-admin.php:1306
 msgid "Season not found"
 msgstr ""
 
-#: includes/class-hge-admin.php:1326
+#: includes/class-hge-admin.php:1327
 msgid "Failed to save team"
 msgstr ""
 
-#: includes/class-hge-admin.php:1360
+#: includes/class-hge-admin.php:1361
 msgid "Team not found"
 msgstr ""
 
-#: includes/class-hge-admin.php:1394
+#: includes/class-hge-admin.php:1395
 msgid "Player not found"
 msgstr ""
 
-#: includes/class-hge-admin.php:1413
+#: includes/class-hge-admin.php:1414
 msgid "Failed to save game"
 msgstr ""
 
-#: includes/class-hge-admin.php:1447
+#: includes/class-hge-admin.php:1448
 #: includes/class-hge-shortcodes.php:51
 msgid "Game not found"
 msgstr ""
 
-#: includes/class-hge-admin.php:1470
+#: includes/class-hge-admin.php:1471
 msgid "Failed to save event"
 msgstr ""
 
-#: includes/class-hge-admin.php:1547
+#: includes/class-hge-admin.php:1548
 msgid "Event not found"
 msgstr ""
 
@@ -690,6 +736,14 @@ msgstr ""
 
 #: includes/class-hge-shortcodes.php:103
 msgid "Attendance:"
+msgstr ""
+
+#: includes/class-hge-shortcodes.php:127
+msgid "Time"
+msgstr ""
+
+#: includes/class-hge-shortcodes.php:127
+msgid "Event"
 msgstr ""
 
 #: includes/class-hge-shortcodes.php:155
@@ -717,6 +771,10 @@ msgstr ""
 msgid "A"
 msgstr ""
 
+#: includes/class-hge-shortcodes.php:112
+msgid "Shots:"
+msgstr ""
+
 #: includes/class-hge-shortcodes.php:288
 msgid "SA"
 msgstr ""
@@ -724,3 +782,11 @@ msgstr ""
 #: includes/class-hge-shortcodes.php:289
 msgid "GA"
 msgstr ""
+
+#: includes/class-hge-shortcodes.php:206
+msgid "by"
+msgstr ""
+
+#: includse/class-hge-shortcodes.php:230
+msgid "Assists:"
+msgstr "Assist:"

@@ -27,6 +27,16 @@
     margin: 10px 0;
 }
 
+.hge-game-goals {
+    color: #666;
+    margin: 10px 0;
+}
+
+.hge-game-shots {
+    color: #666;
+    margin: 10px 0;
+}
+
 .hge-events {
     margin-top: 20px;
 }
@@ -171,13 +181,82 @@
     background-color: #f0f0f0;
 }
 
-.hge-stats-table tbody tr.hge-skater {
+.hge-events-table tbody tr.hge-skater {
     background-color: white;
 }
 
-.hge-col-name {
+/* Frontend Accordion Styles for Events */
+.hge-events-accordion-wrapper {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.hge-events-accordion-item {
+    border-bottom: 1px solid #ddd;
+}
+
+.hge-events-accordion-item:last-child {
+    border-bottom: none;
+}
+
+.hge-events-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 15px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.hge-events-accordion-header:hover {
+    background-color: #efefef;
+}
+
+.hge-events-accordion-header.active {
+    background-color: #e8f5e9;
+}
+
+.hge-events-accordion-toggle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    text-align: center;
+    line-height: 20px;
     font-weight: bold;
-    color: #0073aa;
+    color: #fff;
+    transition: transform 0.2s ease;
+}
+
+.hge-events-accordion-header.active .hge-events-accordion-toggle {
+    transform: rotate(180deg);
+    color: #fff;
+}
+
+.hge-events-accordion-content {
+    display: none;
+    padding: 15px;
+    background-color: #fafafa;
+    max-height: 0;
+    overflow: hidden;
+    animation: slideDown 0.3s ease-out;
+}
+
+.hge-events-accordion-content.active {
+    display: block;
+    max-height: none;
+    overflow: visible;
 }
 
 .hge-col-number,
@@ -190,6 +269,32 @@
     text-align: center;
 }
 
+.hge-event-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.hge-event-item:last-child {
+    border-bottom: none;
+}
+
+.hge-event-header {
+    margin: 0 0 5px 0;
+    font-size: 13px;
+}
+
+.hge-event-assists {
+    margin: 5px 0;
+    color: #666;
+    font-size: 12px;
+}
+
+.hge-event-description {
+    margin: 5px 0 0 0;
+    color: #666;
+    font-size: 12px;
+}
+
 @media (max-width: 768px) {
     .hge-stats-table {
         font-size: 0.9em;
@@ -200,7 +305,16 @@
         padding: 6px;
     }
 
+    .hge-events-accordion-header {
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .hge-events-accordion-content {
+        padding: 10px;
+    }
+
     .hge-event-header {
-        flex-wrap: wrap;
+        font-size: 12px;
     }
 }

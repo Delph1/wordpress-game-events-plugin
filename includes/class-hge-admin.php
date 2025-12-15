@@ -118,10 +118,11 @@ class HGE_Admin {
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
                 'nonce'    => wp_create_nonce( 'hge_admin_nonce' ),
                 'strings'  => array(
-                    'confirm_delete' => __( 'Are you sure you want to delete this item?', 'bunkersnack-game-manager' ),
-                    'saving'         => __( 'Saving...', 'bunkersnack-game-manager' ),
-                    'saved'          => __( 'Saved successfully!', 'bunkersnack-game-manager' ),
-                    'error'          => __( 'An error occurred.', 'bunkersnack-game-manager' ),
+                    'confirm_delete'  => __( 'Are you sure you want to delete this item?', 'bunkersnack-game-manager' ),
+                    'confirm_action'  => __( 'Are you sure?', 'bunkersnack-game-manager' ),
+                    'saving'          => __( 'Saving...', 'bunkersnack-game-manager' ),
+                    'saved'           => __( 'Saved successfully!', 'bunkersnack-game-manager' ),
+                    'error'           => __( 'An error occurred.', 'bunkersnack-game-manager' ),
                 ),
             )
         );
@@ -236,11 +237,11 @@ class HGE_Admin {
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button"><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
             <div id="hge-season-form-container" class="hge-form-container">
@@ -315,10 +316,10 @@ class HGE_Admin {
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button"><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
             <div id="hge-team-form-container" class="hge-form-container">
@@ -394,10 +395,10 @@ class HGE_Admin {
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button"><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
             <div id="hge-player-form-container" class="hge-form-container">
@@ -411,7 +412,7 @@ class HGE_Admin {
                                 <th><label for="hge-player-team"><?php esc_html_e( 'Team', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-player-team" name="team_id" class="regular-text">
-                                        <option value="">-- Select Team --</option>
+                                        <option value="">-- <?php esc_html_e( 'Select Team', 'bunkersnack-game-manager' ); ?> --</option>
                                         <?php foreach ( $teams as $team ) : ?>
                                             <option value="<?php echo intval( $team->id ); ?>">
                                                 <?php echo esc_html( $team->name ); ?>
@@ -432,7 +433,7 @@ class HGE_Admin {
                                 <th><label for="hge-player-position"><?php esc_html_e( 'Position', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-player-position" name="position" class="regular-text">
-                                        <option value="">-- Select --</option>
+                                        <option value="">-- <?php esc_html_e( 'Select', 'bunkersnack-game-manager' ); ?> --</option>
                                         <option value="C"><?php esc_html_e( 'Center', 'bunkersnack-game-manager' ); ?></option>
                                         <option value="LW"><?php esc_html_e( 'Left Wing', 'bunkersnack-game-manager' ); ?></option>
                                         <option value="RW"><?php esc_html_e( 'Right Wing', 'bunkersnack-game-manager' ); ?></option>
@@ -529,7 +530,7 @@ class HGE_Admin {
                                 <th><label for="hge-game-season"><?php esc_html_e( 'Season', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-game-season" name="season" class="regular-text">
-                                        <option value="">-- Select Season --</option>
+                                        <option value="">-- <?php esc_html_e( 'Select Season', 'bunkersnack-game-manager' ); ?> --</option>
                                         <?php foreach ( $seasons_list as $season ) : ?>
                                             <option value="<?php echo esc_attr( $season->name ); ?>"><?php echo esc_html( $season->name ); ?></option>
                                         <?php endforeach; ?>
@@ -544,7 +545,7 @@ class HGE_Admin {
                                 <th><label for="hge-game-home-team"><?php esc_html_e( 'Home Team', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-game-home-team" name="home_team" class="regular-text">
-                                        <option value="">Select team...</option>
+                                        <option value=""><?php esc_html_e( 'Select team...', 'bunkersnack-game-manager' ); ?></option>
                                         <?php foreach ( $teams as $team ) : ?>
                                             <option value="<?php echo esc_attr( $team->id ); ?>"><?php echo esc_html( $team->name ); ?></option>
                                         <?php endforeach; ?>
@@ -556,7 +557,7 @@ class HGE_Admin {
                                 <th><label for="hge-game-away-team"><?php esc_html_e( 'Away Team', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td>
                                     <select id="hge-game-away-team" name="away_team" class="regular-text">
-                                        <option value="">Select team...</option>
+                                        <option value=""><?php esc_html_e( 'Select team...', 'bunkersnack-game-manager' ); ?></option>
                                         <?php foreach ( $teams as $team ) : ?>
                                             <option value="<?php echo esc_attr( $team->id ); ?>"><?php echo esc_html( $team->name ); ?></option>
                                         <?php endforeach; ?>
@@ -827,7 +828,7 @@ class HGE_Admin {
                 });
             }
             
-            // Load game events list
+            // Load game events list with accordion
             function loadGameEvents(gameId) {
                 $.ajax({
                     type: "GET",
@@ -836,7 +837,7 @@ class HGE_Admin {
                     success: function (response) {
                         if (response.success && response.data) {
                             const events = response.data;
-                            let html = "<ul>";
+                            let html = '<div class="hge-events-accordion">';
                             const assistsByGoal = {};
                             
                             events.forEach(function (event) {
@@ -852,14 +853,11 @@ class HGE_Admin {
                                 if (event.event_type === 'assist') {
                                     return;
                                 }
-                                html += "<li>";
                                 
                                 // Convert seconds to mm:ss format
                                 let timeDisplay = "0:00";
                                 if (event.event_time) {
                                     const totalSeconds = parseInt(event.event_time, 10);
-                                    // If the value is greater than 120, assume it's already in seconds
-                                    // Otherwise, assume it's in minutes (old format)
                                     const isSeconds = totalSeconds > 120;
                                     const secondsToUse = isSeconds ? totalSeconds : (totalSeconds * 60);
                                     const minutes = Math.floor(secondsToUse / 60);
@@ -867,25 +865,73 @@ class HGE_Admin {
                                     timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
                                 }
                                 
-                                html += "P" + event.period + " " + timeDisplay + " - " + event.event_type;
+                                let eventTypeLabel = event.event_type.charAt(0).toUpperCase() + event.event_type.slice(1);
+                                let headerText = "P" + event.period + " " + timeDisplay + " - " + eventTypeLabel;
+                                
                                 if (event.name) {
-                                    html += " (" + event.name + ")";
+                                    headerText += " (" + event.name + ")";
                                 }
+                                
+                                html += '<div class="hge-accordion-item">';
+                                html += '<button class="hge-accordion-header" data-event-id="' + event.id + '">';
+                                html += headerText;
+                                html += '<span class="hge-accordion-toggle">▼</span>';
+                                html += '</button>';
+                                html += '<div class="hge-accordion-content">';
+                                html += '<div class="hge-event-details-content">';
+                                html += '<p><strong>Period:</strong> ' + event.period + '</p>';
+                                html += '<p><strong>Time:</strong> ' + timeDisplay + '</p>';
+                                html += '<p><strong>Type:</strong> ' + eventTypeLabel + '</p>';
+                                
+                                if (event.name) {
+                                    html += '<p><strong>Player:</strong> ' + event.name;
+                                    if (event.number) {
+                                        html += ' #' + event.number;
+                                    }
+                                    html += '</p>';
+                                }
+                                
                                 if (event.event_type === 'goal' && assistsByGoal[event.id] && assistsByGoal[event.id].length > 0) {
-                                    html += " - Assists: " + assistsByGoal[event.id].join(", ");
+                                    html += '<p><strong>Assists:</strong> ' + assistsByGoal[event.id].join(", ") + '</p>';
                                 }
-                                html += ' <button class="button hge-edit-single-event" data-event-id="' + event.id + '">Edit</button>';
-                                html += ' <button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
-                                html += "</li>";
+                                
+                                if (event.description) {
+                                    html += '<p><strong>Description:</strong> ' + event.description + '</p>';
+                                }
+                                
+                                html += '</div>';
+                                html += '<div class="hge-event-actions">';
+                                html += '<button class="button hge-edit-single-event" data-event-id="' + event.id + '">Edit</button>';
+                                html += '<button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
+                                html += '</div>';
+                                html += '</div>';
+                                html += '</div>';
                             });
-                            html += "</ul>";
+                            html += '</div>';
                             $("#hge-events-list").html(html);
                             
-                            $(".hge-delete-single-event").on("click", function () {
+                            // Accordion toggle functionality
+                            $(".hge-accordion-header").on("click", function () {
+                                const $header = $(this);
+                                const $content = $header.next(".hge-accordion-content");
+                                const isActive = $header.hasClass("active");
+                                
+                                if (isActive) {
+                                    $header.removeClass("active");
+                                    $content.removeClass("active");
+                                } else {
+                                    $header.addClass("active");
+                                    $content.addClass("active");
+                                }
+                            });
+                            
+                            $(".hge-delete-single-event").on("click", function (e) {
+                                e.stopPropagation();
                                 deleteSingleEvent($(this).data("event-id"), gameId);
                             });
 
-                            $(".hge-edit-single-event").on("click", function () {
+                            $(".hge-edit-single-event").on("click", function (e) {
+                                e.stopPropagation();
                                 editSingleEvent($(this).data("event-id"), gameId);
                             });
                         } else {
@@ -935,7 +981,7 @@ class HGE_Admin {
             }
             
             function deleteSingleEvent(eventId, gameId) {
-                if (confirm("Are you sure?")) {
+                if (confirm(hgeAdmin.strings.confirm_action)) {
                     $.ajax({
                         type: "POST",
                         url: hgeAdmin.ajax_url,
