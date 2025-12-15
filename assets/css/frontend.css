@@ -38,66 +38,72 @@
     padding-bottom: 10px;
 }
 
-.hge-events-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.hge-events-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    background: white;
 }
 
-.hge-event {
-    border: 1px solid #eee;
-    border-radius: 4px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    transition: background-color 0.2s ease;
+.hge-events-table tr {
+    border-bottom: 1px solid #ddd;
 }
 
-.hge-event:hover {
-    background-color: #f0f0f0;
+.hge-events-table tr:last-child {
+    border-bottom: none;
 }
 
-.hge-event-header {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 8px;
+.hge-events-table td {
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.hge-events-header {
+    background-color: #f5f5f5;
     font-weight: bold;
-    color: #0073aa;
-}
-
-.hge-event-period {
-    background-color: #0073aa;
-    color: white;
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-size: 0.9em;
+    color: #333;
 }
 
 .hge-event-time {
-    color: #666;
+    width: 80px;
+    white-space: nowrap;
+    color: #0073aa;
+    font-weight: bold;
 }
 
-.hge-event-body {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+.hge-event-team {
+    width: 150px;
+    white-space: nowrap;
+    color: #333;
+    font-weight: bold;
+}
+
+.hge-event-details {
+    flex: 1;
 }
 
 .hge-event-type {
-    font-weight: bold;
-    text-transform: uppercase;
     color: #333;
-    font-size: 0.9em;
 }
 
-.hge-event-player {
-    color: #0073aa;
+.hge-event-goal .hge-event-time {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.hge-event-goal .hge-event-type {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.hge-event-penalty .hge-event-time {
+    color: #dc3545;
 }
 
 .hge-event-description {
-    margin: 5px 0 0 0;
+    margin-top: 4px;
     color: #666;
-    font-style: italic;
+    font-size: 0.9em;
 }
 
 .hge-game-notes {

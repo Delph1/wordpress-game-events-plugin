@@ -650,11 +650,13 @@ class HGE_Database {
         global $wpdb;
         $events_table = $wpdb->prefix . 'hge_game_events';
         $players_table = $wpdb->prefix . 'hge_players';
+        $teams_table = $wpdb->prefix . 'hge_teams';
         
         return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT e.*, p.name, p.is_goalie FROM $events_table e
+                "SELECT e.*, p.name, p.number, p.team_id, p.is_goalie, t.name as team_name, t.shortcode as team_shortcode FROM $events_table e
                 LEFT JOIN $players_table p ON e.player_id = p.id
+                LEFT JOIN $teams_table t ON p.team_id = t.id
                 WHERE e.game_id = %d
                 ORDER BY e.period ASC, e.event_time ASC",
                 $game_id

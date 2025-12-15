@@ -36,6 +36,7 @@ class HGE_Admin {
         add_action( 'wp_ajax_hge_save_event', array( __CLASS__, 'ajax_save_event' ) );
         add_action( 'wp_ajax_hge_delete_event', array( __CLASS__, 'ajax_delete_event' ) );
         add_action( 'wp_ajax_hge_get_game_events', array( __CLASS__, 'ajax_get_game_events' ) );
+        add_action( 'wp_ajax_hge_get_event', array( __CLASS__, 'ajax_get_event' ) );
     }
 
     /**
@@ -510,11 +511,11 @@ class HGE_Admin {
             
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button">Seasons</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button">Statistics</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button"><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
             <div id="hge-game-form-container" class="hge-form-container">
@@ -873,6 +874,7 @@ class HGE_Admin {
                                 if (event.event_type === 'goal' && assistsByGoal[event.id] && assistsByGoal[event.id].length > 0) {
                                     html += " - Assists: " + assistsByGoal[event.id].join(", ");
                                 }
+                                html += ' <button class="button hge-edit-single-event" data-event-id="' + event.id + '">Edit</button>';
                                 html += ' <button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
                                 html += "</li>";
                             });
@@ -882,10 +884,53 @@ class HGE_Admin {
                             $(".hge-delete-single-event").on("click", function () {
                                 deleteSingleEvent($(this).data("event-id"), gameId);
                             });
+
+                            $(".hge-edit-single-event").on("click", function () {
+                                editSingleEvent($(this).data("event-id"), gameId);
+                            });
                         } else {
                             $("#hge-events-list").html("<p>No events yet.</p>");
                         }
                     }
+                });
+            }
+            
+            function editSingleEvent(eventId, gameId) {
+                $.ajax({
+                    type: "GET",
+                    url: hgeAdmin.ajax_url + "?action=hge_get_event&id=" + eventId,
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.success) {
+                            const event = response.data;
+                            $("#hge-event-id").val(event.id);
+                            $("#hge-event-game-id").val(gameId);
+                            $("#hge-event-type").val(event.event_type);
+                            $("#hge-event-player").val(event.player_id);
+                            $("#hge-event-period").val(event.period);
+                            
+                            // Convert seconds back to mm:ss format for display
+                            let timeDisplay = "";
+                            if (event.event_time) {
+                                const totalSeconds = parseInt(event.event_time, 10);
+                                const isSeconds = totalSeconds > 120;
+                                const secondsToUse = isSeconds ? totalSeconds : (totalSeconds * 60);
+                                const minutes = Math.floor(secondsToUse / 60);
+                                const seconds = secondsToUse % 60;
+                                timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                            }
+                            $("#hge-event-time").val(timeDisplay);
+                            $("#hge-event-description").val(event.description);
+                            
+                            // Scroll to form
+                            document.querySelector(".hge-modal-content").scrollTop = 0;
+                        } else {
+                            alert(hgeAdmin.strings.error);
+                        }
+                    },
+                    error: function () {
+                        alert(hgeAdmin.strings.error);
+                    },
                 });
             }
             
@@ -1483,5 +1528,23 @@ class HGE_Admin {
                 $event_id
             )
         );
+    }
+
+    /**
+     * AJAX: Get event
+     */
+    public static function ajax_get_event() {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'Unauthorized', 'bunkersnack-game-manager' ) );
+        }
+
+        $event_id = intval( $_GET['id'] );
+        $event = self::get_event_by_id( $event_id );
+
+        if ( $event ) {
+            wp_send_json_success( $event );
+        } else {
+            wp_send_json_error( __( 'Event not found', 'bunkersnack-game-manager' ) );
+        }
     }
 }

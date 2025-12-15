@@ -57,8 +57,25 @@ class HGE_Shortcodes {
         // Game header
         $html .= '<div class="hge-game-summary">';
         $html .= '<h3 class="hge-game-title">';
-        $html .= esc_html( date_i18n( 'Y-m-d', strtotime( $game->game_date ) ) );
-        $html .= ' vs ' . esc_html( $game->opponent );
+        $html .= esc_html( date_i18n( 'Y-m-d', strtotime( $game->game_date ) ) ) . ' - ';
+        
+        // Show team names if available
+        if ( ! empty( $game->home_team_name ) ) {
+            $html .= esc_html( $game->home_team_name );
+        } else {
+            $html .= esc_html__( 'Home Team', 'bunkersnack-game-manager' );
+        }
+        
+        $html .= ' vs ';
+        
+        if ( ! empty( $game->away_team_name ) ) {
+            $html .= esc_html( $game->away_team_name );
+        } elseif ( ! empty( $game->opponent ) ) {
+            $html .= esc_html( $game->opponent );
+        } else {
+            $html .= esc_html__( 'Away Team', 'bunkersnack-game-manager' );
+        }
+        
         $html .= '</h3>';
 
         // Score
@@ -80,23 +97,44 @@ class HGE_Shortcodes {
             $html .= '</p>';
         }
 
+        // Attendance
+        if ( ! is_null( $game->attendance ) && $game->attendance > 0 ) {
+            $html .= '<p class="hge-game-attendance">';
+            $html .= '<strong>' . esc_html__( 'Attendance:', 'bunkersnack-game-manager' ) . '</strong> ';
+            $html .= number_format( intval( $game->attendance ), 0, '.', ' ' );
+            $html .= '</p>';
+        }
+
         // Events
         if ( ! empty( $events ) ) {
+            // Build assist map
+            $assists_by_goal = array();
+            foreach ( $events as $event ) {
+                if ( 'assist' === $event->event_type && $event->parent_event_id ) {
+                    if ( ! isset( $assists_by_goal[ $event->parent_event_id ] ) ) {
+                        $assists_by_goal[ $event->parent_event_id ] = array();
+                    }
+                    $assists_by_goal[ $event->parent_event_id ][] = array(
+                        'name'   => $event->name,
+                        'number' => $event->number,
+                    );
+                }
+            }
+
             $html .= '<div class="hge-events">';
             $html .= '<h4>' . esc_html__( 'Game Events', 'bunkersnack-game-manager' ) . '</h4>';
-            $html .= '<div class="hge-events-list">';
+            $html .= '<table class="hge-events-table">';
+            $html .= '<tr class="hge-events-header"><td><strong>' . esc_html__( 'Time', 'bunkersnack-game-manager' ) . '</strong></td><td><strong>' . esc_html__( 'Team', 'bunkersnack-game-manager' ) . '</strong></td><td><strong>' . esc_html__( 'Event', 'bunkersnack-game-manager' ) . '</strong></td></tr>';
 
             foreach ( $events as $event ) {
-                $html .= '<div class="hge-event">';
-                $html .= '<div class="hge-event-header">';
-                $html .= '<span class="hge-event-period">';
-                $html .= sprintf(
-                    esc_html__( 'P%d', 'bunkersnack-game-manager' ),
-                    intval( $event->period )
-                );
-                $html .= '</span>';
+                // Skip assists as they'll be displayed with their goals
+                if ( 'assist' === $event->event_type ) {
+                    continue;
+                }
+
+                $html .= '<tr class="hge-event hge-event-' . esc_attr( $event->event_type ) . '">';
                 
-                // Format event time - handle both seconds and minutes format
+                // Time
                 $event_time_value = intval( $event->event_time );
                 if ( $event_time_value > 120 ) {
                     // Assume it's in seconds (new format)
@@ -107,27 +145,53 @@ class HGE_Shortcodes {
                     // Assume it's in minutes (old format)
                     $time_display = $event_time_value . ':00';
                 }
-                
-                $html .= '<span class="hge-event-time">' . esc_html( $time_display ) . '</span>';
-                $html .= '</div>';
+                $html .= '<td class="hge-event-time"><strong>P' . intval( $event->period ) . ' ' . esc_html( $time_display ) . '</strong></td>';
 
-                $html .= '<div class="hge-event-body">';
-                $html .= '<span class="hge-event-type">' . esc_html( ucfirst( $event->event_type ) ) . '</span>';
+                // Team
+                $html .= '<td class="hge-event-team">';
+                if ( ! empty( $event->team_shortcode ) ) {
+                    $html .= '<strong>' . esc_html( $event->team_shortcode ) . '</strong>';
+                } else {
+                    $html .= '<em>' . esc_html__( 'Unknown', 'bunkersnack-game-manager' ) . '</em>';
+                }
+                $html .= '</td>';
+
+                // Event details
+                $html .= '<td class="hge-event-details">';
+                $html .= '<span class="hge-event-type">' . esc_html( ucfirst( $event->event_type ) );
+                
                 if ( $event->name ) {
-                    $html .= '<span class="hge-event-player"> - ' . esc_html( $event->name );
+                    $html .= ' by <strong>' . esc_html( $event->name );
                     if ( $event->number ) {
-                        $html .= ' #' . esc_html( $event->number );
+                        $html .= ' #' . intval( $event->number );
                     }
-                    $html .= '</span>';
+                    $html .= '</strong>';
                 }
+
+                // Add assists if this goal has any
+                if ( 'goal' === $event->event_type && isset( $assists_by_goal[ $event->id ] ) ) {
+                    $assist_names = array();
+                    foreach ( $assists_by_goal[ $event->id ] as $assist ) {
+                        $assist_display = esc_html( $assist['name'] );
+                        if ( $assist['number'] ) {
+                            $assist_display .= ' #' . intval( $assist['number'] );
+                        }
+                        $assist_names[] = $assist_display;
+                    }
+                    if ( ! empty( $assist_names ) ) {
+                        $html .= ' (A: ' . implode( ', ', $assist_names ) . ')';
+                    }
+                }
+
+                $html .= '</span>';
                 if ( ! empty( $event->description ) ) {
-                    $html .= '<p class="hge-event-description">' . wp_kses_post( $event->description ) . '</p>';
+                    $html .= '<span class="hge-event-description"> (' . wp_kses_post( $event->description ) . ')</span>';
                 }
-                $html .= '</div>';
-                $html .= '</div>';
+                $html .= '</td>';
+                $html .= '</tr>';
             }
 
-            $html .= '</div>';
+            $html .= '</table>';
             $html .= '</div>';
         }
 
