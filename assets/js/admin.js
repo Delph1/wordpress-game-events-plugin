@@ -529,7 +529,7 @@
             success: function (response) {
                 if (response.success && response.data) {
                     const events = response.data;
-                    let html = "";
+                    let html = '<div class="hge-events-accordion">';
                     
                     // Group assists by their parent goal event
                     const assistsByGoal = {};
@@ -539,10 +539,7 @@
                             if (!assistsByGoal[event.parent_event_id]) {
                                 assistsByGoal[event.parent_event_id] = [];
                             }
-                            assistsByGoal[event.parent_event_id].push({
-                                name: event.name,
-                                number: event.number
-                            });
+                            assistsByGoal[event.parent_event_id].push(event.name);
                         }
                     });
                     
@@ -553,63 +550,78 @@
                             return;
                         }
                         
-                        let timeDisplay = "N/A";
+                        // Convert seconds to mm:ss format
+                        let timeDisplay = "0:00";
                         if (event.event_time) {
-                            if (event.event_time > 120) {
-                                // Time is in seconds
-                                const minutes = Math.floor(event.event_time / 60);
-                                const seconds = event.event_time % 60;
-                                timeDisplay = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
-                            } else {
-                                // Time is in minutes
-                                timeDisplay = event.event_time + ':00';
-                            }
+                            const totalSeconds = parseInt(event.event_time, 10);
+                            const isSeconds = totalSeconds > 120;
+                            const secondsToUse = isSeconds ? totalSeconds : (totalSeconds * 60);
+                            const minutes = Math.floor(secondsToUse / 60);
+                            const seconds = secondsToUse % 60;
+                            timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
                         }
                         
-                        const eventLabel = event.event_type.charAt(0).toUpperCase() + event.event_type.slice(1);
-                        
-                        html += '<div class="hge-event-item hge-event-' + event.event_type + '">';
-                        html += '<p class="hge-event-header">';
-                        html += '<strong>P' + event.period + ' ' + timeDisplay + ' - ' + eventLabel + '</strong>';
+                        let eventTypeLabel = event.event_type.charAt(0).toUpperCase() + event.event_type.slice(1);
+                        let headerText = "P" + event.period + " " + timeDisplay + " - " + eventTypeLabel;
                         
                         if (event.name) {
-                            html += ' by <strong>' + event.name;
+                            headerText += " (" + event.name + ")";
+                        }
+                        
+                        html += '<div class="hge-accordion-item">';
+                        html += '<button class="hge-accordion-header" data-event-id="' + event.id + '">';
+                        html += headerText;
+                        html += '<span class="hge-accordion-toggle">▼</span>';
+                        html += '</button>';
+                        html += '<div class="hge-accordion-content">';
+                        html += '<div class="hge-event-details-content">';
+                        html += '<p><strong>Period:</strong> ' + event.period + '</p>';
+                        html += '<p><strong>Time:</strong> ' + timeDisplay + '</p>';
+                        html += '<p><strong>Type:</strong> ' + eventTypeLabel + '</p>';
+                        
+                        if (event.name) {
+                            html += '<p><strong>Player:</strong> ' + event.name;
                             if (event.number) {
                                 html += ' #' + event.number;
                             }
-                            html += '</strong>';
+                            html += '</p>';
                         }
                         
-                        if (event.team_shortcode) {
-                            html += ' <em>(' + event.team_shortcode + ')</em>';
-                        }
-                        
-                        html += '</p>';
-                        
-                        // Show assists if this is a goal with assists
                         if (event.event_type === 'goal' && assistsByGoal[event.id] && assistsByGoal[event.id].length > 0) {
-                            let assistNames = [];
-                            assistsByGoal[event.id].forEach(function (assist) {
-                                let assistDisplay = assist.name;
-                                if (assist.number) {
-                                    assistDisplay += ' #' + assist.number;
-                                }
-                                assistNames.push(assistDisplay);
-                            });
-                            html += '<p class="hge-event-assists"><em>Assists: ' + assistNames.join(', ') + '</em></p>';
+                            html += '<p><strong>Assists:</strong> ' + assistsByGoal[event.id].join(", ") + '</p>';
                         }
                         
                         if (event.description) {
-                            html += '<p class="hge-event-description"><em>' + event.description + '</em></p>';
+                            html += '<p><strong>Description:</strong> ' + event.description + '</p>';
                         }
                         
-                        html += '<button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
+                        html += '</div>';
+                        html += '<div class="hge-event-actions">';
+                        html += '<button class="button hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
+                        html += '</div>';
+                        html += '</div>';
                         html += '</div>';
                     });
-                    
+                    html += '</div>';
                     $("#hge-events-list").html(html);
-
-                    $(".hge-delete-single-event").on("click", function () {
+                    
+                    // Accordion toggle functionality
+                    $(".hge-accordion-header").on("click", function () {
+                        const $header = $(this);
+                        const $content = $header.next(".hge-accordion-content");
+                        const isActive = $header.hasClass("active");
+                        
+                        if (isActive) {
+                            $header.removeClass("active");
+                            $content.removeClass("active");
+                        } else {
+                            $header.addClass("active");
+                            $content.addClass("active");
+                        }
+                    });
+                    
+                    $(".hge-delete-single-event").on("click", function (e) {
+                        e.stopPropagation();
                         deleteSingleEvent($(this).data("event-id"), gameId);
                     });
                 } else {
