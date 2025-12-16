@@ -179,15 +179,10 @@ class HGE_Shortcodes {
                 $time_display = esc_html__( 'N/A', 'bunkersnack-game-manager' );
                 if ( ! is_null( $event->event_time ) && '' !== $event->event_time ) {
                     $event_time_value = intval( $event->event_time );
-                    if ( $event_time_value > 120 ) {
-                        // Assume it's in seconds (new format)
-                        $minutes = intdiv( $event_time_value, 60 );
-                        $seconds = $event_time_value % 60;
-                        $time_display = $minutes . ':' . str_pad( $seconds, 2, '0', STR_PAD_LEFT );
-                    } else {
-                        // Assume it's in minutes (old format)
-                        $time_display = $event_time_value . ':00';
-                    }
+                    // Always treat as seconds
+                    $minutes = intdiv( $event_time_value, 60 );
+                    $seconds = $event_time_value % 60;
+                    $time_display = $minutes . ':' . str_pad( $seconds, 2, '0', STR_PAD_LEFT );
                 }
 
                 $event_label = esc_html( ucfirst( $event->event_type ) );

@@ -554,10 +554,9 @@
                         let timeDisplay = "0:00";
                         if (event.event_time) {
                             const totalSeconds = parseInt(event.event_time, 10);
-                            const isSeconds = totalSeconds > 120;
-                            const secondsToUse = isSeconds ? totalSeconds : (totalSeconds * 60);
-                            const minutes = Math.floor(secondsToUse / 60);
-                            const seconds = secondsToUse % 60;
+                            // Always treat as seconds
+                            const minutes = Math.floor(totalSeconds / 60);
+                            const seconds = totalSeconds % 60;
                             timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
                         }
                         
