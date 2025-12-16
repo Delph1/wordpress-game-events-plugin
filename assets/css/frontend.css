@@ -307,14 +307,14 @@
 
     .hge-events-accordion-header {
         padding: 10px;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .hge-events-accordion-content {
-        padding: 10px;
+        padding: 12px;
     }
 
     .hge-event-header {
-        font-size: 12px;
+        font-size: 13px;
     }
 }
