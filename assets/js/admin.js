@@ -178,7 +178,6 @@
             data: data,
             success: function (response) {
                 if (response.success) {
-                    alert(hgeAdmin.strings.saved);
                     resetTeamForm();
                     location.reload();
                 } else {
@@ -249,7 +248,6 @@
             data: data,
             success: function (response) {
                 if (response.success) {
-                    alert(hgeAdmin.strings.saved);
                     resetPlayerForm();
                     location.reload();
                 } else {
@@ -323,7 +321,6 @@
             data: data,
             success: function (response) {
                 if (response.success) {
-                    alert(hgeAdmin.strings.saved);
                     resetGameForm();
                     location.reload();
                 } else {
@@ -467,7 +464,7 @@
             success: function (response) {
                 if (response.success && response.data) {
                     const events = response.data;
-                    let html = "<ul>";
+                    let html = "";
                     
                     // Group assists by their parent goal event
                     const assistsByGoal = {};
@@ -477,7 +474,10 @@
                             if (!assistsByGoal[event.parent_event_id]) {
                                 assistsByGoal[event.parent_event_id] = [];
                             }
-                            assistsByGoal[event.parent_event_id].push(event.name);
+                            assistsByGoal[event.parent_event_id].push({
+                                name: event.name,
+                                number: event.number
+                            });
                         }
                     });
                     
@@ -488,22 +488,60 @@
                             return;
                         }
                         
-                        html += "<li>";
-                        html += "P" + event.period + " " + event.event_time + ":00 - " + event.event_type;
+                        let timeDisplay = "N/A";
+                        if (event.event_time) {
+                            if (event.event_time > 120) {
+                                // Time is in seconds
+                                const minutes = Math.floor(event.event_time / 60);
+                                const seconds = event.event_time % 60;
+                                timeDisplay = minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+                            } else {
+                                // Time is in minutes
+                                timeDisplay = event.event_time + ':00';
+                            }
+                        }
+                        
+                        const eventLabel = event.event_type.charAt(0).toUpperCase() + event.event_type.slice(1);
+                        
+                        html += '<div class="hge-event-item hge-event-' + event.event_type + '">';
+                        html += '<p class="hge-event-header">';
+                        html += '<strong>P' + event.period + ' ' + timeDisplay + ' - ' + eventLabel + '</strong>';
                         
                         if (event.name) {
-                            html += " (" + event.name + ")";
+                            html += ' by <strong>' + event.name;
+                            if (event.number) {
+                                html += ' #' + event.number;
+                            }
+                            html += '</strong>';
                         }
+                        
+                        if (event.team_shortcode) {
+                            html += ' <em>(' + event.team_shortcode + ')</em>';
+                        }
+                        
+                        html += '</p>';
                         
                         // Show assists if this is a goal with assists
                         if (event.event_type === 'goal' && assistsByGoal[event.id] && assistsByGoal[event.id].length > 0) {
-                            html += " - Assists: " + assistsByGoal[event.id].join(", ");
+                            let assistNames = [];
+                            assistsByGoal[event.id].forEach(function (assist) {
+                                let assistDisplay = assist.name;
+                                if (assist.number) {
+                                    assistDisplay += ' #' + assist.number;
+                                }
+                                assistNames.push(assistDisplay);
+                            });
+                            html += '<p class="hge-event-assists"><em>Assists: ' + assistNames.join(', ') + '</em></p>';
                         }
                         
-                        html += ' <button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
-                        html += "</li>";
+                        if (event.description) {
+                            html += '<p class="hge-event-description"><em>' + event.description + '</em></p>';
+                        }
+                        
+                        html += '<button class="button button-link-delete hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
+                        html += '</div>';
                     });
-                    html += "</ul>";
+                    
                     $("#hge-events-list").html(html);
 
                     $(".hge-delete-single-event").on("click", function () {
@@ -549,7 +587,6 @@
             contentType: false,
             success: function (response) {
                 if (response.success) {
-                    alert(hgeAdmin.strings.saved);
                     resetEventForm();
                     loadGameEvents(gameId);
                 } else {
