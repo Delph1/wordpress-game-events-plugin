@@ -728,7 +728,7 @@ class HGE_Admin {
                                     <select id="hge-event-player" name="player_id">
                                         <option value="">-- Select Player --</option>
                                         <?php foreach ( $players as $player ) : ?>
-                                            <option value="<?php echo intval( $player->id ); ?>">
+                                            <option value="<?php echo intval( $player->id ); ?>" data-team-id="<?php echo intval( $player->team_id ); ?>">
                                                 <?php echo esc_html( $player->name . ' #' . $player->number ); ?>
                                             </option>
                                         <?php endforeach; ?>
@@ -742,7 +742,7 @@ class HGE_Admin {
                                     <select id="hge-event-assists" name="assists[]" multiple>
                                         <option value="">-- Select Players --</option>
                                         <?php foreach ( $players as $player ) : ?>
-                                            <option value="<?php echo intval( $player->id ); ?>">
+                                            <option value="<?php echo intval( $player->id ); ?>" data-team-id="<?php echo intval( $player->team_id ); ?>">
                                                 <?php echo esc_html( $player->name . ' #' . $player->number ); ?>
                                             </option>
                                         <?php endforeach; ?>

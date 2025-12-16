@@ -421,6 +421,7 @@
         $("#hge-events-modal").show();
         loadGameEvents(gameId);
         loadGameDetails(gameId);
+        filterPlayersByTeams(gameId);
     }
 
     function closeEventsModal() {
@@ -452,6 +453,47 @@
             error: function(xhr, status, error) {
                 console.log("AJAX error: ", error);
                 console.log("Response: ", xhr.responseText);
+            }
+        });
+    }
+
+    function filterPlayersByTeams(gameId) {
+        $.ajax({
+            type: "GET",
+            url: hgeAdmin.ajax_url + "?action=hge_get_game&id=" + gameId,
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    const game = response.data;
+                    const homeTeamId = game.home_team_id;
+                    const awayTeamId = game.away_team_id;
+
+                    // Get all player options
+                    const playerSelect = $("#hge-event-player");
+                    const assistSelect = $("#hge-event-assists");
+                    const allOptions = playerSelect.find("option");
+
+                    // Show/hide options based on team
+                    allOptions.each(function () {
+                        const option = $(this);
+                        const playerId = option.val();
+                        
+                        // Keep the empty option always visible
+                        if (!playerId) {
+                            option.show();
+                            return;
+                        }
+
+                        // Get the player's team from data attribute (we need to set this on the options)
+                        const playerTeamId = option.data("team-id");
+                        
+                        if (playerTeamId === homeTeamId || playerTeamId === awayTeamId) {
+                            option.show();
+                        } else {
+                            option.hide();
+                        }
+                    });
+                }
             }
         });
     }
