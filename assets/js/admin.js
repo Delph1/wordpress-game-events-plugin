@@ -465,16 +465,14 @@
             success: function (response) {
                 if (response.success) {
                     const game = response.data;
-                    const homeTeamId = game.home_team_id;
-                    const awayTeamId = game.away_team_id;
+                    const homeTeamId = String(game.home_team_id);
+                    const awayTeamId = String(game.away_team_id);
 
-                    // Get all player options
+                    console.log("Filtering players for teams:", homeTeamId, awayTeamId);
+
+                    // Filter player select
                     const playerSelect = $("#hge-event-player");
-                    const assistSelect = $("#hge-event-assists");
-                    const allOptions = playerSelect.find("option");
-
-                    // Show/hide options based on team
-                    allOptions.each(function () {
+                    playerSelect.find("option").each(function () {
                         const option = $(this);
                         const playerId = option.val();
                         
@@ -484,8 +482,33 @@
                             return;
                         }
 
-                        // Get the player's team from data attribute (we need to set this on the options)
-                        const playerTeamId = option.data("team-id");
+                        // Get the player's team from data attribute
+                        const playerTeamId = String(option.data("team-id"));
+                        console.log("Player", playerId, "has team", playerTeamId);
+                        
+                        if (playerTeamId === homeTeamId || playerTeamId === awayTeamId) {
+                            option.show();
+                            console.log("Showing player", playerId);
+                        } else {
+                            option.hide();
+                            console.log("Hiding player", playerId);
+                        }
+                    });
+
+                    // Filter assists select
+                    const assistSelect = $("#hge-event-assists");
+                    assistSelect.find("option").each(function () {
+                        const option = $(this);
+                        const playerId = option.val();
+                        
+                        // Keep the empty option always visible
+                        if (!playerId) {
+                            option.show();
+                            return;
+                        }
+
+                        // Get the player's team from data attribute
+                        const playerTeamId = String(option.data("team-id"));
                         
                         if (playerTeamId === homeTeamId || playerTeamId === awayTeamId) {
                             option.show();
