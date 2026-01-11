@@ -133,6 +133,14 @@ class HGE_Shortcodes {
             $html .= '</p>';
         }
 
+        // Head Referee
+        if ( ! empty( $game->head_referee ) ) {
+            $html .= '<p class="hge-game-referee">';
+            $html .= '<strong>' . esc_html__( 'Head Referee:', 'bunkersnack-game-manager' ) . '</strong> ';
+            $html .= esc_html( $game->head_referee );
+            $html .= '</p>';
+        }
+
         // Events
         if ( ! empty( $events ) ) {
             // Build assist map
@@ -169,7 +177,23 @@ class HGE_Shortcodes {
             // Single accordion content containing all events
             $html .= '<div class="hge-events-accordion-content">';
 
+            $running_home_score = 0;
+            $running_away_score = 0;
+
             foreach ( $events as $event ) {
+                // Calculate running score for goals
+                $score_display = '';
+                if ( 'goal' === $event->event_type ) {
+                    if ( ! empty( $event->team_id ) ) {
+                        if ( $event->team_id == $game->home_team_id ) {
+                            $running_home_score++;
+                        } elseif ( $event->team_id == $game->away_team_id ) {
+                            $running_away_score++;
+                        }
+                    }
+                    $score_display = $running_home_score . '-' . $running_away_score . ' ';
+                }
+
                 // Skip assists as they'll be displayed with their goals
                 if ( 'assist' === $event->event_type ) {
                     continue;
@@ -190,12 +214,19 @@ class HGE_Shortcodes {
                 // Event item
                 $html .= '<div class="hge-event-item hge-event-' . esc_attr( $event->event_type ) . '">';
                 $html .= '<p class="hge-event-header">';
-                $html .= '<strong>' . sprintf(
+                
+                $header_text = sprintf(
                     esc_html__( 'P%d %s - %s', 'bunkersnack-game-manager' ),
                     intval( $event->period ),
                     $time_display,
                      esc_html__( $event_label, 'bunkersnack-game-manager' )
-                ) . '</strong>';
+                );
+
+                if ( 'goal' === $event->event_type ) {
+                    $header_text = $score_display . $header_text;
+                }
+
+                $html .= '<strong>' . $header_text . '</strong>';
                 
                 if ( $event->name ) {
                     $html .= ' ' . esc_html__( 'by', 'bunkersnack-game-manager' ) . ' <strong>' . esc_html( $event->name );

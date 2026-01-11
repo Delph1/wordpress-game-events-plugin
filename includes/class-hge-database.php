@@ -84,6 +84,7 @@ class HGE_Database {
             away_score INT(3),
             location VARCHAR(255),
             attendance INT(5),
+            head_referee VARCHAR(100),
             home_shots_p1 INT(3),
             home_shots_p2 INT(3),
             home_shots_p3 INT(3),
@@ -224,6 +225,10 @@ class HGE_Database {
             $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_p3 INT(3)" );
             $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_ot INT(3)" );
             $wpdb->query( "ALTER TABLE $games_table ADD COLUMN away_goals_ps INT(3)" );
+        }
+
+        if ( ! in_array( 'head_referee', $game_column_names, true ) ) {
+            $wpdb->query( "ALTER TABLE $games_table ADD COLUMN head_referee VARCHAR(100) AFTER attendance" );
         }
     }
 
@@ -576,6 +581,7 @@ class HGE_Database {
             'away_score'   => isset( $data['away_score'] ) && $data['away_score'] !== '' ? intval( $data['away_score'] ) : null,
             'location'     => sanitize_text_field( $data['location'] ?? '' ),
             'attendance'   => ! empty( $data['attendance'] ) ? intval( $data['attendance'] ) : null,
+            'head_referee' => sanitize_text_field( $data['head_referee'] ?? '' ),
             'notes'        => wp_kses_post( $data['notes'] ?? '' ),
         );
 
@@ -596,7 +602,7 @@ class HGE_Database {
         $format_specifiers = array();
         foreach ( $game_data as $key => $value ) {
             // String fields
-            if ( in_array( $key, array( 'season', 'game_date', 'opponent', 'location', 'notes' ) ) ) {
+            if ( in_array( $key, array( 'season', 'game_date', 'opponent', 'location', 'notes', 'head_referee' ) ) ) {
                 $format_specifiers[] = '%s';
             } else {
                 // Numeric fields

@@ -574,6 +574,10 @@ class HGE_Admin {
                                 <td><input type="number" id="hge-game-attendance" name="attendance" min="0" class="small-text"></td>
                             </tr>
                             <tr>
+                                <th><label for="hge-game-head-referee"><?php esc_html_e( 'Head Referee', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-game-head-referee" name="head_referee" class="regular-text"></td>
+                            </tr>
+                            <tr>
                                 <th><label for="hge-game-home-score"><?php esc_html_e( 'Home Score', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-game-home-score" name="home_score" min="0" class="small-text"></td>
                             </tr>
@@ -805,6 +809,33 @@ class HGE_Admin {
                 }
             });
             
+            // Handle event form submission
+            $("#hge-event-form").on("submit", function(e) {
+                e.preventDefault();
+                const formData = $(this).serialize();
+                const gameId = $("#hge-event-game-id").val();
+                
+                $.ajax({
+                    type: "POST",
+                    url: hgeAdmin.ajax_url,
+                    data: formData + "&action=hge_save_event&nonce=" + hgeAdmin.nonce,
+                    success: function(response) {
+                        if (response.success) {
+                            // Reset form but keep game_id
+                            $("#hge-event-form")[0].reset();
+                            $("#hge-event-game-id").val(gameId);
+                            $("#hge-event-id").val(0);
+                            $("#hge-assists-row").hide();
+                            
+                            // Reload events list
+                            loadGameEvents(gameId);
+                        } else {
+                            alert(hgeAdmin.strings.error);
+                        }
+                    }
+                });
+            });
+            
             // Load game details when modal opens
             function loadGameDetails(gameId) {
                 $.ajax({
@@ -823,6 +854,11 @@ class HGE_Admin {
                             
                             $("#hge-events-modal-title").text(title);
                             
+                            // Store team IDs for score calculation
+                            $("#hge-events-modal").data("home-team-id", game.home_team_id);
+                            $("#hge-events-modal").data("away-team-id", game.away_team_id);
+                            
+                            loadGameEvents(gameId);
                         }
                     }
                 });
@@ -830,6 +866,9 @@ class HGE_Admin {
             
             // Load game events list with accordion
             function loadGameEvents(gameId) {
+                const homeTeamId = $("#hge-events-modal").data("home-team-id");
+                const awayTeamId = $("#hge-events-modal").data("away-team-id");
+                
                 $.ajax({
                     type: "GET",
                     url: hgeAdmin.ajax_url + "?action=hge_get_game_events&id=" + gameId,
@@ -849,6 +888,9 @@ class HGE_Admin {
                                 }
                             });
                             
+                            let runningHomeScore = 0;
+                            let runningAwayScore = 0;
+                            
                             events.forEach(function (event) {
                                 if (event.event_type === 'assist') {
                                     return;
@@ -864,8 +906,22 @@ class HGE_Admin {
                                     timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
                                 }
                                 
+                                let scoreDisplay = "";
+                                if (event.event_type === 'goal') {
+                                    if (event.team_id == homeTeamId) {
+                                        runningHomeScore++;
+                                    } else if (event.team_id == awayTeamId) {
+                                        runningAwayScore++;
+                                    }
+                                    scoreDisplay = runningHomeScore + "-" + runningAwayScore + " ";
+                                }
+                                
                                 let eventTypeLabel = event.event_type.charAt(0).toUpperCase() + event.event_type.slice(1);
                                 let headerText = "P" + event.period + " " + timeDisplay + " - " + eventTypeLabel;
+                                
+                                if (event.event_type === 'goal') {
+                                    headerText = scoreDisplay + headerText;
+                                }
                                 
                                 if (event.name) {
                                     headerText += " (" + event.name + ")";
@@ -1001,7 +1057,6 @@ class HGE_Admin {
                 console.log("openEventsModal called with gameId: " + gameId);
                 $("#hge-event-game-id").val(gameId);
                 $("#hge-events-modal").show();
-                loadGameEvents(gameId);
                 loadGameDetails(gameId);
             }
         });

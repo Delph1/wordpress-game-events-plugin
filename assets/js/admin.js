@@ -349,6 +349,7 @@
                     $("#hge-game-opponent").val(game.opponent);
                     $("#hge-game-location").val(game.location);
                     $("#hge-game-attendance").val(game.attendance);
+                    $("#hge-game-head-referee").val(game.head_referee);
                     $("#hge-game-home-score").val(game.home_score);
                     $("#hge-game-away-score").val(game.away_score);
                     
