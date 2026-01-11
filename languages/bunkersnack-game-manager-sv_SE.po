@@ -721,6 +721,14 @@ msgstr "GA"
 msgid "by"
 msgstr "av"
 
-#: includse/class-hge-shortcodes.php:230
+#: includes/class-hge-shortcodes.php:230
 msgid "Assists:"
 msgstr "Assist:"
+
+#: includes/class-hge-shortcodes.php:139
+msgid "Head referee:"
+msgstr "Huvuddomare:"
+
+#: includes/class-hge-admin.php:577
+msgid: "Head referee:"
+msgstr: "Huvuddomare:"
