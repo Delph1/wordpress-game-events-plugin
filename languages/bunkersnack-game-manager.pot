@@ -792,9 +792,9 @@ msgid "Assists:"
 msgstr "Assist:"
 
 #: includes/class-hge-shortcodes.php:139
-msgid "Head referee:"
+msgid "Head Referee:"
 msgstr "Huvuddomare:"
 
 #: includes/class-hge-admin.php:577
-msgid: "Head referee:"
+msgid: "Head Referee:"
 msgstr: "Huvuddomare:"

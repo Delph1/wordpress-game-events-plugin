@@ -447,6 +447,10 @@
                     const title = game.game_date + " " + homeTeam + " vs " + awayTeam;
                     console.log("Setting title to: ", title);
                     $("#hge-events-modal-title").text(title);
+                    
+                    // Store team IDs for score calculation
+                    $("#hge-events-modal").data("home-team-id", game.home_team_id);
+                    $("#hge-events-modal").data("away-team-id", game.away_team_id);
                 } else {
                     console.log("Response was not successful");
                 }
@@ -523,6 +527,9 @@
     }
 
     function loadGameEvents(gameId) {
+        const homeTeamId = $("#hge-events-modal").data("home-team-id");
+        const awayTeamId = $("#hge-events-modal").data("away-team-id");
+
         $.ajax({
             type: "GET",
             url: hgeAdmin.ajax_url + "?action=hge_get_game_events&id=" + gameId,
@@ -544,6 +551,9 @@
                         }
                     });
                     
+                    let runningHomeScore = 0;
+                    let runningAwayScore = 0;
+
                     // Display only main events (goals, penalties, etc) - assists will be shown as part of goal
                     events.forEach(function (event) {
                         // Skip assist events as they'll be shown with the goal
@@ -561,9 +571,23 @@
                             timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
                         }
                         
+                        let scoreDisplay = "";
+                        if (event.event_type === 'goal') {
+                            if (event.team_id == homeTeamId) {
+                                runningHomeScore++;
+                            } else if (event.team_id == awayTeamId) {
+                                runningAwayScore++;
+                            }
+                            scoreDisplay = runningHomeScore + "-" + runningAwayScore + " ";
+                        }
+
                         let eventTypeLabel = event.event_type.charAt(0).toUpperCase() + event.event_type.slice(1);
                         let headerText = "P" + event.period + " " + timeDisplay + " - " + eventTypeLabel;
                         
+                        if (event.event_type === 'goal') {
+                            headerText = scoreDisplay + headerText;
+                        }
+
                         if (event.name) {
                             headerText += " (" + event.name + ")";
                         }
@@ -597,6 +621,7 @@
                         
                         html += '</div>';
                         html += '<div class="hge-event-actions">';
+                        html += '<button class="button hge-edit-single-event" data-event-id="' + event.id + '">Edit</button>';
                         html += '<button class="button hge-delete-single-event" data-event-id="' + event.id + '">Delete</button>';
                         html += '</div>';
                         html += '</div>';
@@ -620,6 +645,11 @@
                         }
                     });
                     
+                    $(".hge-edit-single-event").on("click", function (e) {
+                        e.stopPropagation();
+                        editSingleEvent($(this).data("event-id"), gameId);
+                    });
+
                     $(".hge-delete-single-event").on("click", function (e) {
                         e.stopPropagation();
                         deleteSingleEvent($(this).data("event-id"), gameId);
@@ -633,6 +663,7 @@
         });
     }
 
+    // Save event function
     function saveEvent() {
         const form = $("#hge-event-form");
         let formData = new FormData(form[0]);
@@ -665,9 +696,47 @@
             success: function (response) {
                 if (response.success) {
                     resetEventForm();
+                    $("#hge-event-game-id").val(gameId); // Restore game ID after reset
                     loadGameEvents(gameId);
                 } else {
                     alert(response.data || hgeAdmin.strings.error);
+                }
+            },
+            error: function () {
+                alert(hgeAdmin.strings.error);
+            },
+        });
+    }
+
+    function editSingleEvent(eventId, gameId) {
+        $.ajax({
+            type: "GET",
+            url: hgeAdmin.ajax_url + "?action=hge_get_event&id=" + eventId,
+            dataType: "json",
+            success: function (response) {
+                if (response.success) {
+                    const event = response.data;
+                    $("#hge-event-id").val(event.id);
+                    $("#hge-event-game-id").val(gameId);
+                    $("#hge-event-type").val(event.event_type).trigger('change'); // Trigger change to show/hide assists
+                    $("#hge-event-player").val(event.player_id);
+                    $("#hge-event-period").val(event.period);
+                    
+                    // Convert seconds back to mm:ss format for display
+                    let timeDisplay = "";
+                    if (event.event_time) {
+                        const totalSeconds = parseInt(event.event_time, 10);
+                        const minutes = Math.floor(totalSeconds / 60);
+                        const seconds = totalSeconds % 60;
+                        timeDisplay = minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+                    }
+                    $("#hge-event-time").val(timeDisplay);
+                    $("#hge-event-description").val(event.description);
+                    
+                    // Scroll to form
+                    document.querySelector(".hge-modal-content").scrollTop = 0;
+                } else {
+                    alert(hgeAdmin.strings.error);
                 }
             },
             error: function () {

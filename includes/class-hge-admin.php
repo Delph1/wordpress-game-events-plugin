@@ -794,46 +794,12 @@ class HGE_Admin {
         jQuery(document).ready(function($) {
             console.log("jQuery ready in inline script");
             
-            // Handle manage events button click
-            $(document).on("click", ".hge-manage-events", function() {
-                const gameId = $(this).data("game-id");
-                console.log("Manage events clicked for game: " + gameId);
-                openEventsModal(gameId);
-            });
-            
             $(document).on("change", "#hge-event-type", function() {
                 if ($(this).val() === "goal") {
                     $("#hge-assists-row").css("display", "table-row");
                 } else {
                     $("#hge-assists-row").css("display", "none");
                 }
-            });
-            
-            // Handle event form submission
-            $("#hge-event-form").on("submit", function(e) {
-                e.preventDefault();
-                const formData = $(this).serialize();
-                const gameId = $("#hge-event-game-id").val();
-                
-                $.ajax({
-                    type: "POST",
-                    url: hgeAdmin.ajax_url,
-                    data: formData + "&action=hge_save_event&nonce=" + hgeAdmin.nonce,
-                    success: function(response) {
-                        if (response.success) {
-                            // Reset form but keep game_id
-                            $("#hge-event-form")[0].reset();
-                            $("#hge-event-game-id").val(gameId);
-                            $("#hge-event-id").val(0);
-                            $("#hge-assists-row").hide();
-                            
-                            // Reload events list
-                            loadGameEvents(gameId);
-                        } else {
-                            alert(hgeAdmin.strings.error);
-                        }
-                    }
-                });
             });
             
             // Load game details when modal opens
