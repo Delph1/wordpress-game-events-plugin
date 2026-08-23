@@ -750,6 +750,11 @@ msgstr "Period %d"
 msgid "Assists:"
 msgstr "Assist:"
 
+#: includes/class-hge-shortcodes.php:242
+#, php-format
+msgid "%d min"
+msgstr "%d min"
+
 #: includes/class-hge-shortcodes.php:139
 msgid "Head Referee:"
 msgstr "Huvuddomare:"

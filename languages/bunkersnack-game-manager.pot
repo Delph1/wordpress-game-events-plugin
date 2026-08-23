@@ -376,6 +376,11 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
+#: includes/class-hge-shortcodes.php:242
+#, php-format
+msgid "%d min"
+msgstr ""
+
 #: includes/class-hge-admin.php:436
 msgid "Select"
 msgstr ""

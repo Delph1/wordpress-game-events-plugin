@@ -235,6 +235,14 @@ class HGE_Shortcodes {
 
                     $event_label = esc_html( ucfirst( $event->event_type ) );
 
+                    $penalty_description = '';
+                    if ( 'penalty' === $event->event_type && ! empty( $event->description ) ) {
+                        $penalty_description = wp_strip_all_tags( $event->description );
+                        if ( ! preg_match( '/\b\d+\s*min\b/i', $penalty_description ) ) {
+                            $penalty_description = sprintf( __( '%d min', 'bunkersnack-game-manager' ), 2 ) . ' ' . $penalty_description;
+                        }
+                    }
+
                     $scoring_team = '';
                     if ( 'goal' === $event->event_type ) {
                         if ( $event->player_team_id == $game->home_team_id ) {
@@ -275,8 +283,8 @@ class HGE_Shortcodes {
                         $html .= ' - ';
                         $html .= '<span class="' . ( 'away' === $scoring_team ? 'hge-scoring-team' : '' ) . '">' . esc_html( trim( $away_score ) ) . '</span>';
                         $html .= '</span>';
-                    } elseif ( 'penalty' === $event->event_type && ! empty( $event->description ) ) {
-                        $html .= esc_html( wp_strip_all_tags( $event->description ) );
+                    } elseif ( 'penalty' === $event->event_type && '' !== $penalty_description ) {
+                        $html .= esc_html( $penalty_description );
                     } else {
                         $html .= esc_html( $event_label );
                     }
