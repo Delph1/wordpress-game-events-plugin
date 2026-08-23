@@ -259,7 +259,7 @@ class HGE_Shortcodes {
                     $html .= '<div class="hge-event-item hge-event-' . esc_attr( $event->event_type ) . '">';
                     $html .= '<div class="hge-event-row">';
                     $html .= '<span class="hge-event-time">' . esc_html( $time_display ) . '</span>';
-                    $html .= '<span class="hge-event-type"><strong>' . esc_html( $event_label );
+                    $html .= '<span class="hge-event-type"><strong>';
 
                     if ( 'goal' === $event->event_type ) {
                         $score_parts = explode( '-', trim( $score_display ) );
@@ -271,7 +271,9 @@ class HGE_Shortcodes {
                         $html .= '<span class="' . ( 'away' === $scoring_team ? 'hge-scoring-team' : '' ) . '">' . esc_html( trim( $away_score ) ) . '</span>';
                         $html .= '</span>';
                     } elseif ( 'penalty' === $event->event_type && ! empty( $event->description ) ) {
-                        $html .= ' - ' . esc_html( wp_strip_all_tags( $event->description ) );
+                        $html .= esc_html( wp_strip_all_tags( $event->description ) );
+                    } else {
+                        $html .= esc_html( $event_label );
                     }
                     $html .= '</strong></span>';
 
