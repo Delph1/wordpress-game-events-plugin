@@ -169,10 +169,10 @@ class HGE_Shortcodes {
                 // Calculate running score for goals
                 $score_display = '';
                 if ( 'goal' === $event->event_type ) {
-                    if ( ! empty( $event->team_id ) ) {
-                        if ( $event->team_id == $game->home_team_id ) {
+                    if ( ! empty( $event->player_team_id ) ) {
+                        if ( $event->player_team_id == $game->home_team_id ) {
                             $running_home_score++;
-                        } elseif ( $event->team_id == $game->away_team_id ) {
+                        } elseif ( $event->player_team_id == $game->away_team_id ) {
                             $running_away_score++;
                         }
                     }
@@ -237,9 +237,9 @@ class HGE_Shortcodes {
 
                     $scoring_team = '';
                     if ( 'goal' === $event->event_type ) {
-                        if ( $event->team_id == $game->home_team_id ) {
+                        if ( $event->player_team_id == $game->home_team_id ) {
                             $scoring_team = 'home';
-                        } elseif ( $event->team_id == $game->away_team_id ) {
+                        } elseif ( $event->player_team_id == $game->away_team_id ) {
                             $scoring_team = 'away';
                         }
                     }

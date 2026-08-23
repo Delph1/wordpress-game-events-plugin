@@ -660,7 +660,7 @@ class HGE_Database {
         
         return $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT e.*, p.name, p.number, p.team_id, p.is_goalie, t.name as team_name, t.shortcode as team_shortcode FROM $events_table e
+                "SELECT e.*, p.name, p.number, p.team_id AS player_team_id, p.is_goalie, t.name as team_name, t.shortcode as team_shortcode FROM $events_table e
                 LEFT JOIN $players_table p ON e.player_id = p.id
                 LEFT JOIN $teams_table t ON p.team_id = t.id
                 WHERE e.game_id = %d

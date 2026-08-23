@@ -881,9 +881,9 @@ class HGE_Admin {
                                 
                                 let scoreDisplay = "";
                                 if (event.event_type === 'goal') {
-                                    if (event.team_id == homeTeamId) {
+                                    if (event.player_team_id == homeTeamId) {
                                         runningHomeScore++;
-                                    } else if (event.team_id == awayTeamId) {
+                                    } else if (event.player_team_id == awayTeamId) {
                                         runningAwayScore++;
                                     }
                                     scoreDisplay = runningHomeScore + "-" + runningAwayScore + " ";
