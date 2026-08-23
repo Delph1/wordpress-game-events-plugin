@@ -55,20 +55,11 @@ class HGE_Admin {
 
         add_submenu_page(
             'bunkersnack-game-manager',
-            __( 'Seasons', 'bunkersnack-game-manager' ),
-            __( 'Seasons', 'bunkersnack-game-manager' ),
+            __( 'Games', 'bunkersnack-game-manager' ),
+            __( 'Games', 'bunkersnack-game-manager' ),
             'manage_options',
-            'bunkersnack-game-manager-seasons',
-            array( __CLASS__, 'render_seasons_page' )
-        );
-
-        add_submenu_page(
-            'bunkersnack-game-manager',
-            __( 'Teams', 'bunkersnack-game-manager' ),
-            __( 'Teams', 'bunkersnack-game-manager' ),
-            'manage_options',
-            'bunkersnack-game-manager-teams',
-            array( __CLASS__, 'render_teams_page' )
+            'bunkersnack-game-manager-games',
+            array( __CLASS__, 'render_games_page' )
         );
 
         add_submenu_page(
@@ -82,11 +73,20 @@ class HGE_Admin {
 
         add_submenu_page(
             'bunkersnack-game-manager',
-            __( 'Games', 'bunkersnack-game-manager' ),
-            __( 'Games', 'bunkersnack-game-manager' ),
+            __( 'Teams', 'bunkersnack-game-manager' ),
+            __( 'Teams', 'bunkersnack-game-manager' ),
             'manage_options',
-            'bunkersnack-game-manager-games',
-            array( __CLASS__, 'render_games_page' )
+            'bunkersnack-game-manager-teams',
+            array( __CLASS__, 'render_teams_page' )
+        );
+
+        add_submenu_page(
+            'bunkersnack-game-manager',
+            __( 'Seasons', 'bunkersnack-game-manager' ),
+            __( 'Seasons', 'bunkersnack-game-manager' ),
+            'manage_options',
+            'bunkersnack-game-manager-seasons',
+            array( __CLASS__, 'render_seasons_page' )
         );
 
         add_submenu_page(
@@ -96,6 +96,11 @@ class HGE_Admin {
             'manage_options',
             'bunkersnack-game-manager-stats',
             array( __CLASS__, 'render_stats_page' )
+        );
+
+        remove_submenu_page(
+            'bunkersnack-game-manager',
+            'bunkersnack-game-manager'
         );
     }
 
