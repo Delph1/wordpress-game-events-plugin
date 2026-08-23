@@ -278,6 +278,55 @@
     border-bottom: none;
 }
 
+.hge-events-period-group {
+    margin: 0 0 18px;
+}
+
+.hge-events-period-group:last-child {
+    margin-bottom: 0;
+}
+
+.hge-events-period-title {
+    margin: 0;
+    padding: 9px 0;
+    border-bottom: 2px solid #0073aa;
+    color: #0073aa;
+    font-size: 15px;
+}
+
+.hge-event-row {
+    display: grid;
+    grid-template-columns: 70px minmax(100px, 1fr) minmax(140px, 1.5fr) minmax(70px, auto);
+    gap: 12px;
+    align-items: center;
+    min-height: 34px;
+}
+
+.hge-event-time,
+.hge-event-type,
+.hge-event-player,
+.hge-event-team,
+.hge-event-score {
+    min-width: 0;
+}
+
+.hge-event-time,
+.hge-event-score {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.hge-event-score {
+    color: #555;
+    font-weight: 600;
+    text-align: right;
+}
+
+.hge-event-team {
+    color: #666;
+    font-size: 12px;
+}
+
 .hge-event-header {
     margin: 0 0 5px 0;
     font-size: 13px;
@@ -316,5 +365,17 @@
 
     .hge-event-header {
         font-size: 13px;
+    }
+
+    .hge-event-row {
+        grid-template-columns: 52px minmax(80px, 1fr) minmax(100px, 1.3fr);
+        gap: 7px;
+        font-size: 13px;
+    }
+
+    .hge-event-team,
+    .hge-event-score {
+        grid-column: 2 / -1;
+        text-align: left;
     }
 }
