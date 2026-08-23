@@ -297,6 +297,7 @@ class HGE_Shortcodes {
             $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
+            $html .= '</div>';
         }
 
         // Notes
