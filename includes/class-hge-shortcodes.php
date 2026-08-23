@@ -235,6 +235,15 @@ class HGE_Shortcodes {
 
                     $event_label = esc_html( ucfirst( $event->event_type ) );
 
+                    $scoring_team = '';
+                    if ( 'goal' === $event->event_type ) {
+                        if ( $event->team_id == $game->home_team_id ) {
+                            $scoring_team = 'home';
+                        } elseif ( $event->team_id == $game->away_team_id ) {
+                            $scoring_team = 'away';
+                        }
+                    }
+
                     $assist_names = array();
                     if ( 'goal' === $event->event_type && isset( $assists_by_goal[ $event->id ] ) ) {
                         foreach ( $assists_by_goal[ $event->id ] as $assist ) {
@@ -253,7 +262,14 @@ class HGE_Shortcodes {
                     $html .= '<span class="hge-event-type"><strong>' . esc_html( $event_label );
 
                     if ( 'goal' === $event->event_type ) {
-                        $html .= ' ' . esc_html( trim( $score_display ) );
+                        $score_parts = explode( '-', trim( $score_display ) );
+                        $home_score = $score_parts[0] ?? '0';
+                        $away_score = $score_parts[1] ?? '0';
+                        $html .= ' <span class="hge-event-score">';
+                        $html .= '<span class="' . ( 'home' === $scoring_team ? 'hge-scoring-team' : '' ) . '">' . esc_html( trim( $home_score ) ) . '</span>';
+                        $html .= ' - ';
+                        $html .= '<span class="' . ( 'away' === $scoring_team ? 'hge-scoring-team' : '' ) . '">' . esc_html( trim( $away_score ) ) . '</span>';
+                        $html .= '</span>';
                     } elseif ( 'penalty' === $event->event_type && ! empty( $event->description ) ) {
                         $html .= ' - ' . esc_html( wp_strip_all_tags( $event->description ) );
                     }
