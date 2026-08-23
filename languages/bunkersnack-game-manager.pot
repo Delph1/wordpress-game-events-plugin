@@ -787,6 +787,31 @@ msgstr ""
 msgid "by"
 msgstr ""
 
+#: includes/class-hge-shortcodes.php:191
+msgid "Period 1"
+msgstr ""
+
+#: includes/class-hge-shortcodes.php:192
+msgid "Period 2"
+msgstr ""
+
+#: includes/class-hge-shortcodes.php:193
+msgid "Period 3"
+msgstr ""
+
+#: includes/class-hge-shortcodes.php:194
+msgid "OT"
+msgstr ""
+
+#: includes/class-hge-shortcodes.php:195
+msgid "SO"
+msgstr ""
+
+#: includes/class-hge-shortcodes.php:196
+#, php-format
+msgid "Period %d"
+msgstr ""
+
 #: includes/class-hge-shortcodes.php:230
 msgid "Assists:"
 msgstr "Assist:"

@@ -161,24 +161,9 @@ class HGE_Shortcodes {
                 }
             }
 
-            $html .= '<div class="hge-events">';
-            $html .= '<div class="hge-events-accordion-wrapper">';
-            $html .= '<div class="hge-events-accordion-item">';
-            
-            // Single accordion header for all events
-            $html .= '<button class="hge-events-accordion-header">';
-            $html .= sprintf(
-                esc_html__( 'Game Events', 'bunkersnack-game-manager' ),
-                $event_count
-            );
-            $html .= '<span class="hge-events-accordion-toggle">▼</span>';
-            $html .= '</button>';
-            
-            // Single accordion content containing all events
-            $html .= '<div class="hge-events-accordion-content">';
-
             $running_home_score = 0;
             $running_away_score = 0;
+            $events_by_period = array();
 
             foreach ( $events as $event ) {
                 // Calculate running score for goals
@@ -199,48 +184,77 @@ class HGE_Shortcodes {
                     continue;
                 }
 
-                // Time - handle NULL values
-                $time_display = esc_html__( 'N/A', 'bunkersnack-game-manager' );
-                if ( ! is_null( $event->event_time ) && '' !== $event->event_time ) {
-                    $event_time_value = intval( $event->event_time );
-                    // Always treat as seconds
-                    $minutes = intdiv( $event_time_value, 60 );
-                    $seconds = $event_time_value % 60;
-                    $time_display = $minutes . ':' . str_pad( $seconds, 2, '0', STR_PAD_LEFT );
+                $period = intval( $event->period );
+                if ( ! isset( $events_by_period[ $period ] ) ) {
+                    $events_by_period[ $period ] = array();
                 }
-
-                $event_label = esc_html( ucfirst( $event->event_type ) );
-
-                // Event item
-                $html .= '<div class="hge-event-item hge-event-' . esc_attr( $event->event_type ) . '">';
-                $html .= '<p class="hge-event-header">';
-                
-                $header_text = sprintf(
-                    esc_html__( 'P%d %s - %s', 'bunkersnack-game-manager' ),
-                    intval( $event->period ),
-                    $time_display,
-                     esc_html__( $event_label, 'bunkersnack-game-manager' )
+                $events_by_period[ $period ][] = array(
+                    'event'         => $event,
+                    'score_display' => $score_display,
                 );
+            }
 
-                if ( 'goal' === $event->event_type ) {
-                    $header_text = $score_display . $header_text;
-                }
+            ksort( $events_by_period, SORT_NUMERIC );
 
-                $html .= '<strong>' . $header_text . '</strong>';
-                
+            $html .= '<div class="hge-events">';
+            $html .= '<div class="hge-events-period-list">';
+
+            foreach ( $events_by_period as $period => $period_events ) {
+                $period_labels = array(
+                    1 => __( 'Period 1', 'bunkersnack-game-manager' ),
+                    2 => __( 'Period 2', 'bunkersnack-game-manager' ),
+                    3 => __( 'Period 3', 'bunkersnack-game-manager' ),
+                    4 => __( 'OT', 'bunkersnack-game-manager' ),
+                    5 => __( 'SO', 'bunkersnack-game-manager' ),
+                );
+                $period_label = $period_labels[ $period ] ?? sprintf( __( 'Period %d', 'bunkersnack-game-manager' ), $period );
+
+                $html .= '<section class="hge-events-period-group">';
+                $html .= '<h4 class="hge-events-period-title">' . esc_html( $period_label ) . '</h4>';
+
+                foreach ( $period_events as $period_event ) {
+                    $event = $period_event['event'];
+                    $score_display = $period_event['score_display'];
+
+                    // Time - handle NULL values
+                    $time_display = esc_html__( 'N/A', 'bunkersnack-game-manager' );
+                    if ( ! is_null( $event->event_time ) && '' !== $event->event_time ) {
+                        $event_time_value = intval( $event->event_time );
+                        // Always treat as seconds
+                        $minutes = intdiv( $event_time_value, 60 );
+                        $seconds = $event_time_value % 60;
+                        $time_display = $minutes . ':' . str_pad( $seconds, 2, '0', STR_PAD_LEFT );
+                    }
+
+                    $event_label = esc_html( ucfirst( $event->event_type ) );
+
+                    // Event item
+                    $html .= '<div class="hge-event-item hge-event-' . esc_attr( $event->event_type ) . '">';
+                    $html .= '<div class="hge-event-row">';
+                    $html .= '<span class="hge-event-time">' . esc_html( $time_display ) . '</span>';
+                    $html .= '<span class="hge-event-type"><strong>' . esc_html( $event_label ) . '</strong></span>';
+
+                    if ( 'goal' === $event->event_type ) {
+                        $html .= '<span class="hge-event-score">' . esc_html( trim( $score_display ) ) . '</span>';
+                    }
+
                 if ( $event->name ) {
-                    $html .= ' ' . esc_html__( 'by', 'bunkersnack-game-manager' ) . ' <strong>' . esc_html( $event->name );
+                    $html .= '<span class="hge-event-player">' . esc_html( $event->name );
                     if ( $event->number ) {
                         $html .= ' #' . intval( $event->number );
                     }
-                    $html .= '</strong>';
+                    $html .= '</span>';
+                } else {
+                    $html .= '<span class="hge-event-player">&nbsp;</span>';
                 }
 
                 if ( ! empty( $event->team_shortcode ) ) {
-                    $html .= ' <em>(' . esc_html( $event->team_shortcode ) . ')</em>';
+                    $html .= '<span class="hge-event-team">(' . esc_html( $event->team_shortcode ) . ')</span>';
+                } else {
+                    $html .= '<span class="hge-event-team">&nbsp;</span>';
                 }
 
-                $html .= '</p>';
+                $html .= '</div>';
 
                 // Add assists if this goal has any
                 if ( 'goal' === $event->event_type && isset( $assists_by_goal[ $event->id ] ) ) {
@@ -262,10 +276,11 @@ class HGE_Shortcodes {
                 }
 
                 $html .= '</div>';
+                }
+
+                $html .= '</section>';
             }
 
-            $html .= '</div>';
-            $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
         }
