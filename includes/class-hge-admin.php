@@ -465,8 +465,12 @@ class HGE_Admin {
 
             <div class="hge-list-container">
                 <h2><?php esc_html_e( 'All Players', 'bunkersnack-game-manager' ); ?></h2>
+                <p>
+                    <label for="hge-player-search" class="screen-reader-text"><?php esc_html_e( 'Search Players', 'bunkersnack-game-manager' ); ?></label>
+                    <input type="search" id="hge-player-search" class="regular-text" placeholder="<?php esc_attr_e( 'Search players...', 'bunkersnack-game-manager' ); ?>">
+                </p>
                 <?php if ( ! empty( $players ) ) : ?>
-                    <table class="wp-list-table widefat striped">
+                    <table id="hge-players-table" class="wp-list-table widefat striped">
                         <thead>
                             <tr>
                                 <th><?php esc_html_e( 'Team', 'bunkersnack-game-manager' ); ?></th>

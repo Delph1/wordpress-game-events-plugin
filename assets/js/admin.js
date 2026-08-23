@@ -59,6 +59,16 @@
             deletePlayer($(this).data("player-id"), $(this).closest("tr"));
         });
 
+        $("#hge-player-search").on("input", function () {
+            const searchTerm = $(this).val().toLocaleLowerCase().trim();
+
+            $("#hge-players-table tbody tr").each(function () {
+                const playerRow = $(this);
+                const playerText = playerRow.children("td").slice(0, 5).text().toLocaleLowerCase();
+                playerRow.toggle(playerText.indexOf(searchTerm) !== -1);
+            });
+        });
+
         // Game Management
         $("#hge-game-form").on("submit", function (e) {
             e.preventDefault();
