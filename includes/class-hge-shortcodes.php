@@ -228,54 +228,59 @@ class HGE_Shortcodes {
 
                     $event_label = esc_html( ucfirst( $event->event_type ) );
 
+                    $assist_names = array();
+                    if ( 'goal' === $event->event_type && isset( $assists_by_goal[ $event->id ] ) ) {
+                        foreach ( $assists_by_goal[ $event->id ] as $assist ) {
+                            $assist_display = esc_html( $assist['name'] );
+                            if ( $assist['number'] ) {
+                                $assist_display .= ' #' . intval( $assist['number'] );
+                            }
+                            $assist_names[] = $assist_display;
+                        }
+                    }
+
                     // Event item
                     $html .= '<div class="hge-event-item hge-event-' . esc_attr( $event->event_type ) . '">';
                     $html .= '<div class="hge-event-row">';
                     $html .= '<span class="hge-event-time">' . esc_html( $time_display ) . '</span>';
-                    $html .= '<span class="hge-event-type"><strong>' . esc_html( $event_label ) . '</strong></span>';
+                    $html .= '<span class="hge-event-type"><strong>' . esc_html( $event_label );
 
                     if ( 'goal' === $event->event_type ) {
-                        $html .= '<span class="hge-event-score">' . esc_html( trim( $score_display ) ) . '</span>';
+                        $html .= ' ' . esc_html( trim( $score_display ) );
+                    } elseif ( 'penalty' === $event->event_type && ! empty( $event->description ) ) {
+                        $html .= ' - ' . esc_html( wp_strip_all_tags( $event->description ) );
                     }
+                    $html .= '</strong></span>';
 
-                if ( $event->name ) {
-                    $html .= '<span class="hge-event-player">' . esc_html( $event->name );
-                    if ( $event->number ) {
-                        $html .= ' #' . intval( $event->number );
-                    }
-                    $html .= '</span>';
-                } else {
-                    $html .= '<span class="hge-event-player">&nbsp;</span>';
-                }
-
-                if ( ! empty( $event->team_shortcode ) ) {
-                    $html .= '<span class="hge-event-team">(' . esc_html( $event->team_shortcode ) . ')</span>';
-                } else {
-                    $html .= '<span class="hge-event-team">&nbsp;</span>';
-                }
-
-                $html .= '</div>';
-
-                // Add assists if this goal has any
-                if ( 'goal' === $event->event_type && isset( $assists_by_goal[ $event->id ] ) ) {
-                    $assist_names = array();
-                    foreach ( $assists_by_goal[ $event->id ] as $assist ) {
-                        $assist_display = esc_html( $assist['name'] );
-                        if ( $assist['number'] ) {
-                            $assist_display .= ' #' . intval( $assist['number'] );
+                    if ( $event->name || ! empty( $assist_names ) ) {
+                        $html .= '<span class="hge-event-player">';
+                        if ( $event->name ) {
+                            $html .= esc_html( $event->name );
+                            if ( $event->number ) {
+                                $html .= ' #' . intval( $event->number );
+                            }
                         }
-                        $assist_names[] = $assist_display;
+                        if ( ! empty( $assist_names ) ) {
+                            $html .= ' <em>(' . esc_html__( 'Assists:', 'bunkersnack-game-manager' ) . ' ' . implode( ', ', $assist_names ) . ')</em>';
+                        }
+                        $html .= '</span>';
+                    } else {
+                        $html .= '<span class="hge-event-player">&nbsp;</span>';
                     }
-                    if ( ! empty( $assist_names ) ) {
-                        $html .= '<p class="hge-event-assists"><em>' . esc_html__( 'Assists:', 'bunkersnack-game-manager' ) . ' ' . implode( ', ', $assist_names ) . '</em></p>';
-                    }
-                }
 
-                if ( ! empty( $event->description ) ) {
+                    if ( ! empty( $event->team_shortcode ) ) {
+                        $html .= '<span class="hge-event-team">(' . esc_html( $event->team_shortcode ) . ')</span>';
+                    } else {
+                        $html .= '<span class="hge-event-team">&nbsp;</span>';
+                    }
+
+                    $html .= '</div>';
+
+                    if ( ! empty( $event->description ) && 'penalty' !== $event->event_type ) {
                     $html .= '<p class="hge-event-description"><em>' . wp_kses_post( $event->description ) . '</em></p>';
-                }
+                    }
 
-                $html .= '</div>';
+                    $html .= '</div>';
                 }
 
                 $html .= '</section>';

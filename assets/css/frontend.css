@@ -295,9 +295,8 @@
 }
 
 .hge-event-row {
-    display: grid;
-    grid-template-columns: 70px minmax(100px, 1fr) minmax(140px, 1.5fr) minmax(70px, auto);
-    gap: 12px;
+    display: flex;
+    gap: 10px;
     align-items: center;
     min-height: 34px;
 }
@@ -316,10 +315,22 @@
     white-space: nowrap;
 }
 
-.hge-event-score {
-    color: #555;
-    font-weight: 600;
-    text-align: right;
+.hge-event-time {
+    flex: 0 0 54px;
+}
+
+.hge-event-type {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+.hge-event-player {
+    flex: 1 1 auto;
+}
+
+.hge-event-team {
+    flex: 0 0 auto;
+    white-space: nowrap;
 }
 
 .hge-event-team {
@@ -368,14 +379,16 @@
     }
 
     .hge-event-row {
-        grid-template-columns: 52px minmax(80px, 1fr) minmax(100px, 1.3fr);
         gap: 7px;
         font-size: 13px;
+        flex-wrap: wrap;
     }
 
-    .hge-event-team,
-    .hge-event-score {
-        grid-column: 2 / -1;
-        text-align: left;
+    .hge-event-player {
+        flex-basis: calc(100% - 61px);
+    }
+
+    .hge-event-team {
+        margin-left: 61px;
     }
 }
