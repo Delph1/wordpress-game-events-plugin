@@ -75,14 +75,14 @@
 }
 
 .hge-event-time {
-    width: 20px;
+    width: 80px;
     white-space: nowrap;
     color: #0073aa;
     font-weight: bold;
 }
 
 .hge-event-team {
-    width: 150px;
+    width: 35px;
     white-space: nowrap;
     color: #333;
     font-weight: bold;
