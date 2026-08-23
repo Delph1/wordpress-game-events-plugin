@@ -581,10 +581,6 @@ class HGE_Admin {
                                 <td><input type="number" id="hge-game-attendance" name="attendance" min="0" class="small-text"></td>
                             </tr>
                             <tr>
-                                <th><label for="hge-game-head-referee"><?php esc_html_e( 'Head Referee', 'bunkersnack-game-manager' ); ?></label></th>
-                                <td><input type="text" id="hge-game-head-referee" name="head_referee" class="regular-text"></td>
-                            </tr>
-                            <tr>
                                 <th><label for="hge-game-home-score"><?php esc_html_e( 'Home Score', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-game-home-score" name="home_score" min="0" class="small-text"></td>
                             </tr>
@@ -655,16 +651,16 @@ class HGE_Admin {
             <div class="hge-list-container">
                 <h2><?php esc_html_e( 'All Games', 'bunkersnack-game-manager' ); ?></h2>
                 <?php if ( ! empty( $games ) ) : ?>
-                    <table class="wp-list-table widefat striped">
+                    <table id="hge-games-table" class="wp-list-table widefat striped hge-sortable-table">
                         <thead>
                             <tr>
-                                <th><?php esc_html_e( 'ID', 'bunkersnack-game-manager' ); ?></th>
-                                <th><?php esc_html_e( 'Season', 'bunkersnack-game-manager' ); ?></th>
-                                <th><?php esc_html_e( 'Date', 'bunkersnack-game-manager' ); ?></th>
-                                <th><?php esc_html_e( 'Home Team', 'bunkersnack-game-manager' ); ?></th>
-                                <th><?php esc_html_e( 'Away Team', 'bunkersnack-game-manager' ); ?></th>
-                                <th><?php esc_html_e( 'Score', 'bunkersnack-game-manager' ); ?></th>
-                                <th><?php esc_html_e( 'Location', 'bunkersnack-game-manager' ); ?></th>
+                                <th data-sort-key="id" data-sort-type="number"><?php esc_html_e( 'ID', 'bunkersnack-game-manager' ); ?></th>
+                                <th data-sort-key="season"><?php esc_html_e( 'Season', 'bunkersnack-game-manager' ); ?></th>
+                                <th data-sort-key="date" data-sort-type="date"><?php esc_html_e( 'Date', 'bunkersnack-game-manager' ); ?></th>
+                                <th data-sort-key="home-team"><?php esc_html_e( 'Home Team', 'bunkersnack-game-manager' ); ?></th>
+                                <th data-sort-key="away-team"><?php esc_html_e( 'Away Team', 'bunkersnack-game-manager' ); ?></th>
+                                <th data-sort-key="score" data-sort-type="score"><?php esc_html_e( 'Score', 'bunkersnack-game-manager' ); ?></th>
+                                <th data-sort-key="location"><?php esc_html_e( 'Location', 'bunkersnack-game-manager' ); ?></th>
                                 <th><?php esc_html_e( 'Actions', 'bunkersnack-game-manager' ); ?></th>
                             </tr>
                         </thead>
