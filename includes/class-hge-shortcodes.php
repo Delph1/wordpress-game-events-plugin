@@ -259,6 +259,11 @@ class HGE_Shortcodes {
                     $html .= '<div class="hge-event-item hge-event-' . esc_attr( $event->event_type ) . '">';
                     $html .= '<div class="hge-event-row">';
                     $html .= '<span class="hge-event-time">' . esc_html( $time_display ) . '</span>';
+                    if ( ! empty( $event->team_shortcode ) ) {
+                        $html .= '<span class="hge-event-team">' . esc_html( $event->team_shortcode ) . '</span>';
+                    } else {
+                        $html .= '<span class="hge-event-team">&nbsp;</span>';
+                    }
                     $html .= '<span class="hge-event-type"><strong>';
 
                     if ( 'goal' === $event->event_type ) {
@@ -291,12 +296,6 @@ class HGE_Shortcodes {
                         $html .= '</span>';
                     } else {
                         $html .= '<span class="hge-event-player">&nbsp;</span>';
-                    }
-
-                    if ( ! empty( $event->team_shortcode ) ) {
-                        $html .= '<span class="hge-event-team">' . esc_html( $event->team_shortcode ) . '</span>';
-                    } else {
-                        $html .= '<span class="hge-event-team">&nbsp;</span>';
                     }
 
                     $html .= '</div>';
