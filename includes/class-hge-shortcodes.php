@@ -197,6 +197,13 @@ class HGE_Shortcodes {
             ksort( $events_by_period, SORT_NUMERIC );
 
             $html .= '<div class="hge-events">';
+            $html .= '<div class="hge-events-accordion-wrapper">';
+            $html .= '<div class="hge-events-accordion-item">';
+            $html .= '<button class="hge-events-accordion-header">';
+            $html .= '<span>' . esc_html__( 'Game Events', 'bunkersnack-game-manager' ) . ' (' . intval( $event_count ) . ')</span>';
+            $html .= '<span class="hge-events-accordion-toggle">&#9660;</span>';
+            $html .= '</button>';
+            $html .= '<div class="hge-events-accordion-content">';
             $html .= '<div class="hge-events-period-list">';
 
             foreach ( $events_by_period as $period => $period_events ) {
@@ -269,7 +276,7 @@ class HGE_Shortcodes {
                     }
 
                     if ( ! empty( $event->team_shortcode ) ) {
-                        $html .= '<span class="hge-event-team">(' . esc_html( $event->team_shortcode ) . ')</span>';
+                        $html .= '<span class="hge-event-team">' . esc_html( $event->team_shortcode ) . '</span>';
                     } else {
                         $html .= '<span class="hge-event-team">&nbsp;</span>';
                     }
@@ -286,6 +293,8 @@ class HGE_Shortcodes {
                 $html .= '</section>';
             }
 
+            $html .= '</div>';
+            $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
         }
