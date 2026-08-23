@@ -59,6 +59,16 @@
             deletePlayer($(this).data("player-id"), $(this).closest("tr"));
         });
 
+        $("#hge-player-search").on("input", function () {
+            const searchTerm = $(this).val().toLocaleLowerCase().trim();
+
+            $("#hge-players-table tbody tr").each(function () {
+                const playerRow = $(this);
+                const playerText = playerRow.children("td").slice(0, 5).text().toLocaleLowerCase();
+                playerRow.toggle(playerText.indexOf(searchTerm) !== -1);
+            });
+        });
+
         // Game Management
         $("#hge-game-form").on("submit", function (e) {
             e.preventDefault();
@@ -79,6 +89,33 @@
 
         $(".hge-manage-events").on("click", function () {
             openEventsModal($(this).data("game-id"));
+        });
+
+        $("#hge-games-table th[data-sort-key]").on("click", function () {
+            const header = $(this);
+            const table = header.closest("table");
+            const body = table.find("tbody");
+            const rows = body.find("tr").get();
+            const columnIndex = header.index();
+            const sortType = header.data("sort-type") || "text";
+            const ascending = header.data("sort-direction") !== "asc";
+
+            rows.sort(function (firstRow, secondRow) {
+                const firstValue = getSortableValue($(firstRow).children().eq(columnIndex).text(), sortType);
+                const secondValue = getSortableValue($(secondRow).children().eq(columnIndex).text(), sortType);
+
+                if (firstValue < secondValue) {
+                    return ascending ? -1 : 1;
+                }
+                if (firstValue > secondValue) {
+                    return ascending ? 1 : -1;
+                }
+                return 0;
+            });
+
+            body.append(rows);
+            table.find("th[data-sort-key]").removeData("sort-direction");
+            header.data("sort-direction", ascending ? "asc" : "desc");
         });
 
         // Event Management
@@ -120,6 +157,25 @@
             }
         });
     });
+
+    function getSortableValue(value, sortType) {
+        value = value.trim();
+
+        if (sortType === "number") {
+            return parseInt(value, 10) || 0;
+        }
+
+        if (sortType === "date") {
+            return Date.parse(value) || 0;
+        }
+
+        if (sortType === "score") {
+            const score = value.match(/(\d+)\s*-\s*(\d+)/);
+            return score ? (parseInt(score[1], 10) * 1000 + parseInt(score[2], 10)) : -1;
+        }
+
+        return value.toLocaleLowerCase();
+    }
 
     // Season Functions
     function saveSeason() {
@@ -349,7 +405,6 @@
                     $("#hge-game-opponent").val(game.opponent);
                     $("#hge-game-location").val(game.location);
                     $("#hge-game-attendance").val(game.attendance);
-                    $("#hge-game-head-referee").val(game.head_referee);
                     $("#hge-game-home-score").val(game.home_score);
                     $("#hge-game-away-score").val(game.away_score);
                     
