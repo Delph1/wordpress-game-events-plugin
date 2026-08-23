@@ -243,9 +243,9 @@ class HGE_Admin {
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button"><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
@@ -322,8 +322,9 @@ class HGE_Admin {
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button"><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button"><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
@@ -401,8 +402,9 @@ class HGE_Admin {
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button"><?php esc_html_e( 'Games', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button"><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
@@ -518,9 +520,9 @@ class HGE_Admin {
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← <?php esc_html_e( 'Dashboard', 'bunkersnack-game-manager' ); ?></a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button"><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button"><?php esc_html_e( 'Players', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button"><?php esc_html_e( 'Teams', 'bunkersnack-game-manager' ); ?></a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button"><?php esc_html_e( 'Seasons', 'bunkersnack-game-manager' ); ?></a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-stats' ) ); ?>" class="button"><?php esc_html_e( 'Statistics', 'bunkersnack-game-manager' ); ?></a>
             </div>
 
@@ -1229,9 +1231,10 @@ class HGE_Admin {
             <!-- Quick Navigation Links -->
             <div class="hge-quick-nav" style="margin-bottom: 20px;">
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager' ) ); ?>" class="button">← Dashboard</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
-                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
                 <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-games' ) ); ?>" class="button">Games</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-players' ) ); ?>" class="button">Players</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-teams' ) ); ?>" class="button">Teams</a>
+                <a href="<?php echo esc_url( admin_url( 'admin.php?page=bunkersnack-game-manager-seasons' ) ); ?>" class="button">Seasons</a>
             </div>
 
             <?php if ( ! empty( $seasons ) ) : ?>
