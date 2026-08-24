@@ -585,6 +585,10 @@ class HGE_Admin {
                                 <td><input type="number" id="hge-game-attendance" name="attendance" min="0" class="small-text"></td>
                             </tr>
                             <tr>
+                                <th><label for="hge-game-head-referee"><?php esc_html_e( 'Head Referee', 'bunkersnack-game-manager' ); ?></label></th>
+                                <td><input type="text" id="hge-game-head-referee" name="head_referee" class="regular-text"></td>
+                            </tr>
+                            <tr>
                                 <th><label for="hge-game-home-score"><?php esc_html_e( 'Home Score', 'bunkersnack-game-manager' ); ?></label></th>
                                 <td><input type="number" id="hge-game-home-score" name="home_score" min="0" class="small-text"></td>
                             </tr>
